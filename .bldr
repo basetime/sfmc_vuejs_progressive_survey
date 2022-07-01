@@ -1,0 +1,98 @@
+[
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend/functions.html",
+    "bldrId": "841cf33e-9596-4e7a-987d-e43b50e0b9fc",
+    "id": 111555,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend/processing_api.html",
+    "bldrId": "b21f212f-5efb-4b26-8102-8c05034ca32e",
+    "id": 111556,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/app_configuration.html",
+    "bldrId": "9ef082fb-d500-49ec-a1af-703ab0ce6922",
+    "id": 111557,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/20220701/survey_configuration.html",
+    "bldrId": "0faf74c9-cbbc-4769-9422-0480f9232715",
+    "id": 111558,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/app_html.html",
+    "bldrId": "06118b51-d664-4f01-9816-b8c03989f433",
+    "id": 111559,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/app_js.html",
+    "bldrId": "004a424d-089f-4ad6-8a4f-cfac5313a5bd",
+    "id": 111560,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components/_component_imports.html",
+    "bldrId": "1eaf98fa-8be4-4c3c-a1d9-c446db013bfe",
+    "id": 111561,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components/branding_bar.html",
+    "bldrId": "fe8cce89-f73a-44e7-98e5-f83b72392132",
+    "id": 111562,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components/legal.html",
+    "bldrId": "9f9eeb38-1bd5-4a97-adbe-8d4c1a8e037e",
+    "id": 111563,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components/unauthorized_user.html",
+    "bldrId": "48707af3-3f00-4196-8c22-b0983b815d9d",
+    "id": 111564,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles/submit_button_animation.html",
+    "bldrId": "6a5de310-2a6e-4e56-85ae-422b26d32e43",
+    "id": 111565,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs/utils.html",
+    "bldrId": "33752466-6fce-486f-bbfb-afc264f9b2bf",
+    "id": 111566,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs/wsProxy.html",
+    "bldrId": "7c7d9fd8-72d5-43a0-b846-6a0a7e0ed1c9",
+    "id": 111567,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/validation/subscriber_validation.html",
+    "bldrId": "205a1e64-cc5f-475d-949e-6881a62dcb6c",
+    "id": 111568,
+    "context": "contentBuilder"
+  },
+  {
+    "id": 111571,
+    "context": "contentBuilder",
+    "bldrId": "118da206-1fc9-4529-bbc9-03dae9f70795",
+    "folderPath": "Content Builder/survey_index.html"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components/survey_form.html",
+    "bldrId": "589b8c6c-63dd-40fd-a7ad-c2d5dfef5db6",
+    "id": 111643,
+    "context": "contentBuilder"
+  }
+]

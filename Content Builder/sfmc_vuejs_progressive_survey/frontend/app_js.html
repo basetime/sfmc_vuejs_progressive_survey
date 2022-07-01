@@ -1,0 +1,63 @@
+new Vue({
+  el: '#app',
+  vuetify: new Vuetify(),
+  data() {
+    return {
+      authorized: isAuthorized === 1 ? true : false,
+      darkMode: false,
+      debug: true,
+      channels: [],
+      applicationConfiguration,
+      surveyConfiguration,
+      formSubmitting: false,
+      survey: survey
+    }
+  },
+  mounted() {
+    this.debug && this.debugData();
+  },
+  methods: {
+    debugData() {
+      console.log({
+        config: this.applicationConfiguration,
+        surveyConfiguration: this.surveyConfiguration
+      })
+    },
+    onUpdateDarkMode() {
+      this.darkMode = !this.darkMode
+    },
+    async onSubmitPreferenceForm($event) {
+      try {
+        const postData = [];
+
+        console.log($event)
+
+        // const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {
+        //   postData
+        // })
+
+        // if(submitRequest.data.Status === 'OK'){
+        //   Vue.$toast.success(`Thank you for updating your preferences!`)
+        //   this.getExistingPreferences();
+        // }
+
+
+      } catch (err) {
+        console.log(err)
+        Vue.$toast.success(`There was an error: [${err.message}]`)
+      }
+    }
+  },
+  computed: {
+    apiBaseURL() {
+      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`
+    },
+    branding() {
+      if (this.applicationConfiguration.branding.supportDarkMode && this.darkMode) {
+        return this.applicationConfiguration.branding.dark
+      }
+
+      return this.applicationConfiguration.branding.default
+    }
+  }
+})

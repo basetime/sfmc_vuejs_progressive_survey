@@ -1,0 +1,53 @@
+%%=TreatAsContent(ContentBlockByName('Content Builder\sfmc_vuejs_progressive_survey\frontend\styles\submit_button_animation'))=%%
+%%=TreatAsContent(ContentBlockByName('Content Builder\sfmc_vuejs_progressive_survey\lib\validation\subscriber_validation'))=%%
+
+<script runat="server">
+  Platform.Load("core", "1.1.1");
+
+  var survey = Platform.Request.GetQueryStringParameter('survey');
+
+  var surveyPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\survey' + '\\ ' + survey;
+  var surveyConfigurationPath = surveyPath + '\\survey_configuration'
+  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\)\ /g, '')
+  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
+
+  var applicationConfigurationPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\app_configuration'
+  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
+  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
+  var map = applicationConfigurationJSON.map;
+
+  var unauthorizedUser = Platform.Function.ContentBlockByName(map.content_block.unauthorized_user)
+  var brandingBar = Platform.Function.ContentBlockByName(map.content_block.branding_bar)
+  var surveyForm = Platform.Function.ContentBlockByName(map.content_block.survey_form)
+  var legal = Platform.Function.ContentBlockByName(map.content_block.legal)
+  var appJS = Platform.Function.ContentBlockByName(map.content_block.app_js)
+
+</script>
+
+%%=Concat('<sc','rip','t>')=%%
+
+  Vue.use(VueToast, {
+  position: 'top-right',
+  duration: 6000,
+  dismissable: true
+  });
+
+  Vue.use(VueFormulate)
+
+  const applicationConfiguration = <ctrl:var name=applicationConfiguration />
+  const surveyConfiguration = <ctrl:var name=surveyConfiguration />
+
+     const isAuthorized = <ctrl:var name=authorized />
+  // const subscriberId = <ctrl:var name=subscriberId />
+  // const emailAddress = <ctrl:var name=emailAddress />
+  // const subscriberKey = <ctrl:var name=subscriberKey />
+  // const jobId = <ctrl:var name=jobId /> 
+  const survey = "<ctrl:var name=survey />"
+
+  <ctrl:var name=brandingBar />
+  <ctrl:var name=unauthorizedUser />
+  <ctrl:var name=surveyForm />
+  <ctrl:var name=legal />
+  <ctrl:var name=appJS />
+
+  %%=Concat('</sc','rip','t>')=%%

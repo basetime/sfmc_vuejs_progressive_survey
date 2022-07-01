@@ -1,0 +1,395 @@
+{
+  "instanceDetails": {
+    "instance": "Avagate3",
+    "parentMID": "534001218",
+    "activeMID": "534001218"
+  },
+  "contentBuilder": {
+    "folders": [
+      {
+        "id": 105860,
+        "name": "sfmc_vuejs_progressive_survey",
+        "parentId": 35088,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey"
+      },
+      {
+        "id": 105861,
+        "name": "backend",
+        "parentId": 105860,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend"
+      },
+      {
+        "id": 105862,
+        "name": "configurations",
+        "parentId": 105860,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations"
+      },
+      {
+        "id": 105863,
+        "name": "survey",
+        "parentId": 105862,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey"
+      },
+      {
+        "id": 105864,
+        "name": "20220701",
+        "parentId": 105863,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/20220701"
+      },
+      {
+        "id": 105865,
+        "name": "frontend",
+        "parentId": 105860,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
+      },
+      {
+        "id": 105866,
+        "name": "components",
+        "parentId": 105865,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+      },
+      {
+        "id": 105867,
+        "name": "styles",
+        "parentId": 105865,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles"
+      },
+      {
+        "id": 105868,
+        "name": "lib",
+        "parentId": 105860,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib"
+      },
+      {
+        "id": 105869,
+        "name": "ssjs",
+        "parentId": 105868,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs"
+      },
+      {
+        "id": 105870,
+        "name": "validation",
+        "parentId": 105868,
+        "categoryType": "asset",
+        "rootFolder": false,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/validation"
+      }
+    ],
+    "assets": [
+      {
+        "bldrId": "841cf33e-9596-4e7a-987d-e43b50e0b9fc",
+        "name": "functions",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105861,
+          "name": "backend",
+          "parentId": 105860,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load('core', '1.1')\n\n  //updated comment\n</script>",
+        "id": 111555,
+        "customerKey": "0f305a87-452a-47b3-9461-4dac15830204"
+      },
+      {
+        "bldrId": "b21f212f-5efb-4b26-8102-8c05034ca32e",
+        "name": "processing_api",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105861,
+          "name": "backend",
+          "parentId": 105860,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n  Platform.Response.SetResponseHeader(\"Access-Control-Allow-Origin\", \"*\");\n  Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');\n  Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');\n  Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');\n  Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');\n  Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');\n  Platform.Response.SetResponseHeader('Content-Security-Policy', \"default-src 'self'\");\n\n  var postData = Platform.Request.GetPostData();\n  var postJSON = Platform.Function.ParseJSON(postData);\n\n  var action = Platform.Request.GetQueryStringParameter('action');\n  var payload = Platform.Request.GetQueryStringParameter('payload');\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n\n  var surveyPath = 'Content Builder\\\\Basetime Preference Center\\\\configurations' + '\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n  var surveyConfigurationJSON = Platform.Function.ParseJSON(surveyConfiguration)\n  var surveyDataExtension = surveyConfigurationJSON.dataExtension.externalKey;\n\n  var applicationConfigurationPath = 'Content Builder\\\\Basetime Preference Center\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n  var map = applicationConfigurationJSON.map;\n\n\n  Platform.Function.ContentBlockByName(map.content_block.ssjs.wsProxy)\n  Platform.Function.ContentBlockByName(map.content_block.ssjs.utils)\n\n  var fns = {\n    utils: util(),\n    wsProxy: wsProxy()\n  }\n\n  var res = '';\n  var reqConfig = {};\n\n  //Begin API Control Block\n  //Run specific set of code/functions based on the 'action' parameter\n  //After code is finished, the 'response' function returns the output and 'break' stops the processing\n  switch (action) {\n    case 'submitPreferenceForm': \n      var updateData = postJSON.postData;\n      var payload = [];\n\n      for (var u = 0; u < updateData.length; u++) {\n        var update = updateData[u];\n\n        payload.push({\n          CustomerKey: preferenceCenterDataExtensionExternalKey,\n          Properties: update\n        })\n      }\n\n      //update item\n      reqConfig = {\n        soapObjName: \"DataExtensionObject\",\n        options: {\n          SaveOptions: [{\n            PropertyName: \"*\",\n            SaveAction: \"UpdateAdd\"\n          }]\n        },\n        payload: payload\n      }\n\n      var updatePreferences = fns.wsProxy.update(reqConfig);\n      res = updatePreferences;\n      break;\n\n\n    case 'getCurrentPreferences':\n      var preferences;\n\n      reqConfig = {\n        dataExtensionKey: preferenceCenterDataExtensionExternalKey,\n        cols: [],\n        filter: {\n          Property: \"subscriberId\",\n          SimpleOperator: \"equals\",\n          Value: postJSON.subscriberId\n        }\n      };\n\n      var preferenceRequest = fns.utils.getDERecords(reqConfig, fns);\n\n      if (preferenceRequest.Status === 'OK') {\n        preferences = fns.utils.formatResult(preferenceRequest.Results, 'Properties')\n        res = {\n          Status: 'OK',\n          Results: preferences\n        }\n      } else {\n        res = preferenceRequest;\n      }\n\n      break;\n  };\n\n  fns.utils.response(res)\n\n\n</script>",
+        "id": 111556,
+        "customerKey": "9856812c-2278-48a7-98aa-fd2177cf6e3f"
+      },
+      {
+        "bldrId": "9ef082fb-d500-49ec-a1af-703ab0ce6922",
+        "name": "app_configuration",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105862,
+          "name": "configurations",
+          "parentId": 105860,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations"
+        },
+        "content": "{\n  \"branding\": {\n    \"brandName\": \"Basetime\",\n    \"websiteURL\": \"https://basetime.io\",\n    \"supportDarkMode\": \"true\",\n    \"default\": {\n      \"logo\": \"https://www.ikea.com/us/en/static/ikea-logo.f7d9229f806b59ec64cb.svg\",\n      \"colors\": {\n        \"primary\": \"#00FFFF\",\n        \"secondary\": \"blue\",\n        \"accent\": \"yellow\",\n        \"paper\": \"#fff\"\n      }\n    },\n    \"dark\": {\n      \"logo\": \"https://basetime.io/basetime-developer-network-logo.svg\",\n      \"colors\": {\n        \"primary\": \"#aadeeb\",\n        \"secondary\": \"#0098bc\",\n        \"accent\": \"#fc6833\",\n        \"paper\": \"#0f1d20\"\n      }\n    }\n  },\n  \"map\": {\n    \"content_block\": {\n      \"preference_options\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\preference_options\",\n      \"branding_bar\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\branding_bar\",\n      \"channel_drawer\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\channel_drawer\",\n      \"survey_form\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\survey_form\",\n      \"unauthorized_user\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\unauthorized_user\",\n      \"legal\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\legal\",\n      \"submit_button_animation\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\styles\\\\submit_button_animation\",\n      \"app_js\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\app_js\",\n      \"ssjs\": {\n        \"wsProxy\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\lib\\\\ssjs\\\\wsProxy\",\n        \"utils\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\lib\\\\ssjs\\\\utils\"\n      }\n    }\n  },\n  \"apiBaseURL\": \"https://cloud.emailmarketingunderstood.com/basetimepreferenceapi\"\n}",
+        "id": 111557,
+        "customerKey": "81fd1e19-e50b-4d28-b112-ac4ea2fc8f63"
+      },
+      {
+        "bldrId": "0faf74c9-cbbc-4769-9422-0480f9232715",
+        "name": "survey_configuration",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105864,
+          "name": "20220701",
+          "parentId": 105863,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/20220701"
+        },
+        "content": "{\n  \"profile\": {\n    \"headline\": \"Update your profile\",\n    \"copy\": \"\",\n    \"inputs\": [\n      {\n        \"type\": \"text\",\n        \"label\": \"First Name\",\n        \"name\": \"firstName\"      \n      },\n      {\n        \"type\": \"text\",\n        \"label\": \"Last Name\",\n        \"name\": \"lastName\"\n      }\n    ]\n  },\n  \"channels\": {\n    \"email\": {\n      \"icon\": \"mdi-email\",\n      \"preferences\": {\n        \"headline\": \"Email Preferences\",\n        \"copy\": \"Please select your email preferences below\",\n        \"radios\": [\n          {\n            \"value\": \"onceAWeek\",\n            \"label\": \"Once A Week\"\n          },\n          {\n            \"value\": \"holidays\",\n            \"label\": \"Holidays Only\"\n          },\n          {\n            \"value\": \"specialEvents\",\n            \"label\": \"Special Events Only\"\n          },\n          {\n            \"value\": \"unsubscribe\",\n            \"label\": \"Unsubscribe Me From All Emails\"\n          }\n        ]\n      },\n      \"subscriptions\": {\n        \"headline\": \"Email Subscriptions\",\n        \"copy\": \"Please select your email subscriptions below\",\n        \"inputs\": [],\n        \"checkboxes\": [\n          {\n            \"value\": \"dailyNewsletter\",\n            \"label\": \"Daily Newsletter\"\n          },\n          {\n            \"value\": \"devChat\",\n            \"label\": \"Developer Chat\"\n          },\n          {\n            \"value\": \"devOps\",\n            \"label\": \"Developer Ops Weekly\"\n          }\n        ]\n      }\n    },\n    \"sms\": {\n      \"icon\": \"mdi-android-messages\",\n      \"preferences\": {\n        \"headline\": \"SMS Preferences\",\n        \"copy\": \"Please select your text message preferences below\",\n        \"radios\": [\n          {\n            \"value\": \"onceAWeek\",\n            \"label\": \"Once A Week\"\n          },\n          {\n            \"value\": \"holidays\",\n            \"label\": \"Holidays Only\"\n          },\n          {\n            \"value\": \"specialEvents\",\n            \"label\": \"Special Events Only\"\n          },\n          {\n            \"value\": \"unsubscribe\",\n            \"label\": \"Unsubscribe Me From All Emails\"\n          }\n        ]\n      },\n      \"subscriptions\": {\n        \"headline\": \"SMS Subscriptions\",\n        \"copy\": \"Please select your text message subscriptions below\",\n        \"inputs\": [],\n        \"checkboxes\": [\n          {\n            \"value\": \"dailyNewsletter\",\n            \"label\": \"Daily Newsletter\"\n          },\n          {\n            \"value\": \"devChat\",\n            \"label\": \"Developer Chat\"\n          },\n          {\n            \"value\": \"devOps\",\n            \"label\": \"Developer Ops Weekly\"\n          }\n        ]\n      }\n    }\n  },\n  \"unauthorized\": {\n    \"icon\": \"mdi-account-question\",\n    \"copy\": \"Looks like we can't find you in your system. <br> Please ensure you've reached this page from a basetime.io email. <br><br> Visit <a href='basetime.io'>Basetime.io</a> to sign up for emails.\"\n  },\n  \"legal\": {\n    \"icon\": \"mdi-account-question\",\n    \"copy\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\n  },\n  \"dataExtension\": {\n    \"externalKey\": \"A89D62BA-3F5F-400C-B0E9-979FD11948EF\"\n  }\n}\n",
+        "id": 111558,
+        "customerKey": "89ae7d08-db95-4662-bb73-d8637d5763ba"
+      },
+      {
+        "bldrId": "06118b51-d664-4f01-9816-b8c03989f433",
+        "name": "app_html",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105865,
+          "name": "frontend",
+          "parentId": 105860,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
+        },
+        "content": "<v-app>\n  <v-main>\n    <v-row overflow=\"hidden\">\n      <v-col cols=\"12\">\n        <branding-bar @update-dark-mode=\"onUpdateDarkMode\" :application-configuration=\"applicationConfiguration\" :dark-mode=\"darkMode\" :branding=\"branding\"></branding-bar>\n      </v-col>\n    </v-row>\n    <v-row class=\"flex\" v-show=\"authorized\">\n      <v-col cols=\"12\">\n       <survey-form></survey-form>\n      </v-col>\n    </v-row>\n    <v-row v-show=\"!authorized\">\n      <unauthorized-user :branding=\"branding\" :unauthorized=\"surveyConfiguration.unauthorized\">\n      </unauthorized-user>\n    </v-row>\n    <v-row>\n      <legal :branding=\"branding\" :legal=\"surveyConfiguration.legal\"></legal>\n    </v-row>\n  </v-main>\n</v-app>",
+        "id": 111559,
+        "customerKey": "05b3eca4-fabe-42c5-b820-3fa797cda5f0"
+      },
+      {
+        "bldrId": "004a424d-089f-4ad6-8a4f-cfac5313a5bd",
+        "name": "app_js",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105865,
+          "name": "frontend",
+          "parentId": 105860,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
+        },
+        "content": "new Vue({\n  el: '#app',\n  vuetify: new Vuetify(),\n  data() {\n    return {\n      authorized: isAuthorized === 1 ? true : false,\n      darkMode: false,\n      debug: true,\n      channels: [],\n      applicationConfiguration,\n      surveyConfiguration,\n      formSubmitting: false,\n      survey: survey\n    }\n  },\n  mounted() {\n    this.debug && this.debugData();\n  },\n  methods: {\n    debugData() {\n      console.log({\n        config: this.applicationConfiguration,\n        surveyConfiguration: this.surveyConfiguration\n      })\n    },\n    onUpdateDarkMode() {\n      this.darkMode = !this.darkMode\n    },\n    async onSubmitPreferenceForm($event) {\n      try {\n        const postData = [];\n\n        console.log($event)\n\n        // const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {\n        //   postData\n        // })\n\n        // if(submitRequest.data.Status === 'OK'){\n        //   Vue.$toast.success(`Thank you for updating your preferences!`)\n        //   this.getExistingPreferences();\n        // }\n\n\n      } catch (err) {\n        console.log(err)\n        Vue.$toast.success(`There was an error: [${err.message}]`)\n      }\n    }\n  },\n  computed: {\n    apiBaseURL() {\n      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`\n    },\n    branding() {\n      if (this.applicationConfiguration.branding.supportDarkMode && this.darkMode) {\n        return this.applicationConfiguration.branding.dark\n      }\n\n      return this.applicationConfiguration.branding.default\n    }\n  }\n})",
+        "id": 111560,
+        "customerKey": "bf7d16de-9b9a-425b-aae9-185b5d546b71"
+      },
+      {
+        "bldrId": "1eaf98fa-8be4-4c3c-a1d9-c446db013bfe",
+        "name": "_component_imports",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105866,
+          "name": "components",
+          "parentId": 105865,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "%%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\styles\\submit_button_animation'))=%%\n%%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\lib\\validation\\subscriber_validation'))=%%\n\n<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n  var map = applicationConfigurationJSON.map;\n\n  var unauthorizedUser = Platform.Function.ContentBlockByName(map.content_block.unauthorized_user)\n  var brandingBar = Platform.Function.ContentBlockByName(map.content_block.branding_bar)\n  var surveyForm = Platform.Function.ContentBlockByName(map.content_block.survey_form)\n  var legal = Platform.Function.ContentBlockByName(map.content_block.legal)\n  var appJS = Platform.Function.ContentBlockByName(map.content_block.app_js)\n\n</script>\n\n%%=Concat('<sc','rip','t>')=%%\n\n  Vue.use(VueToast, {\n  position: 'top-right',\n  duration: 6000,\n  dismissable: true\n  });\n\n  Vue.use(VueFormulate)\n\n  const applicationConfiguration = <ctrl:var name=applicationConfiguration />\n  const surveyConfiguration = <ctrl:var name=surveyConfiguration />\n\n     const isAuthorized = <ctrl:var name=authorized />\n  // const subscriberId = <ctrl:var name=subscriberId />\n  // const emailAddress = <ctrl:var name=emailAddress />\n  // const subscriberKey = <ctrl:var name=subscriberKey />\n  // const jobId = <ctrl:var name=jobId /> \n  const survey = \"<ctrl:var name=survey />\"\n\n  <ctrl:var name=brandingBar />\n  <ctrl:var name=unauthorizedUser />\n  <ctrl:var name=surveyForm />\n  <ctrl:var name=legal />\n  <ctrl:var name=appJS />\n\n  %%=Concat('</sc','rip','t>')=%%",
+        "id": 111561,
+        "customerKey": "23b5b8da-1615-4f34-a372-c024dc4a1f48"
+      },
+      {
+        "bldrId": "fe8cce89-f73a-44e7-98e5-f83b72392132",
+        "name": "branding_bar",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105866,
+          "name": "components",
+          "parentId": 105865,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\nWhat is this component?\n*/\nVue.component('branding-bar', {\nprops: {\nbranding: Object,\napplicationConfiguration: Object\n},\nmounted() {\n\n},\ndata() {\nreturn {\ndarkModeToggle: false\n}\n},\nwatch: {\n\n},\nmethods: {\n\n},\ntemplate: `\n<div>\n  <v-card>\n    <v-app-bar :color=\"branding.colors.paper\" position=\"absolute\" height=\"100\">\n      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->\n\n      <v-toolbar-title>\n        <v-img height=\"100%\" width=\"auto\" :src=\"branding.logo\"></v-img>\n      </v-toolbar-title>\n\n      <v-spacer></v-spacer>\n      \n      <v-switch v-show=\"applicationConfiguration.branding.supportDarkMode\" :color=\"branding.colors.accent\" @click=\"$emit('update-dark-mode')\" v-model=\"darkModeToggle\">\n        <template v-slot:label>\n          <v-icon v-if=\"darkModeToggle\" large color=\"#F5F5F5\">\n            mdi-moon-waxing-crescent\n          </v-icon>\n          <v-icon v-else large color=\"#616161\">\n            mdi-white-balance-sunny\n          </v-icon>\n        </template>\n      </v-switch>\n\n    </v-app-bar>\n  </v-card>\n</div>\n`\n})",
+        "id": 111562,
+        "customerKey": "64b5689f-48ab-4272-a8bf-ed9262d9a126"
+      },
+      {
+        "bldrId": "9f9eeb38-1bd5-4a97-adbe-8d4c1a8e037e",
+        "name": "legal",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105866,
+          "name": "components",
+          "parentId": 105865,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\nWhat is this component?\n*/\nVue.component('legal', {\nprops: {\nlegal: Object,\nbranding: Object\n},\nmounted() {\n\n},\ndata() {\nreturn {\n\n}\n},\nwatch: {\n\n},\nmethods: {\n\n},\ntemplate: `\n<v-row\n  class=\"mt-5\"\n>\n  <v-col cols=\"10\" class=\"flex text-center mx-auto\">\n    <v-divider class=\"my-4\"></v-divider>\n    <v-row justify=\"space-around\">\n      <v-col cols=\"8\" class=\"text-caption\">\n        <span v-html=\"legal.copy\"></span>\n      </v-col>\n    </v-row>\n\n  </v-col>\n</v-row>\n`\n})",
+        "id": 111563,
+        "customerKey": "b2c58f86-cd77-43a7-ae36-48182a0f912d"
+      },
+      {
+        "bldrId": "48707af3-3f00-4196-8c22-b0983b815d9d",
+        "name": "unauthorized_user",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105866,
+          "name": "components",
+          "parentId": 105865,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\nWhat is this component?\n*/\nVue.component('unauthorized-user', {\nprops: {\n  unauthorized: Object,\n  branding: Object\n},\nmounted() {\n\n},\ndata() {\nreturn {\n\n}\n},\nwatch: {\n\n},\nmethods: {\n\n},\ntemplate: `\n<v-col cols=\"10\" class=\"flex text-center mx-auto\">\n  <v-row justify=\"space-around\">\n    <v-icon :color=\"branding.colors.accent\" size=\"200\" aria-label=\"My Account\" role=\"img\" aria-hidden=\"false\">\n      {{unauthorized.icon}}\n    </v-icon>\n  </v-row>\n  <v-row justify=\"space-around\">\n    <v-col cols=\"8\" class=\"text-h6 text-md-h5\">\n      <span v-html=\"unauthorized.copy\"></span>\n    </v-col>\n  </v-row>\n\n</v-col>\n`\n})",
+        "id": 111564,
+        "customerKey": "d9677e0a-5c25-4352-8d24-71baf46d6ced"
+      },
+      {
+        "bldrId": "6a5de310-2a6e-4e56-85ae-422b26d32e43",
+        "name": "submit_button_animation",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105867,
+          "name": "styles",
+          "parentId": 105865,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles"
+        },
+        "content": "<style>\n  .custom-loader {\n    animation: loader 1s infinite;\n    display: flex;\n  }\n  @-moz-keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @-webkit-keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @-o-keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n</style>",
+        "id": 111565,
+        "customerKey": "4a3c6eb5-1c88-4e9f-8b0a-3cce7f79ac87"
+      },
+      {
+        "bldrId": "33752466-6fce-486f-bbfb-afc264f9b2bf",
+        "name": "utils",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105869,
+          "name": "ssjs",
+          "parentId": 105868,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  function util() {\n    var fn = {}\n\n    fn.isArray = function (arg) {\n      return Object.prototype.toString.call(arg) === '[object Array]';\n    }\n\n\n    fn.response = function (arg) {\n      Write(Stringify(arg))\n    }\n\n\n    fn.proxyContext = function (prox, mid) {\n      if (mid) {\n        //reset previous settings\n        prox.resetClientIds();\n        // Set ClientID \n        prox.setClientId({\n          \"ID\": mid\n        });\n      }\n      return prox\n    }\n\n\n    fn.deBug = function (action, response, logExtKey, debug) {\n      if (response) {\n        debug ? Write(\"<br><b>\" + action + \":</b><br> \" + Stringify(response) + \"<br><br>\") : null;\n      } else {\n        debug ? Write(\"<br><b>\" + action + \"</b><br> \") : null;\n      }\n\n      if (logExtKey) {\n        var log = {\n          action: action ? action : null,\n          log: response ? response : null\n        }\n\n        addLog(log, logExtKey);\n      }\n    }\n\n\n    /***********************************************\n     *\n     *   function addLog()\n     *   Pushes logging object to array to be written to a Data Extension\n     *   \n     *    @param obj {Object} logging object that matches the data extension\n     *    @param logExtKey {String} External Key to log records to\n     *    \n     ***********************************************/\n    fn.addLog = function (obj, logExtKey) {\n      var logDE = DataExtension.Init(logExtKey);\n      var logAction = logDE.Rows.Add(obj);\n    };\n\n\n\n    /*\n      getDERecords Function\n       Retrieves rows from a Data Extension\n       \n        Dependencies:\n           - DEData Function\n        @config {object} object with payload for wsProxy call\n       \n       //Sample Usage\n       \n       var config = {\n         deName: \"Data Extension Name\",\n         col: [],\n         filter: {\n           Property: \"EmailAddress\",\n           SimpleOperator: \"isNotNull\",\n           Value: \"\"\n         },\n         opts: {\n           BatchSize: 10\n         }\n       };\n           \n       var data = getDERecords(config);\n       \n       //optional//\n       If only specific fields are needed, add a cols array of those fields.\n       When no cols key is included, function will get all fields.\n       \n       var config = {\n         deName: \"Data Extension Name\",\n         cols: [\"EmailAddress\", \"SubscriberKey\"]\n         filter: {\n           Property: \"EmailAddress\",\n           SimpleOperator: \"isNotNull\",\n           Value: \"\"\n         },\n         opts: {\n           BatchSize: 10\n         }\n       };\n       \n    */\n    fn.getDERecords = function (config, fns) {\n\n      var deConfig = {\n        soapObjName: \"DataExtensionObject[\" + config.dataExtensionKey + \"]\"\n      };\n\n      deConfig.cols = config.cols.length > 0 ? config.cols : fns.utils.getFieldNames(config.dataExtensionKey);\n      if (config.filter) { deConfig.filter = config.filter; };\n      if (config.opts) { deConfig.opts = config.opts; };\n\n      var deRecords = fns.wsProxy.retrieve(deConfig);\n      return deRecords;\n    };\n\n\n\n\n    /***********************************************\n    *\n    *   function getFieldNames()\n    *   Gets all columns from a SOAP Object\n    *\n    *    @peram {deName} Name of DataExtension to get columns\n    *\n    *    @output {array} array of fields\n    *\n    ***********************************************/\n\n    fn.getFieldNames = function (dataExtensionKey) {\n      var de = DataExtension.Init(dataExtensionKey);\n      var fields = de.Fields.Retrieve();\n\n      fields.sort(function (a, b) { return (a.Ordinal > b.Ordinal) ? 1 : -1 });\n\n      var out = [];\n\n      for (k in fields) {\n        out = out.concat(fields[k].Name);\n      }\n\n      return out;\n\n    } //End retrieveFieldNames\n\n\n    /***********************************************\n    *\n    *   function formatResult()\n    *   Takes Objects that are Name/Value pairs {Name: \"Key\", Value: \"Value\"} and\n    *   normalizes them to a standard JSON object {key: \"value\"}\n    *\n    *    @peram {arr} array to normalize\n    *    @peram {prop} property key of Array\n    *\n    *    @output Array of normalized JSON object\n    *\n    ***********************************************/\n    fn.formatResult = function (arr, prop) {\n      var results = [];\n      for (var i = 0; i < arr.length; i++) {\n        var result_list = arr[i][prop];\n        var obj = {};\n        for (k in result_list) {\n          var key = result_list[k].Name;\n          var val = result_list[k].Value\n          if (key.indexOf(\"_\") != 0) obj[key] = val;\n        }\n        results.push(obj);\n      }\n      return results;\n    };\n\n\n    return fn\n  }\n\n</script>",
+        "id": 111566,
+        "customerKey": "efb5aae0-651b-4993-916f-9ca0a676938b"
+      },
+      {
+        "bldrId": "7c7d9fd8-72d5-43a0-b846-6a0a7e0ed1c9",
+        "name": "wsProxy",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105869,
+          "name": "ssjs",
+          "parentId": 105868,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1\");\n\n  function wsProxy() {\n    var prox = new Script.Util.WSProxy();\n    var fn = {};\n\n    /*******************************\n     * @config {<Object>}\n     * @continueRequest {Boolean}\n     * @return {Array}\n     ******************************/\n    fn.retrieve = function (config, continueRequest) {\n\n      var reqID;\n      var moreData = true;\n      var continueRequest = continueRequest ? continueRequest : false;\n      var obj = config.soapObjName ? config.soapObjName : null;\n      var opts = config.opts ? config.opts : {};\n      var props = config.props ? config.props : {};\n      var filter = config.filter ? config.filter : {};\n      var cols = config.cols ? config.cols : null;\n      var mid = config.mid ? config.mid : null;\n      // prox = mid ? util.proxyContext(prox, mid) : prox;\n\n      if (!config) { return 'configuration required'; }\n      if (!obj) { return 'SOAP object is required'; }\n\n      var resultsOut = [];\n\n      var data = prox.retrieve(obj, cols, filter, opts, props)\n\n      return data\n\n    } // end retrieve\n\n    /*******************************\n     * @config {Object}\n     * @return {Object}\n     ******************************/\n    fn.update = function (config) {\n      var obj = config.soapObjName ? config.soapObjName : null;\n      var payload = config.payload ? config.payload : null;\n      var options = config.options ? config.options : null;\n      var mid = config.mid ? config.mid : null;\n      // prox = mid ? utils.proxyContext(prox, mid) : prox;\n\n      if (!config) { return 'configuration required'; }\n      if (!obj) { return 'SOAP object is required'; }\n      if (!payload) { return 'payload is required'; }\n\n      var batch = fns.utils.isArray(payload)\n\n      if (batch) {\n        var res = prox.updateBatch(obj, payload, options);\n      } else {\n        var res = prox.updateItem(obj, payload, options);\n      }\n\n      return res;\n    } // end update\n\n\n    return fn\n  }\n\n</script>",
+        "id": 111567,
+        "customerKey": "e0c1031b-a425-4374-afbc-169b9d0dc8e1"
+      },
+      {
+        "bldrId": "205a1e64-cc5f-475d-949e-6881a62dcb6c",
+        "name": "subscriber_validation",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105870,
+          "name": "validation",
+          "parentId": 105868,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/validation"
+        },
+        "content": "%%[\n  set @subscriberkey = AttributeValue(\"_subscriberkey\")\n  set @subscriberid = AttributeValue(\"subscriberid\")\n  set @emailAddress = AttributeValue(\"emailaddr\")\n  set @jobid = AttributeValue(\"jobid\")\n]%%\n\n<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  var subscriberKey = Stringify(Variable.GetValue(\"@subscriberkey\"));\n  var emailAddress = Stringify(Variable.GetValue(\"@emailAddress\"));\n  var subscriberId = Variable.GetValue(\"@subscriberid\");\n  var jobId = Variable.GetValue(\"@jobid\");\n\n  var authorized = 0;\n  if(subscriberId !== 0 && jobId !== 0) {\n    authorized = 1;\n  }\n\n  authorized = 1\n\n</script>",
+        "id": 111568,
+        "customerKey": "66121d7b-3361-4c0b-a902-dae7cd83c0f9"
+      },
+      {
+        "id": 111571,
+        "bldrId": "118da206-1fc9-4529-bbc9-03dae9f70795",
+        "name": "survey_index",
+        "customerKey": "a0507876-cf3c-4c27-b115-57525ff1c8ca",
+        "assetType": {
+          "id": 205,
+          "name": "webpage",
+          "displayName": "Web Page"
+        },
+        "category": {
+          "id": 35088,
+          "name": "Content Builder",
+          "parentId": 0,
+          "folderPath": "Content Builder"
+        },
+        "meta": {
+          "globalStyles": {
+            "isLocked": false,
+            "body": {
+              "max-width": "1280px"
+            }
+          }
+        },
+        "views": {
+          "html": {
+            "thumbnail": {},
+            "content": "<!DOCTYPE html>\n<html>\n\n<head>\n\n  <script src=\"https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js\"></script>\n\n  <!-- Axios API - https://www.npmjs.com/package/axios -->\n  <script src=\"https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js\"></script>\n\n  <!-- Toast Notifications - https://www.npmjs.com/package/vue-toast-notification -->\n  <script src=\"https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6\"></script>\n  <link href=\"https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6/dist/theme-sugar.css\" rel=\"stylesheet\">\n\n  \n  <script src=\"https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.5.3/dist/formulate.min.js\"></script>\n  <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.5.3/dist/snow.css\">\n\n  <link href=\"https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900\" rel=\"stylesheet\">\n  <link href=\"https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css\" rel=\"stylesheet\">\n  <link href=\"https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css\" rel=\"stylesheet\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui\">\n</head>\n\n<body>\n  <div v-cloak id=\"app\">\n    %%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\app_html'))=%%\n  </div>\n\n\n  %%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\_component_imports'))=%%\n\n</body>\n\n</html>",
+            "meta": {},
+            "slots": {
+              "col1": {
+                "design": "<p style=\"font-family:arial;color:#ccc;font-size:11px;text-align:center;vertical-align:middle;font-weight:bold;padding:10px;margin:0;border:#ccc dashed 1px;\">Drop blocks or content here</p>",
+                "modelVersion": 2
+              }
+            },
+            "modelVersion": 2
+          }
+        }
+      },
+      {
+        "bldrId": "589b8c6c-63dd-40fd-a7ad-c2d5dfef5db6",
+        "name": "survey_form",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "id": 105866,
+          "name": "components",
+          "parentId": 105865,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\nWhat is this component?\n*/\nVue.component('survey-form', {\n  props: {\n    branding: Object,\n    surveyConfiguration: Object,\n    formSubmitting: Boolean\n  },\n  beforeMount() {\n\n  },\n  data() {\n    return {\n      validation: {},\n      formInputs: {},\n      currentStep: 1,\n      forceRender: true,\n      survey: [\n        {\n          label: \"Confirm Address\",\n          subtitle: \"Please confirm that we have the correct address.\",\n          copy: \"<h3 class='text-center mt-5'>We're excited to work with you! </h3> <br><br> Please take a moment to complete a few questions to confirm you're ready for your upcoming installation service.\",\n          form: [\n            {\n              \"type\": \"text\",\n              \"label\": \"Address\",\n              \"name\": \"address1\",\n              \"disabled\": \"true\",\n\n            },\n            {\n              \"type\": \"text\",\n              \"label\": \"ZIP Code\",\n              \"name\": \"zipCode\",\n              \"pattern\": \"[0-9]*\",\n              \"disabled\": \"true\",\n              \"validation\": \"matches:/^[0-9]{5}(?:-[0-9]{4})?$/\",\n              \"validation-messages\": {\n                \"matches\": \"Improper ZipCode.\"\n              }\n            }\n          ]\n        },\n        {\n          label: \"Confirm Phone Number\",\n          subtitle: \"Please confirm that we have the correct Phone Number.\",\n          copy: \"Confirm Primary Phone Number\",\n          form: [\n            {\n              \"type\": \"text\",\n              \"label\": \"Phone Number\",\n              \"name\": \"phone\",\n              \"inputmode\": \"numeric\",\n              \"disabled\": \"true\",\n              \"pattern\": \"[0-9]*\",\n              \"validation\": \"matches:/^[0-9-]+$/\",\n              \"validation-messages\": {\n                \"matches\": \"Phone number should only include numbers and dashes.\"\n              }\n            }\n          ]\n        }]\n    }\n  },\n  methods: {\n    submitSurveyForm(event) {\n      let emit = this.formInputs\n      console.log(event)\n      this.$emit('submit-preference-form', emit)\n    },\n    enableFormFields() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.map(input => {\n        const inputName = input.name;\n        document.getElementsByName(inputName)[0].disabled = false\n      })\n      \n    },\n    nextSection() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.map(input => {\n        const inputName = input.name;\n        document.getElementsByName(inputName)[0].disabled = 'disabled'\n      })\n\n      this.currentStep = this.currentStep + 1\n    }\n  },\n  watch: {\n  },\n  computed: {\n  },\n  template: `\n<section>\n  <v-row class=\"justify-center\">\n    <v-col cols=\"6\">\n      <v-stepper class=\"mx-auto\" v-model=\"currentStep\" vertical>\n        <span v-for=\"(s, index) in survey\" :key=\"index + 1\">\n          <v-stepper-step :complete=\"currentStep > index + 1\" :step=\"index + 1\">\n            {{s.label}}\n            <small>{{s.subtitle}}</small>\n          </v-stepper-step>\n\n          <v-stepper-content class=\"flex justify-space-around\" :step=\"index + 1\">\n            <v-card color=\"grey lighten-4\" class=\"mb-12 pa-5\" min-height=\"250\">\n              <v-row class=\"justify-end\">\n                <v-icon \n                  large\n                  @click=\"enableFormFields\"\n                >\n                  mdi-pencil\n                </v-icon>\n              </v-row>\n              <v-row class=\"justify-center\">\n                <v-col cols=\"7\" class=\"\">\n                  <span v-html=\"s.copy\"></span> \n                  <formulate-form v-if=\"forceRender\" @validation=\"validation[index + 1] = $event\" class=\"my-5\" :values=\"formInputs\"\n                    v-model=\"formInputs\" :schema=\"s.form\" />\n                </v-col>\n              </v-row>\n\n            </v-card>\n            <v-btn v-if=\"currentStep !== survey.length\" color=\"primary\" @click=\"nextSection\">\n              Continue\n            </v-btn>\n            <v-btn v-if=\"currentStep !== 1\" color=\"primary\" @click=\"currentStep = currentStep - 1\">\n              Back\n            </v-btn>\n            <v-btn v-if=\"currentStep === survey.length\" color=\"primary\" @click=\"submitSurveyForm\">\n              Submit\n            </v-btn>\n            <v-btn @click=\"formInputs = {}\" text>\n              Cancel\n            </v-btn>\n          </v-stepper-content>\n        </span>\n    </v-col>\n  </v-row>\n</section>\n`\n})",
+        "id": 111643,
+        "customerKey": "cc657fd8-faba-41e4-bf9c-6cec98ac2958"
+      }
+    ]
+  }
+}

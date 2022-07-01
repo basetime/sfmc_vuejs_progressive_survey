@@ -1,0 +1,109 @@
+<script runat="server">
+  Platform.Load("core", "1.1.1");
+  Platform.Response.SetResponseHeader("Access-Control-Allow-Origin", "*");
+  Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');
+  Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');
+  Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');
+  Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');
+  Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  Platform.Response.SetResponseHeader('Content-Security-Policy', "default-src 'self'");
+
+  var postData = Platform.Request.GetPostData();
+  var postJSON = Platform.Function.ParseJSON(postData);
+
+  var action = Platform.Request.GetQueryStringParameter('action');
+  var payload = Platform.Request.GetQueryStringParameter('payload');
+
+  var survey = Platform.Request.GetQueryStringParameter('survey');
+
+  var surveyPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations' + '\\survey' + '\\ ' + survey;
+  var surveyConfigurationPath = surveyPath + '\\survey_configuration'
+  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\)\ /g, '')
+
+  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
+  var surveyConfigurationJSON = Platform.Function.ParseJSON(surveyConfiguration)
+  var surveyDataExtension = surveyConfigurationJSON.dataExtension.externalKey;
+
+  var applicationConfigurationPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\app_configuration'
+  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
+  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
+  var map = applicationConfigurationJSON.map;
+
+
+  Platform.Function.ContentBlockByName(map.content_block.ssjs.wsProxy)
+  Platform.Function.ContentBlockByName(map.content_block.ssjs.utils)
+
+  var fns = {
+    utils: util(),
+    wsProxy: wsProxy()
+  }
+
+  var res = '';
+  var reqConfig = {};
+
+  //Begin API Control Block
+  //Run specific set of code/functions based on the 'action' parameter
+  //After code is finished, the 'response' function returns the output and 'break' stops the processing
+  switch (action) {
+    case 'submitPreferenceForm': 
+      var updateData = postJSON.postData;
+      var payload = [];
+
+      for (var u = 0; u < updateData.length; u++) {
+        var update = updateData[u];
+
+        payload.push({
+          CustomerKey: preferenceCenterDataExtensionExternalKey,
+          Properties: update
+        })
+      }
+
+      //update item
+      reqConfig = {
+        soapObjName: "DataExtensionObject",
+        options: {
+          SaveOptions: [{
+            PropertyName: "*",
+            SaveAction: "UpdateAdd"
+          }]
+        },
+        payload: payload
+      }
+
+      var updatePreferences = fns.wsProxy.update(reqConfig);
+      res = updatePreferences;
+      break;
+
+
+    case 'getCurrentPreferences':
+      var preferences;
+
+      reqConfig = {
+        dataExtensionKey: preferenceCenterDataExtensionExternalKey,
+        cols: [],
+        filter: {
+          Property: "subscriberId",
+          SimpleOperator: "equals",
+          Value: postJSON.subscriberId
+        }
+      };
+
+      var preferenceRequest = fns.utils.getDERecords(reqConfig, fns);
+
+      if (preferenceRequest.Status === 'OK') {
+        preferences = fns.utils.formatResult(preferenceRequest.Results, 'Properties')
+        res = {
+          Status: 'OK',
+          Results: preferences
+        }
+      } else {
+        res = preferenceRequest;
+      }
+
+      break;
+  };
+
+  fns.utils.response(res)
+
+
+</script>

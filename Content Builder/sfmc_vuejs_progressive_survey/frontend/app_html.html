@@ -1,0 +1,21 @@
+<v-app>
+  <v-main>
+    <v-row overflow="hidden">
+      <v-col cols="12">
+        <branding-bar @update-dark-mode="onUpdateDarkMode" :application-configuration="applicationConfiguration" :dark-mode="darkMode" :branding="branding"></branding-bar>
+      </v-col>
+    </v-row>
+    <v-row class="flex" v-show="authorized">
+      <v-col cols="12">
+       <survey-form></survey-form>
+      </v-col>
+    </v-row>
+    <v-row v-show="!authorized">
+      <unauthorized-user :branding="branding" :unauthorized="surveyConfiguration.unauthorized">
+      </unauthorized-user>
+    </v-row>
+    <v-row>
+      <legal :branding="branding" :legal="surveyConfiguration.legal"></legal>
+    </v-row>
+  </v-main>
+</v-app>
