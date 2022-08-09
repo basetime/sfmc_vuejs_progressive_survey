@@ -19,6 +19,7 @@
   var unauthorizedUser = Platform.Function.ContentBlockByName(map.content_block.unauthorized_user)
   var brandingBar = Platform.Function.ContentBlockByName(map.content_block.branding_bar)
   var surveyForm = Platform.Function.ContentBlockByName(map.content_block.survey_form)
+  var surveyFormHorizontal = Platform.Function.ContentBlockByName(map.content_block.survey_form_horizontal)
   var legal = Platform.Function.ContentBlockByName(map.content_block.legal)
   var appJS = Platform.Function.ContentBlockByName(map.content_block.app_js)
 
@@ -33,6 +34,7 @@
   });
 
   Vue.use(VueFormulate)
+  Vue.use(VTooltip)
 
   const applicationConfiguration = <ctrl:var name=applicationConfiguration />
   const surveyConfiguration = <ctrl:var name=surveyConfiguration />
@@ -47,6 +49,7 @@
   <ctrl:var name=brandingBar />
   <ctrl:var name=unauthorizedUser />
   <ctrl:var name=surveyForm />
+  <ctrl:var name=surveyFormHorizontal />
   <ctrl:var name=legal />
   <ctrl:var name=appJS />
 

@@ -5,9 +5,9 @@
         <branding-bar @update-dark-mode="onUpdateDarkMode" :application-configuration="applicationConfiguration" :dark-mode="darkMode" :branding="branding"></branding-bar>
       </v-col>
     </v-row>
-    <v-row class="flex" v-show="authorized">
-      <v-col cols="12">
-       <survey-form></survey-form>
+    <v-row class="" v-show="authorized">
+      <v-col class="mx-auto" cols="12">
+       <survey-form-horizontal></survey-form-horizontal>
       </v-col>
     </v-row>
     <v-row v-show="!authorized">

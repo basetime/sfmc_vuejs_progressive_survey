@@ -8,11 +8,12 @@ Vue.component('survey-form', {
     formSubmitting: Boolean
   },
   beforeMount() {
-
+    this.setupFormValidation();
   },
   data() {
     return {
       validation: {},
+      formValidation: {},
       formInputs: {},
       currentStep: 1,
       forceRender: true,
@@ -27,7 +28,10 @@ Vue.component('survey-form', {
               "label": "Address",
               "name": "address1",
               "disabled": "true",
-
+              "validation": "^required:trim",
+              "validation-messages": {
+                "required": "Address is required."
+              }
             },
             {
               "type": "text",
@@ -35,9 +39,10 @@ Vue.component('survey-form', {
               "name": "zipCode",
               "pattern": "[0-9]*",
               "disabled": "true",
-              "validation": "matches:/^[0-9]{5}(?:-[0-9]{4})?$/",
+              "validation": "required:trim|matches:/^[0-9]{5}(?:-[0-9]{4})?$/",
               "validation-messages": {
-                "matches": "Improper ZipCode."
+                "matches": "Improper ZipCode.",
+                "required": "ZipCode is Required.",
               }
             }
           ]
@@ -51,6 +56,18 @@ Vue.component('survey-form', {
               "type": "text",
               "label": "Phone Number",
               "name": "phone",
+              "inputmode": "numeric",
+              "disabled": "true",
+              "pattern": "[0-9]*",
+              "validation": "matches:/^[0-9-]+$/",
+              "validation-messages": {
+                "matches": "Phone number should only include numbers and dashes."
+              }
+            },
+            {
+              "type": "text",
+              "label": "Mobile Number",
+              "name": "mobile",
               "inputmode": "numeric",
               "disabled": "true",
               "pattern": "[0-9]*",
@@ -73,22 +90,41 @@ Vue.component('survey-form', {
       const section = this.currentStep - 1;
       const formSection = this.survey[section].form;
 
-      formSection.map(input => {
+      formSection.forEach(input => {
         const inputName = input.name;
         document.getElementsByName(inputName)[0].disabled = false
       })
-      
+
     },
     nextSection() {
       const section = this.currentStep - 1;
       const formSection = this.survey[section].form;
 
-      formSection.map(input => {
+      formSection.forEach(input => {
         const inputName = input.name;
         document.getElementsByName(inputName)[0].disabled = 'disabled'
       })
 
       this.currentStep = this.currentStep + 1
+    },
+    setupFormValidation() {
+      let validationObj = {};
+      this.survey.forEach((section, index) => {
+       validationObj[section.label] = [];
+      })
+
+      console.log(validationObj)
+      this.validation = validationObj;
+    },
+    handleValidate(event){
+    
+      if(event.hasErrors){
+        this.formValidation.hasErrors = true;
+      } else {
+        this.formValidation.hasErrors = false;
+      }
+
+     console.log(event)
     }
   },
   watch: {
@@ -98,7 +134,7 @@ Vue.component('survey-form', {
   template: `
 <section>
   <v-row class="justify-center">
-    <v-col cols="6">
+    <v-col cols="12" md="6">
       <v-stepper class="mx-auto" v-model="currentStep" vertical>
         <span v-for="(s, index) in survey" :key="index + 1">
           <v-stepper-step :complete="currentStep > index + 1" :step="index + 1">
@@ -117,9 +153,9 @@ Vue.component('survey-form', {
                 </v-icon>
               </v-row>
               <v-row class="justify-center">
-                <v-col cols="7" class="">
+                <v-col cols="12" md="8" class="">
                   <span v-html="s.copy"></span> 
-                  <formulate-form v-if="forceRender" @validation="validation[index + 1] = $event" class="my-5" :values="formInputs"
+                  <formulate-form v-if="forceRender" @validation="handleValidate" class="my-5" :values="formInputs"
                     v-model="formInputs" :schema="s.form" />
                 </v-col>
               </v-row>

@@ -94,5 +94,17 @@
     "bldrId": "589b8c6c-63dd-40fd-a7ad-c2d5dfef5db6",
     "id": 111643,
     "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components/survey_form_horizontal.html",
+    "bldrId": "8f35e912-42fb-42c5-9937-8b9dcedd5938",
+    "id": 123133,
+    "context": "contentBuilder"
+  },
+  {
+    "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles/vue_formulate_styles.html",
+    "bldrId": "72f0a273-467b-427e-b032-978d81809fcf",
+    "id": 123283,
+    "context": "contentBuilder"
   }
 ]
