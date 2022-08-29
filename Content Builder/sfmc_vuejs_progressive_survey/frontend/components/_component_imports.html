@@ -15,7 +15,7 @@
   var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
   var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
   var map = applicationConfigurationJSON.map;
-
+  
   var unauthorizedUser = Platform.Function.ContentBlockByName(map.content_block.unauthorized_user)
   var brandingBar = Platform.Function.ContentBlockByName(map.content_block.branding_bar)
   var surveyForm = Platform.Function.ContentBlockByName(map.content_block.survey_form)
@@ -39,12 +39,12 @@
   const applicationConfiguration = <ctrl:var name=applicationConfiguration />
   const surveyConfiguration = <ctrl:var name=surveyConfiguration />
 
-     const isAuthorized = <ctrl:var name=authorized />
-  // const subscriberId = <ctrl:var name=subscriberId />
-  // const emailAddress = <ctrl:var name=emailAddress />
-  // const subscriberKey = <ctrl:var name=subscriberKey />
-  // const jobId = <ctrl:var name=jobId /> 
+  const isAuthorized = <ctrl:var name=authorized />
+  const subscriberId = <ctrl:var name=subscriberId />
+  const emailAddress = <ctrl:var name=emailAddress />
+  const subscriberKey = <ctrl:var name=subscriberKey />
   const survey = "<ctrl:var name=survey />"
+
 
   <ctrl:var name=brandingBar />
   <ctrl:var name=unauthorizedUser />

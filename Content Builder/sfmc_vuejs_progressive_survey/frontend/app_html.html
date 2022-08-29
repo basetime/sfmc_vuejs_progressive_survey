@@ -7,15 +7,15 @@
     </v-row>
     <v-row class="" v-show="authorized">
       <v-col class="mx-auto" cols="12">
-       <survey-form-horizontal></survey-form-horizontal>
+       <survey-form-horizontal :surveyid="survey" :survey="surveyConfiguration"></survey-form-horizontal>
       </v-col>
     </v-row>
     <v-row v-show="!authorized">
-      <unauthorized-user :branding="branding" :unauthorized="surveyConfiguration.unauthorized">
+      <unauthorized-user :branding="branding" :unauthorized="applicationConfiguration.unauthorized">
       </unauthorized-user>
     </v-row>
     <v-row>
-      <legal :branding="branding" :legal="surveyConfiguration.legal"></legal>
+      <legal :branding="branding"></legal>
     </v-row>
   </v-main>
 </v-app>

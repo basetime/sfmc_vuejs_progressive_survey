@@ -4,11 +4,11 @@ What is this component?
 Vue.component('survey-form-horizontal', {
   props: {
     branding: Object,
-    surveyConfiguration: Object,
+    survey: Array,
+    surveyid: String,
     formSubmitting: Boolean
   },
   beforeMount() {
-    this.setupFormValidation();
   },
   data() {
     return {
@@ -16,130 +16,52 @@ Vue.component('survey-form-horizontal', {
       validation: {},
       formValidation: {},
       formInputs: {},
-      currentStep: 3,
+      currentStep: 1,
       forceRender: true,
-      survey: [
-        {
-          label: "Contact Info",
-          subtitle: "",
-          copy: "We're excited to work with you! Please take a moment to complete a few questions to confirm you're ready for your upcoming installation service.",
-          form: [
-            {
-              "type": "text",
-              "label": "Address of Installation",
-              "name": "address",
-              "disabled": true,
-              "rules": {
-                "required": value => !!value || 'Required'
-              }
-            },
-            {
-              "type": "text",
-              "label": "Primary contact phone number",
-              "name": "phoneNumber",
-              "disabled": true,
-              "validation": "^required:trim|matches:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im",
-              "validation-messages": {
-                "required": "Phone Number is required.",
-                "matches": "Phone number is invalid."
-              }
-            },
-          ]
-        },
-        {
-          label: "Delivery",
-          subtitle: "",
-          copy: "Please choose from the dropdown below to confirm the status of delivery of your product from IKEA. <i>Please note the delivery of items should be adjacent to the room where cabinets will be installed.</i>",
-          form: [{
-            "type": "select",
-            "name": "deliveryStatus",
-            "label": "Please select delivery status",
-            "options": [
-              { value: 'delivered', text: 'My full product order has been delivered' },
-              { value: 'pending', text: 'My full product order will be delivered by my install start date' },
-              { value: 'delayed', text: 'My full product order will not be delivered until after my install start date' },
-              { value: 'other', text: 'Other' },
-            ]
-          }],
-          conditionals: [{
-            name: 'deliveryStatus',
-            value: {
-              delayed: "Installations that required additional service visits may be subject to go-back fees.",
-              other: "A representative from IKEA will be in touch for more information."
-            }
-          }]
-        },
-        {
-          label: "Requirements",
-          subtitle: "",
-          copy: "Please verify the following items and ensure completion prior to your installation start date.",
-          form: [
-            {
-              "type": "checkbox",
-              "label": "",
-              "name": "requirements",
-              "options": [
-                { value: 'decisonMaker', label: 'You or a decision maker 18 years or older will be present during the installation service.' },
-                { value: 'inventoryComplete', label: 'Inventory of all product orders will be completed prior to the arrival of the installation crew.' },
-                { value: 'parking', label: 'Parking will be available at the project site for the installation crew.' },
-                { value: 'appliencesMoved', label: 'Appliances will be in and adjacent room, on-site, and disconnected or appliance specifications provided to IKEA Kitchen Services.' },
-                { value: 'demolitionComplete', label: 'All necessary general contracting work, included but is not limited to demolition of existing cabinets, wall plastering, electrical, plumbing, and flooring installation, will be completed prior to the arrival of the installation crew.' },
-                { value: 'buildSpace', label: 'Space on-site and near the Kitchen will be available for installation crew to complete assembly and cutting of materials.' },
-                { value: 'petsAndChildren', label: 'Pets and children will be safely away from installation site.' },
-                { value: 'requirementsAcknowledged', label: '<b>I acknowledge that if the requirements listed here are not completed prior to the start date of my installation I will be subject to a minimum go-back fee of $250.00.</b><span style="color: red";>* Required</span>' },
-              ]
-            }
-          ]
-        },
-        {
-          label: "Verify",
-          subtitle: "",
-          copy: "Almost there! We just need to verify a couple more items.",
-          form: [
-            {
-              "type": "checkbox",
-              "label": "",
-              "name": "finalplans",
-              "options": [
-                { value: 'provided', label: 'I have provided the final plan from my Kitchen Planner to IKEA Kitchen Services via my Customer Portal. <a href="#" target="_blank">Need to upload your plan? Click here.</a>' }
-              ]
-            },
-            {
-              "type": "radio",
-              "label": "What type of flooring will you have in your kitchen?",
-              "name": "flooringOption",
-              "options": [
-                { value: 'fixed', label: 'Fixed', tooltip: 'Here is a tooltip for Fixed Flooring details. Not sure how long this will be.' },
-                { value: 'floating', label: 'Floating', tooltip: 'Here is a tooltip for Floating Flooring details. Not sure how long this will be.' }
-              ]
-            },
-            {
-              "type": "radio",
-              "label": "I need a Certificate of Insurance (COI) for my installation service.",
-              "name": "COI",
-              "options": [
-                { value: 'No', label: 'No' },
-                { value: 'Yes', label: 'Yes' }
-              ]
-            },
-          ]
-        }]
+      subscriber: {
+        subscriberKey: subscriberKey,
+        subscriberId: subscriberId,
+        emailAddress: emailAddress
+      }
     }
   },
   methods: {
-    validate () {
-      this.survey.map(s => {
-        const ref = this.$ref;
-        const formRef = ref[`form_${s.label}`];
-        return formRef.validate()
-      }) 
+    validate() {
+      const refs = this.$refs
+      const refKeys = Object.keys(refs)
+      const sectionOutput = []
+      refKeys.forEach((key) => {
+        const refArray = refs[key]
+        const hasErrors = refArray.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false
+        console.log(hasErrors)
+        sectionOutput.push(hasErrors)
+      })
+      return sectionOutput
+    },
+    validateSection(sectionIndex) {
+      const refs = this.$refs
+      const refKeys = Object.keys(refs)
+      const section = refs[refKeys[sectionIndex]]
+      const hasErrors = section && section.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false
+      return hasErrors
+     
     },
     submitSurveyForm(event) {
       let emit = this.formInputs
-      let valid = this.validate();
-      console.log('valid', valid)
-      //console.log(event)
-      //this.$emit('submit-preference-form', emit)
+      const validate = this.validate();
+      const hasErrors = validate.some((section) => section !== false)
+
+      if(!hasErrors){
+        emit.surveyId = this.surveyid
+        emit.subscriberKey = this.subscriber.subscriberKey;
+        emit.subscriberId = this.subscriber.subscriberId;
+        emit.emailAddress = this.subscriber.emailAddress;
+
+        console.log(emit)
+        this.$emit('submit-preference-form', emit)
+      } else {
+        Vue.$toast.error(`Please fill in all required fields`)
+      }
     },
     enableFormFields() {
       const section = this.currentStep - 1;
@@ -156,15 +78,21 @@ Vue.component('survey-form-horizontal', {
     nextSection() {
       const section = this.currentStep - 1;
       const formSection = this.survey[section].form;
+      console.log(section)
+      const hasErrors = this.validateSection(section)
 
-      formSection.forEach(input => {
-        const inputName = input.name;
-        if(Object.prototype.hasOwnProperty.call(input, 'disabled')){
-          input.disabled = true;
-        }
-      })
+      if(!hasErrors){
+        formSection.forEach(input => {
+          const inputName = input.name;
+          if(Object.prototype.hasOwnProperty.call(input, 'disabled')){
+            input.disabled = true;
+          }
+        })
 
-      this.currentStep = this.currentStep + 1
+        this.currentStep = this.currentStep + 1
+      } else {
+        Vue.$toast.error(`Please fill in all Required fields`)
+      }
     },
     setupFormValidation() {
       let validationObj = {};
@@ -203,6 +131,9 @@ Vue.component('survey-form-horizontal', {
     },
     labels() {
       return this.survey.map((s) => s.label)
+    },
+    references() {
+      return this.survey.map((s) => s.ref)
     },
     conditionals() {
       const currentFormSectionIndex = this.currentStep - 1;
@@ -250,10 +181,11 @@ Vue.component('survey-form-horizontal', {
 <section>
   <v-row class="mx-auto">
     <v-col class="mx-auto" cols="12" md="9">
-      <v-stepper light v-model="currentStep">
+      <v-stepper flat light v-model="currentStep">
         <v-stepper-header>
           <span v-for="(label, index) in labels" :key="index + 1">
           <v-stepper-step
+            color="#2e3543"
             :complete="currentStep > index + 1"
             :step="index + 1"
           >
@@ -265,7 +197,7 @@ Vue.component('survey-form-horizontal', {
         </v-stepper-header>
         <span v-for="(s, index) in survey" :key="index + 1">
           <v-stepper-content class="flex justify-space-around" :step="index + 1">
-            <v-card color="" class="mb-12 pa-5" min-height="250">
+            <v-card flat color="" class="mb-12 pa-5" min-height="250">
               <v-row  class="justify-end">
                 <v-icon
                   v-if="hasDisabled" 
@@ -277,10 +209,12 @@ Vue.component('survey-form-horizontal', {
               </v-row>
               <v-row class="justify-center">
                 <v-col cols="12" md="10" class="">
+                  <!-- Section Copy-->
                   <span v-html="s.copy"></span> 
                   <v-divider class="my-3"></v-divider>
                     <span v-for="(f, index) in s.form" :key="index">
-                      <v-form :ref="'form_' + s.label">
+                      <v-form :ref="'form_' + s.ref">
+              
                       <!-- handle text inputs -->
                       <v-col
                         v-if="f.type === 'text'"
@@ -292,9 +226,9 @@ Vue.component('survey-form-horizontal', {
                           v-model="formInputs[f.name]"
                           :id="f.name"
                           :disabled="f.disabled"
-                          :rules="f.rules && Object.values(f.rules) || []"
-                          :update:error="true"
-                          rounded
+                          :required="f.required"
+                          :rules="Object.values(f.rules)"
+                          update:error="true"
                           outlined
                         ></v-text-field>
                       </v-col>
@@ -305,13 +239,25 @@ Vue.component('survey-form-horizontal', {
                         md="10"
                       >
                         <span v-if="f.label">{{f.label}}</span>
-                        <v-checkbox v-for="(o, index) in f.options" :key="o.label" v-model="formInputs[o.value]">
-                          <template v-slot:label>
-                            <div>
-                              <span v-html="o.label"></span>
-                            </div>
-                          </template>
-                        </v-checkbox>
+                        <span v-if="f.rules">
+                          <v-checkbox v-for="(o, index) in f.options" :rules="Object.values(f.rules)" :key="o.label" v-model="formInputs[o.value]">
+                            <template v-slot:label>
+                              <div>
+                                <span v-html="o.label"></span>
+                              </div>
+                            </template>
+                          </v-checkbox>
+                        </span>
+                        <span v-else>
+                          <v-checkbox v-for="(o, index) in f.options" :key="o.label" v-model="formInputs[o.value]">
+                            <template v-slot:label>
+                              <div>
+                                <span v-html="o.label"></span>
+                              </div>
+                            </template>
+                          </v-checkbox>
+                        </span>
+
                       </v-col>
                       <!-- handle radio inputs -->
                       <v-col  
@@ -322,6 +268,7 @@ Vue.component('survey-form-horizontal', {
                         <span v-if="f.label">{{f.label}}</span>
                         <v-radio-group
                           v-model="formInputs[f.name]"
+                          :rules="Object.values(f.rules)"
                           row
                         >
                         <span v-for="r in f.options" :key="r.label">
@@ -353,30 +300,50 @@ Vue.component('survey-form-horizontal', {
                         cols="12"
                         md="8"
                       >
-                        <v-select
+                      
+                        <v-col
+                          cols="12"
+                        >
+                           <v-select
                           :items="f.options"
                           :label="f.label"
                           v-model="formInputs[f.name]"
+                          :rules="Object.values(f.rules)"
                           rounded
+                          required
                           outlined
                         ></v-select>
+                        </v-col>
                       </v-col>
                     </v-form>
-                    </span>
-                  <!-- <formulate-form v-if="forceRender" @validation="handleValidate" class="my-5" :values="formInputs"
-                    v-model="formInputs" :schema="s.form" /> -->
-                    <div :id="'conditional_' + (index + 1)"></div>
+                    <v-row>
+                      <v-col
+                      cols="12"
+                      >
+                        <span v-if="formInputs[f.name] === 'My full product order will not be delivered until after my install start date'">
+                          <span class="mdi mdi-alert-circle" style="color: blue;"></span>
+                          Installations that required additional service visits may be subject to go-back fees.
+                        </span>
+
+                        <span v-if="formInputs[f.name] === 'Other'">
+                          <span class="mdi mdi-alert-circle" style="color: blue;"></span>
+                            A representative from IKEA will be in touch for more information.
+                        </span>
+
+                      </v-col>
+                    </v-row>
+                    </span> 
                 </v-col>
               </v-row>
 
             </v-card>
-            <v-btn v-if="currentStep !== 1" color="primary" @click="currentStep = currentStep - 1">
+            <v-btn v-if="currentStep !== 1" dark color="#0058a3" @click="currentStep = currentStep - 1">
               Back
             </v-btn>
-            <v-btn v-if="currentStep !== survey.length" color="primary" @click="currentStep = currentStep + 1">
-              Continue
+            <v-btn v-if="currentStep !== survey.length" dark color="#0058a3" @click="nextSection()">
+              Next
             </v-btn>
-            <v-btn v-if="currentStep === survey.length" color="primary" @click="submitSurveyForm">
+            <v-btn v-if="currentStep === survey.length" dark color="#0058a3" @click="submitSurveyForm">
               Submit
             </v-btn>
             <v-btn @click="formInputs = {}" text>

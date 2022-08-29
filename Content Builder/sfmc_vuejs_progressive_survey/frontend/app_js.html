@@ -10,7 +10,12 @@ new Vue({
       applicationConfiguration,
       surveyConfiguration,
       formSubmitting: false,
-      survey: survey
+      survey,
+      subscriber: {
+        subscriberKey: subscriberKey,
+        emailAddress: emailAddress,
+        subscriberId: subscriberId
+      }
     }
   },
   mounted() {

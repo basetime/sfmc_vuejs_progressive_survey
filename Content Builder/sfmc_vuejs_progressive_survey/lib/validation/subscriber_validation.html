@@ -2,7 +2,6 @@
   set @subscriberkey = AttributeValue("_subscriberkey")
   set @subscriberid = AttributeValue("subscriberid")
   set @emailAddress = AttributeValue("emailaddr")
-  set @jobid = AttributeValue("jobid")
 ]%%
 
 <script runat="server">
@@ -11,10 +10,9 @@
   var subscriberKey = Stringify(Variable.GetValue("@subscriberkey"));
   var emailAddress = Stringify(Variable.GetValue("@emailAddress"));
   var subscriberId = Variable.GetValue("@subscriberid");
-  var jobId = Variable.GetValue("@jobid");
 
   var authorized = 0;
-  if(subscriberId !== 0 && jobId !== 0) {
+  if(subscriberId !== 0) {
     authorized = 1;
   }
 
