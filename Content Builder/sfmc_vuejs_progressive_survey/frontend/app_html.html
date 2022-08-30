@@ -7,7 +7,7 @@
     </v-row>
     <v-row class="" v-show="authorized">
       <v-col class="mx-auto" cols="12">
-       <survey-form-horizontal :surveyid="survey" :survey="surveyConfiguration"></survey-form-horizontal>
+       <survey-form-horizontal @submit-preference-form="onSubmitPreferenceForm" :surveyid="survey" :survey="surveyConfiguration"></survey-form-horizontal>
       </v-col>
     </v-row>
     <v-row v-show="!authorized">

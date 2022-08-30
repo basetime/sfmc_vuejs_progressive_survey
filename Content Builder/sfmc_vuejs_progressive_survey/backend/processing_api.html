@@ -22,7 +22,7 @@
 
   var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
   var surveyConfigurationJSON = Platform.Function.ParseJSON(surveyConfiguration)
-  var surveyDataExtension = surveyConfigurationJSON.dataExtension.externalKey;
+  var surveyDataExtension = "D239D33B-E050-4DBF-976C-38EDA008BEB5";
 
   var applicationConfigurationPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\app_configuration'
   var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
@@ -49,14 +49,11 @@
       var updateData = postJSON.postData;
       var payload = [];
 
-      for (var u = 0; u < updateData.length; u++) {
-        var update = updateData[u];
-
         payload.push({
-          CustomerKey: preferenceCenterDataExtensionExternalKey,
-          Properties: update
+          CustomerKey: surveyDataExtension,
+          Properties: updateData
         })
-      }
+    
 
       //update item
       reqConfig = {

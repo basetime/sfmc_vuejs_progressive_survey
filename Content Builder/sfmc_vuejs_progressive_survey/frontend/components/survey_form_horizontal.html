@@ -57,7 +57,7 @@ Vue.component('survey-form-horizontal', {
         emit.subscriberId = this.subscriber.subscriberId;
         emit.emailAddress = this.subscriber.emailAddress;
 
-        console.log(emit)
+        // console.log(emit)
         this.$emit('submit-preference-form', emit)
       } else {
         Vue.$toast.error(`Please fill in all required fields`)

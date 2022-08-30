@@ -29,23 +29,29 @@ new Vue({
       })
     },
     onUpdateDarkMode() {
-      this.darkMode = !this.darkMode
+      this.darkMode = !this.darkMode 
     },
     async onSubmitPreferenceForm($event) {
       try {
         const postData = [];
-
+        const event = $event;
         console.log($event)
+        for(const e in event){
+          postData.push({
+            Name: e,
+            Value: event[e]
+          })
+        }
 
-        // const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {
-        //   postData
-        // })
+        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {
+          postData
+        })
 
-        // if(submitRequest.data.Status === 'OK'){
-        //   Vue.$toast.success(`Thank you for updating your preferences!`)
-        //   this.getExistingPreferences();
-        // }
-
+        console.log(submitRequest)
+        if(submitRequest.data.Status === 'OK'){
+          Vue.$toast.success(`Thank you for updating your preferences!`)
+          this.getExistingPreferences();
+        }
 
       } catch (err) {
         console.log(err)
