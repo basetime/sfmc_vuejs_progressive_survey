@@ -1,0 +1,81 @@
+<script runat="server">
+  Platform.Load('core', '1.1')
+  
+    var payload = {
+      "address": "test",
+      "PhoneNumber": "3333333333",
+      "Delivery__c": "My full product order will not be delivered until after my install start date",
+      "Customer_on_site__c": false,
+      "Inventory_to_be_completed__c": false,
+      "Parking_available1__c": false,
+      "Appliances_on_site_or_specs_provided__c": false,
+      "GC_completed__c": false,
+      "Workspace_provided__c": false,
+      "Pets_and_children_off_site__c": false,
+      "Go_back_acknowledged__c": false,
+      "Final_plan_provided__c": false,
+      "Type_of_Floor__c": "Floating Floors",
+      "COI__c": "No",
+      "surveyId": "20220701",
+      "subscriberKey": "",
+      "subscriberId": 0,
+      "emailAddress": ""
+  }
+  
+    for(var p in payload){
+      var key = '@' + p
+      Variable.SetValue(key, payload[p]);
+    }
+  
+    try {
+  </script>
+  
+  %%[
+  var @subscriberRows
+  /* 
+  Service Appointment Id will be passed from email/CloudPagesURL function
+  Work_Order__c field is what's needed to get the correct work order to update
+  */
+  set @subscriberRows = RetrieveSalesforceObjects(
+     "ServiceAppointment",
+     "Work_Order__c, AccountId",
+     "Id", "=", "08p5G0000030xhFQAQ" )
+  
+  if RowCount(@subscriberRows) == 1 then /* there should only be one row */
+    var @subscriberRow
+    set @subscriberRow = Row(@subscriberRows, 1)
+    set @Work_Order__c = Field(@subscriberRow, "Work_Order__c")
+    
+    set @updateRecord = UpdateSingleSalesforceObject(
+        "WorkOrder", @Work_Order__c,
+        "Delivery__c", @Delivery__c,
+        "Customer_on_site__c", @Customer_on_site__c,
+        "Inventory_to_be_completed__c", @Inventory_to_be_completed__c,
+        "Parking_available1__c", @Parking_available1__c,
+        "Appliances_on_site_or_specs_provided__c", @Appliances_on_site_or_specs_provided__c,
+        "GC_completed__c", @GC_completed__c,
+        "Workspace_provided__c", @Workspace_provided__c,
+        "Pets_and_children_off_site__c", @Pets_and_children_off_site__c,
+        "Go_back_acknowledged__c", @Go_back_acknowledged__c,
+        "Final_plan_provided__c", @Final_plan_provided__c,
+        "Type_of_Floor__c", @Type_of_Floor__c,
+        "COI__c", @COI__c
+       )
+  
+  endif
+  ]%%
+  
+  <script runat="server">
+  
+  } catch (err){
+    Write(Stringify(err))
+  }
+  </script>
+  
+  %%=v(RowCount(@subscriberRows))=%%
+  
+  
+  
+  
+  
+  
