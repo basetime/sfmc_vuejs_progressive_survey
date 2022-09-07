@@ -1,6 +1,3 @@
-%%=TreatAsContent(ContentBlockByName('Content Builder\sfmc_vuejs_progressive_survey\frontend\styles\submit_button_animation'))=%%
-%%=TreatAsContent(ContentBlockByName('Content Builder\sfmc_vuejs_progressive_survey\lib\validation\subscriber_validation'))=%%
-
 <script runat="server">
   Platform.Load("core", "1.1.1");
 
@@ -15,13 +12,13 @@
   var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
   var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
   var map = applicationConfigurationJSON.map;
-  
-  var unauthorizedUser = Platform.Function.ContentBlockByName(map.content_block.unauthorized_user)
-  var brandingBar = Platform.Function.ContentBlockByName(map.content_block.branding_bar)
-  var surveyForm = Platform.Function.ContentBlockByName(map.content_block.survey_form)
-  var surveyFormHorizontal = Platform.Function.ContentBlockByName(map.content_block.survey_form_horizontal)
-  var legal = Platform.Function.ContentBlockByName(map.content_block.legal)
-  var appJS = Platform.Function.ContentBlockByName(map.content_block.app_js)
+
+
+  var unauthorizedUser = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\unauthorized_user")
+  var brandingBar = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\branding_bar")
+  var surveyFormHorizontal = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\survey_form_horizontal")
+  var legal = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\legal")
+  var appJS = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\app_js")
 
 </script>
 
@@ -37,7 +34,8 @@
   Vue.use(VTooltip)
 
   const applicationConfiguration = <ctrl:var name=applicationConfiguration />
-  const surveyConfiguration = <ctrl:var name=surveyConfiguration />
+  const surveyConfigurationJSON = <ctrl:var name=surveyConfiguration />
+  const surveyConfiguration = surveyConfigurationJSON.survey;
 
   const isAuthorized = <ctrl:var name=authorized />
   const subscriberId = <ctrl:var name=subscriberId />
@@ -48,7 +46,6 @@
 
   <ctrl:var name=brandingBar />
   <ctrl:var name=unauthorizedUser />
-  <ctrl:var name=surveyForm />
   <ctrl:var name=surveyFormHorizontal />
   <ctrl:var name=legal />
   <ctrl:var name=appJS />

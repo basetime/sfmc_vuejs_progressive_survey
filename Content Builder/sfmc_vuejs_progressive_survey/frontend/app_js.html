@@ -3,8 +3,7 @@ new Vue({
   vuetify: new Vuetify(),
   data() {
     return {
-      authorized: isAuthorized === 1 ? true : false,
-      darkMode: false,
+      authorized: true,
       debug: true,
       channels: [],
       applicationConfiguration,
@@ -23,13 +22,7 @@ new Vue({
   },
   methods: {
     debugData() {
-      console.log({
-        config: this.applicationConfiguration,
-        surveyConfiguration: this.surveyConfiguration
-      })
-    },
-    onUpdateDarkMode() {
-      this.darkMode = !this.darkMode 
+      this.debug && console.log(this.$data)
     },
     async onSubmitPreferenceForm($event) {
       try {
@@ -64,10 +57,6 @@ new Vue({
       return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`
     },
     branding() {
-      if (this.applicationConfiguration.branding.supportDarkMode && this.darkMode) {
-        return this.applicationConfiguration.branding.dark
-      }
-
       return this.applicationConfiguration.branding.default
     }
   }

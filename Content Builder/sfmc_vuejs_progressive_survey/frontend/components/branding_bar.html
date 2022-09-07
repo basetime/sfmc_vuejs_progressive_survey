@@ -22,17 +22,14 @@ methods: {
 },
 template: `
 <div>
-  <!-- <v-card elevation="0"> -->
-    <v-app-bar elevation="0" :color="branding.colors.paper" height="100">
-      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-
+    <v-app-bar elevation="3" :color="branding.colors.paper" height="100">
       <v-toolbar-title>
-        <v-img height="100%" width="auto" :src="branding.logo"></v-img>
+        <a :href="applicationConfiguration.branding.websiteURL" target="_blank" >
+          <img :height="applicationConfiguration.branding.logoScale" :alt="applicationConfiguration.branding.brandName" :src="branding.logo" />
+        </a>
       </v-toolbar-title>
-
       <v-spacer></v-spacer>
     </v-app-bar>
-  <!-- </v-card> -->
 </div>
 `
 })

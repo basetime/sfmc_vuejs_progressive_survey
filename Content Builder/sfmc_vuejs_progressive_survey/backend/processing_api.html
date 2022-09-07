@@ -22,16 +22,15 @@
 
   var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
   var surveyConfigurationJSON = Platform.Function.ParseJSON(surveyConfiguration)
-  var surveyDataExtension = "D239D33B-E050-4DBF-976C-38EDA008BEB5";
+  var surveyDataExtension = "{{surveyDataExtensionKey}}";
 
   var applicationConfigurationPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\app_configuration'
   var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
   var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
   var map = applicationConfigurationJSON.map;
 
-
-  Platform.Function.ContentBlockByName(map.content_block.ssjs.wsProxy)
-  Platform.Function.ContentBlockByName(map.content_block.ssjs.utils)
+  Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\lib\\ssjs\\wsProxy")
+  Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\lib\\ssjs\\utils")
 
   var fns = {
     utils: util(),

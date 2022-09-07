@@ -2,12 +2,12 @@
   <v-main>
     <v-row overflow="hidden">
       <v-col cols="12">
-        <branding-bar @update-dark-mode="onUpdateDarkMode" :application-configuration="applicationConfiguration" :dark-mode="darkMode" :branding="branding"></branding-bar>
+        <branding-bar :application-configuration="applicationConfiguration" :branding="branding"></branding-bar>
       </v-col>
     </v-row>
     <v-row class="" v-show="authorized">
       <v-col class="mx-auto" cols="12">
-       <survey-form-horizontal @submit-preference-form="onSubmitPreferenceForm" :surveyid="survey" :survey="surveyConfiguration"></survey-form-horizontal>
+       <survey-form-horizontal :debug="debug" @submit-preference-form="onSubmitPreferenceForm" :surveyid="survey" :survey="surveyConfiguration"></survey-form-horizontal>
       </v-col>
     </v-row>
     <v-row v-show="!authorized">
