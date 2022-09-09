@@ -1,25 +1,11 @@
 /*
-What is this component?
+Branding bar component
 */
 Vue.component('branding-bar', {
-props: {
-branding: Object,
-applicationConfiguration: Object
-},
-mounted() {
-
-},
-data() {
-return {
-darkModeToggle: false
-}
-},
-watch: {
-
-},
-methods: {
-
-},
+  props: {
+    branding: Object,
+    applicationConfiguration: Object
+  },
 template: `
 <div>
     <v-app-bar elevation="3" :color="branding.colors.paper" height="100">

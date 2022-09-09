@@ -39,14 +39,6 @@
         "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey"
       },
       {
-        "id": 105864,
-        "name": "20220701",
-        "parentId": 105863,
-        "categoryType": "asset",
-        "rootFolder": false,
-        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/20220701"
-      },
-      {
         "id": 105865,
         "name": "frontend",
         "parentId": 105860,
@@ -61,14 +53,6 @@
         "categoryType": "asset",
         "rootFolder": false,
         "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
-      },
-      {
-        "id": 105867,
-        "name": "styles",
-        "parentId": 105865,
-        "categoryType": "asset",
-        "rootFolder": false,
-        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles"
       },
       {
         "id": 105868,
@@ -93,26 +77,21 @@
         "categoryType": "asset",
         "rootFolder": false,
         "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/validation"
+      },
+      {
+        "id": 120494,
+        "name": "DF22",
+        "parentId": 105864,
+        "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/DF22"
+      },
+      {
+        "id": 35088,
+        "name": "Content Builder",
+        "parentId": 0,
+        "folderPath": "Content Builder"
       }
     ],
     "assets": [
-      {
-        "bldrId": "841cf33e-9596-4e7a-987d-e43b50e0b9fc",
-        "name": "functions",
-        "assetType": {
-          "id": 220,
-          "name": "codesnippetblock"
-        },
-        "category": {
-          "id": 105861,
-          "name": "backend",
-          "parentId": 105860,
-          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend"
-        },
-        "content": "<script runat=\"server\">\n  Platform.Load('core', '1.1')\n\n  //updated comment\n</script>",
-        "id": 111555,
-        "customerKey": "0f305a87-452a-47b3-9461-4dac15830204"
-      },
       {
         "bldrId": "b21f212f-5efb-4b26-8102-8c05034ca32e",
         "name": "processing_api",
@@ -126,7 +105,7 @@
           "parentId": 105860,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend"
         },
-        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n  Platform.Response.SetResponseHeader(\"Access-Control-Allow-Origin\", \"*\");\n  Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');\n  Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');\n  Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');\n  Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');\n  Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');\n  Platform.Response.SetResponseHeader('Content-Security-Policy', \"default-src 'self'\");\n\n  var postData = Platform.Request.GetPostData();\n  var postJSON = Platform.Function.ParseJSON(postData);\n\n  var action = Platform.Request.GetQueryStringParameter('action');\n  var payload = Platform.Request.GetQueryStringParameter('payload');\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations' + '\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n  var surveyConfigurationJSON = Platform.Function.ParseJSON(surveyConfiguration)\n  var surveyDataExtension = \"D239D33B-E050-4DBF-976C-38EDA008BEB5\";\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n  var map = applicationConfigurationJSON.map;\n\n\n  Platform.Function.ContentBlockByName(map.content_block.ssjs.wsProxy)\n  Platform.Function.ContentBlockByName(map.content_block.ssjs.utils)\n\n  var fns = {\n    utils: util(),\n    wsProxy: wsProxy()\n  }\n\n  var res = '';\n  var reqConfig = {};\n\n  //Begin API Control Block\n  //Run specific set of code/functions based on the 'action' parameter\n  //After code is finished, the 'response' function returns the output and 'break' stops the processing\n  switch (action) {\n    case 'submitPreferenceForm': \n      var updateData = postJSON.postData;\n      var payload = [];\n\n        payload.push({\n          CustomerKey: surveyDataExtension,\n          Properties: updateData\n        })\n    \n\n      //update item\n      reqConfig = {\n        soapObjName: \"DataExtensionObject\",\n        options: {\n          SaveOptions: [{\n            PropertyName: \"*\",\n            SaveAction: \"UpdateAdd\"\n          }]\n        },\n        payload: payload\n      }\n\n      var updatePreferences = fns.wsProxy.update(reqConfig);\n      res = updatePreferences;\n      break;\n\n\n    case 'getCurrentPreferences':\n      var preferences;\n\n      reqConfig = {\n        dataExtensionKey: preferenceCenterDataExtensionExternalKey,\n        cols: [],\n        filter: {\n          Property: \"subscriberId\",\n          SimpleOperator: \"equals\",\n          Value: postJSON.subscriberId\n        }\n      };\n\n      var preferenceRequest = fns.utils.getDERecords(reqConfig, fns);\n\n      if (preferenceRequest.Status === 'OK') {\n        preferences = fns.utils.formatResult(preferenceRequest.Results, 'Properties')\n        res = {\n          Status: 'OK',\n          Results: preferences\n        }\n      } else {\n        res = preferenceRequest;\n      }\n\n      break;\n  };\n\n  fns.utils.response(res)\n\n\n</script>",
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1\");\n  Platform.Response.SetResponseHeader(\"Access-Control-Allow-Origin\", \"*\");\n  Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');\n  Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');\n  Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');\n  Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');\n  Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');\n  Platform.Response.SetResponseHeader('Content-Security-Policy', \"default-src 'self'\");\n\n  var postData = Platform.Request.GetPostData();\n  var postJSON = Platform.Function.ParseJSON(postData);\n\n  var action = Platform.Request.GetQueryStringParameter('action');\n  var payload = Platform.Request.GetQueryStringParameter('payload');\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations' + '\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n  var dataExtensionKeyRegex = /(?<=dataExtensionKey\\\":\\s\\\")([a-zA-Z0-9-_ ]+)/\n  var dataExtensionKeyMatch = surveyConfiguration.match(dataExtensionKeyRegex)\n  \n  var dataExtensionKey;\n  if(dataExtensionKeyMatch.length > 0){\n    dataExtensionKey = dataExtensionKeyMatch[0]\n  }\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n\n  Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\lib\\\\ssjs\\\\wsProxy\")\n  Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\lib\\\\ssjs\\\\utils\")\n\n  var fns = {\n    utils: util(),\n    wsProxy: wsProxy()\n  }\n\n  var res = '';\n  var reqConfig = {};\n\n  //Begin API Control Block\n  //Run specific set of code/functions based on the 'action' parameter\n  //After code is finished, the 'response' function returns the output and 'break' stops the processing\n  switch (action) {\n    case 'submitPreferenceForm': \n      var updateData = postJSON.postData;\n      var payload = [];\n\n        payload.push({\n          CustomerKey: dataExtensionKey,\n          Properties: updateData\n        })\n\n      //update item\n      reqConfig = {\n        soapObjName: \"DataExtensionObject\",\n        options: {\n          SaveOptions: [{\n            PropertyName: \"*\",\n            SaveAction: \"UpdateAdd\"\n          }]\n        },\n        payload: payload\n      }\n\n      var updatePreferences = fns.wsProxy.update(reqConfig);\n      res = updatePreferences\n      break;\n\n\n    case 'getCurrentPreferences':\n      var preferences;\n\n      reqConfig = {\n        dataExtensionKey: preferenceCenterDataExtensionExternalKey,\n        cols: [],\n        filter: {\n          Property: \"subscriberId\",\n          SimpleOperator: \"equals\",\n          Value: postJSON.subscriberId\n        }\n      };\n\n      var preferenceRequest = fns.utils.getDERecords(reqConfig, fns);\n\n      if (preferenceRequest.Status === 'OK') {\n        preferences = fns.utils.formatResult(preferenceRequest.Results, 'Properties')\n        res = {\n          Status: 'OK',\n          Results: preferences\n        }\n      } else {\n        res = preferenceRequest;\n      }\n\n      break;\n  };\n\n  fns.utils.response(res)\n\n\n</script>",
         "id": 111556,
         "customerKey": "9856812c-2278-48a7-98aa-fd2177cf6e3f"
       },
@@ -143,26 +122,9 @@
           "parentId": 105860,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations"
         },
-        "content": "{\n  \"branding\": {\n    \"brandName\": \"Basetime\",\n    \"websiteURL\": \"https://basetime.io\",\n    \"supportDarkMode\": \"false\",\n    \"default\": {\n      \"logo\": \"https://www.ikea.com/us/en/static/ikea-logo.f7d9229f806b59ec64cb.svg\",\n      \"colors\": {\n        \"primary\": \"#00FFFF\",\n        \"secondary\": \"blue\",\n        \"accent\": \"yellow\",\n        \"paper\": \"#fff\"\n      }\n    },\n    \"dark\": {\n      \"logo\": \"https://basetime.io/basetime-developer-network-logo.svg\",\n      \"colors\": {\n        \"primary\": \"#aadeeb\",\n        \"secondary\": \"#0098bc\",\n        \"accent\": \"#fc6833\",\n        \"paper\": \"#0f1d20\"\n      }\n    }\n  },\n  \"map\": {\n    \"content_block\": {\n      \"preference_options\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\preference_options\",\n      \"branding_bar\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\branding_bar\",\n      \"channel_drawer\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\channel_drawer\",\n      \"survey_form\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\survey_form\",\n      \"survey_form_horizontal\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\survey_form_horizontal\",\n      \"unauthorized_user\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\unauthorized_user\",\n      \"legal\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\legal\",\n      \"submit_button_animation\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\styles\\\\submit_button_animation\",\n      \"app_js\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\app_js\",\n      \"ssjs\": {\n        \"wsProxy\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\lib\\\\ssjs\\\\wsProxy\",\n        \"utils\": \"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\lib\\\\ssjs\\\\utils\"\n      }\n    }\n  },\n  \"unauthorized\": {\n    \"icon\": \"mdi-account-question\",\n    \"copy\": \"Looks like we can't find you in your system. <br> Please ensure you've reached this page from an Ikea email. <br><br> Visit <a href='https://www.ikea.com'>IKEA.com</a> to sign up for emails.\"\n  },\n  \"apiBaseURL\": \"https://mc1qn0yvnrq-lmv34mcgry2c8s60.pub.sfmc-content.com/kiho1ru5xff\"\n}",
+        "content": "{\n  \"branding\": {\n    \"brandName\": \"bldr.io\",\n    \"websiteURL\": \"https://www.bldr.io\",\n    \"logoScale\": \"50\",\n    \"default\": {\n      \"logo\": \"https://bldr.basetime.io/bldr-logo.png\",\n      \"colors\": {\n        \"primary\": \"#aadeeb\",\n        \"secondary\": \"#0098bc\",\n        \"accent\": \"#fc6833\",\n        \"paper\": \"#0f1d20\"\n      }\n    }\n  },\n  \"unauthorized\": {\n    \"icon\": \"mdi-account-question\",\n    \"copy\": \"Looks like we can't find you in your system. <br> Please ensure you've reached this page from an Ikea email. <br><br> Visit <a href='https://www.ikea.com'>IKEA.com</a> to sign up for emails.\"\n  },\n  \"apiBaseURL\": \"{{codeResourceURL}}\"\n}",
         "id": 111557,
         "customerKey": "81fd1e19-e50b-4d28-b112-ac4ea2fc8f63"
-      },
-      {
-        "bldrId": "0faf74c9-cbbc-4769-9422-0480f9232715",
-        "name": "survey_configuration",
-        "assetType": {
-          "id": 220,
-          "name": "codesnippetblock"
-        },
-        "category": {
-          "id": 105864,
-          "name": "20220701",
-          "parentId": 105863,
-          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/20220701"
-        },
-        "content": "[\n  {\n    ref: \"contact_info\",\n    label: \"Contact Info\",\n    subtitle: \"\",\n    copy: \"We're excited to work with you! Please take a moment to complete a few questions to confirm you're ready for your upcoming installation service.\",\n    form: [\n      {\n        \"type\": \"text\",\n        \"label\": \"Address of Installation*\",\n        \"name\": \"address\",\n        \"disabled\": true,\n        \"required\": true,\n        \"rules\": {\n          \"required\": (value) => !!value || 'Required'\n        }\n      },\n      {\n        \"type\": \"text\",\n        \"label\": \"Primary contact phone number*\",\n        \"name\": \"PhoneNumber\",\n        \"disabled\": true,\n        \"required\": true,\n        \"validation\": \"^required:trim|matches:/^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$/im\",\n        \"rules\": {\n          \"required\": (value) => !!value || 'Required',\n          \"match\": (value) => /^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$/.test(value) || 'Invalid Phone Number'\n        }\n      },\n    ]\n  },\n  {\n    ref: \"delivery\",\n    label: \"Delivery\",\n    subtitle: \"\",\n    copy: \"Please choose from the dropdown below to confirm the status of delivery of your product from IKEA. <i>Please note the delivery of items should be adjacent to the room where cabinets will be installed.</i>\",\n    form: [{\n      \"type\": \"select\",\n      \"name\": \"Delivery__c\",\n      \"label\": \"Please select delivery status\",\n      \"rules\": {\n        \"required\": (value) => !!value || 'Required',\n      },\n      \"options\": [\n        { value: 'My full product order has been delivered', text: 'My full product order has been delivered' },\n        { value: 'My full product order will be delivered by my install start date', text: 'My full product order will be delivered by my install start date' },\n        { value: 'My full product order will not be delivered until after my install start date', text: 'My full product order will not be delivered until after my install start date' },\n        { value: 'Other', text: 'Other' },\n      ]\n    }]\n  },\n  {\n    ref: \"requirements\",\n    label: \"Requirements\",\n    subtitle: \"\",\n    copy: \"Please verify the following items and ensure completion prior to your installation start date.\",\n    form: [\n      {\n        \"type\": \"checkbox\",\n        \"label\": \"\",\n        \"name\": \"requirements\",\n        \"options\": [\n          { value: 'Customer_on_site__c', label: 'You or a decision maker 18 years or older will be present during the installation service.' },\n          { value: 'Inventory_to_be_completed__c', label: 'Inventory of all product orders will be completed prior to the arrival of the installation crew.' },\n          { value: 'Parking_available1__c', label: 'Parking will be available at the project site for the installation crew.' },\n          { value: 'Appliances_on_site_or_specs_provided__c', label: 'Appliances will be in and adjacent room, on-site, and disconnected or appliance specifications provided to IKEA Kitchen Services.' },\n          { value: 'GC_completed__c', label: 'All necessary general contracting work, included but is not limited to demolition of existing cabinets, wall plastering, electrical, plumbing, and flooring installation, will be completed prior to the arrival of the installation crew.' },\n          { value: 'Workspace_provided__c', label: 'Space on-site and near the Kitchen will be available for installation crew to complete assembly and cutting of materials.' },\n          { value: 'Pets_and_children_off_site__c', label: 'Pets and children will be safely away from installation site.' }\n        ]\n      },\n      {\n        \"type\": \"checkbox\",\n        \"label\": \"\",\n        \"name\": \"go_backs\",\n        \"rules\": {\n          \"required\": (value) => !!value || 'Required',\n        },\n        \"options\": [\n          {\n            value: 'Go_back_acknowledged__c',\n            label: '<b>I acknowledge that if the requirements listed here are not completed prior to the start date of my installation I will be subject to a minimum go-back fee of $250.00.</b><span style=\"color: red\";>* Required</span>'\n          },\n        ]\n      },\n\n\n    ]\n  },\n  {\n    ref: \"verify\",\n    label: \"Verify\",\n    subtitle: \"\",\n    copy: \"Almost there! We just need to verify a couple more items.\",\n    form: [\n      {\n        \"type\": \"checkbox\",\n        \"label\": \"\",\n        \"name\": \"Final_plan_provided__c\",\n        \"rules\": {\n          \"required\": (value) => !!value || 'Required',\n        },\n        \"options\": [\n          { value: 'Final_plan_provided__c', label: 'I have provided the final plan from my Kitchen Planner to IKEA Kitchen Services via my Customer Portal. <a href=\"#\" target=\"_blank\">Need to upload your plan? Click here.</a>' }\n        ]\n      },\n      {\n        \"type\": \"radio\",\n        \"label\": \"What type of flooring will you have in your kitchen?\",\n        \"name\": \"Type_of_Floor__c\",\n        \"rules\": {\n          \"required\": (value) => !!value || 'Required',\n        },\n        \"options\": [\n          { value: 'fixed', label: 'Fixed', tooltip: 'Here is a tooltip for Fixed Flooring details. Not sure how long this will be.' },\n          { value: 'floating', label: 'Floating', tooltip: 'Here is a tooltip for Floating Flooring details. Not sure how long this will be.' }\n        ]\n      },\n      {\n        \"type\": \"radio\",\n        \"label\": \"I need a Certificate of Insurance (COI) for my installation service.\",\n        \"name\": \"COI__c\",\n        \"rules\": {\n          \"required\": (value) => !!value || 'Required',\n        },\n        \"options\": [\n          { value: 'No', label: 'No' },\n          { value: 'Yes', label: 'Yes' }\n        ]\n      },\n    ]\n  }\n]",
-        "id": 111558,
-        "customerKey": "89ae7d08-db95-4662-bb73-d8637d5763ba"
       },
       {
         "bldrId": "06118b51-d664-4f01-9816-b8c03989f433",
@@ -177,7 +139,7 @@
           "parentId": 105860,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
         },
-        "content": "<v-app>\n  <v-main>\n    <v-row overflow=\"hidden\">\n      <v-col cols=\"12\">\n        <branding-bar @update-dark-mode=\"onUpdateDarkMode\" :application-configuration=\"applicationConfiguration\" :dark-mode=\"darkMode\" :branding=\"branding\"></branding-bar>\n      </v-col>\n    </v-row>\n    <v-row class=\"\" v-show=\"authorized\">\n      <v-col class=\"mx-auto\" cols=\"12\">\n       <survey-form-horizontal @submit-preference-form=\"onSubmitPreferenceForm\" :surveyid=\"survey\" :survey=\"surveyConfiguration\"></survey-form-horizontal>\n      </v-col>\n    </v-row>\n    <v-row v-show=\"!authorized\">\n      <unauthorized-user :branding=\"branding\" :unauthorized=\"applicationConfiguration.unauthorized\">\n      </unauthorized-user>\n    </v-row>\n    <v-row>\n      <legal :branding=\"branding\"></legal>\n    </v-row>\n  </v-main>\n</v-app>",
+        "content": "<v-app>\n  <v-main>\n    <v-row overflow=\"hidden\">\n      <v-col cols=\"12\">\n        <branding-bar :application-configuration=\"applicationConfiguration\" :branding=\"branding\"></branding-bar>\n      </v-col>\n    </v-row>\n    <v-row class=\"\" v-show=\"authorized\">\n      <v-col class=\"mx-auto\" cols=\"12\">\n       <survey-form-horizontal :debug=\"debug\" @submit-preference-form=\"onSubmitPreferenceForm\" :surveyid=\"survey\" :survey=\"surveyConfiguration\"></survey-form-horizontal>\n      </v-col>\n    </v-row>\n    <v-row v-show=\"!authorized\">\n      <unauthorized-user :branding=\"branding\" :unauthorized=\"applicationConfiguration.unauthorized\">\n      </unauthorized-user>\n    </v-row>\n    <v-row>\n      <legal :branding=\"branding\"></legal>\n    </v-row>\n  </v-main>\n</v-app>",
         "id": 111559,
         "customerKey": "05b3eca4-fabe-42c5-b820-3fa797cda5f0"
       },
@@ -194,7 +156,7 @@
           "parentId": 105860,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
         },
-        "content": "new Vue({\n  el: '#app',\n  vuetify: new Vuetify(),\n  data() {\n    return {\n      authorized: isAuthorized === 1 ? true : false,\n      darkMode: false,\n      debug: true,\n      channels: [],\n      applicationConfiguration,\n      surveyConfiguration,\n      formSubmitting: false,\n      survey,\n      subscriber: {\n        subscriberKey: subscriberKey,\n        emailAddress: emailAddress,\n        subscriberId: subscriberId\n      }\n    }\n  },\n  mounted() {\n    this.debug && this.debugData();\n  },\n  methods: {\n    debugData() {\n      console.log({\n        config: this.applicationConfiguration,\n        surveyConfiguration: this.surveyConfiguration\n      })\n    },\n    onUpdateDarkMode() {\n      this.darkMode = !this.darkMode \n    },\n    async onSubmitPreferenceForm($event) {\n      try {\n        const postData = [];\n        const event = $event;\n        console.log($event)\n        for(const e in event){\n          postData.push({\n            Name: e,\n            Value: event[e]\n          })\n        }\n\n        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {\n          postData\n        })\n\n        console.log(submitRequest)\n        if(submitRequest.data.Status === 'OK'){\n          Vue.$toast.success(`Thank you for updating your preferences!`)\n          this.getExistingPreferences();\n        }\n\n      } catch (err) {\n        console.log(err)\n        Vue.$toast.success(`There was an error: [${err.message}]`)\n      }\n    }\n  },\n  computed: {\n    apiBaseURL() {\n      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`\n    },\n    branding() {\n      if (this.applicationConfiguration.branding.supportDarkMode && this.darkMode) {\n        return this.applicationConfiguration.branding.dark\n      }\n\n      return this.applicationConfiguration.branding.default\n    }\n  }\n})",
+        "content": "new Vue({\n  el: '#app',\n  vuetify: new Vuetify(),\n  data() {\n    return {\n      authorized: true,\n      debug: true,\n      applicationConfiguration,\n      surveyConfiguration,\n      formSubmitting: false,\n      survey\n    }\n  },\n  mounted() {\n    this.debug && this.debugData();\n  },\n  methods: {\n    debugData() {\n      this.debug && console.log(this.$data)\n    },\n    async onSubmitPreferenceForm($event) {\n      try {\n        const postData = [];\n        const event = $event;\n        console.log('Event', $event)\n        for(const e in event){\n          postData.push({\n            Name: e,\n            Value: event[e]\n          })\n        }\n\n        console.log(postData)\n        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {\n          postData\n        })\n\n        console.log(submitRequest)\n\n      } catch (err) {\n        console.log(err)\n        Vue.$toast.success(`There was an error: [${err.message}]`)\n      }\n    }\n  },\n  computed: {\n    apiBaseURL() {\n      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`\n    },\n    branding() {\n      return this.applicationConfiguration.branding.default\n    }\n  }\n})",
         "id": 111560,
         "customerKey": "bf7d16de-9b9a-425b-aae9-185b5d546b71"
       },
@@ -211,7 +173,7 @@
           "parentId": 105865,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
         },
-        "content": "%%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\styles\\submit_button_animation'))=%%\n%%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\lib\\validation\\subscriber_validation'))=%%\n\n<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n  var map = applicationConfigurationJSON.map;\n  \n  var unauthorizedUser = Platform.Function.ContentBlockByName(map.content_block.unauthorized_user)\n  var brandingBar = Platform.Function.ContentBlockByName(map.content_block.branding_bar)\n  var surveyForm = Platform.Function.ContentBlockByName(map.content_block.survey_form)\n  var surveyFormHorizontal = Platform.Function.ContentBlockByName(map.content_block.survey_form_horizontal)\n  var legal = Platform.Function.ContentBlockByName(map.content_block.legal)\n  var appJS = Platform.Function.ContentBlockByName(map.content_block.app_js)\n\n</script>\n\n%%=Concat('<sc','rip','t>')=%%\n\n  Vue.use(VueToast, {\n  position: 'top-right',\n  duration: 6000,\n  dismissable: true\n  });\n\n  Vue.use(VueFormulate)\n  Vue.use(VTooltip)\n\n  const applicationConfiguration = <ctrl:var name=applicationConfiguration />\n  const surveyConfiguration = <ctrl:var name=surveyConfiguration />\n\n  const isAuthorized = <ctrl:var name=authorized />\n  const subscriberId = <ctrl:var name=subscriberId />\n  const emailAddress = <ctrl:var name=emailAddress />\n  const subscriberKey = <ctrl:var name=subscriberKey />\n  const survey = \"<ctrl:var name=survey />\"\n\n\n  <ctrl:var name=brandingBar />\n  <ctrl:var name=unauthorizedUser />\n  <ctrl:var name=surveyForm />\n  <ctrl:var name=surveyFormHorizontal />\n  <ctrl:var name=legal />\n  <ctrl:var name=appJS />\n\n  %%=Concat('</sc','rip','t>')=%%",
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n  var map = applicationConfigurationJSON.map;\n\n  var unauthorizedUser = Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\unauthorized_user\")\n  var brandingBar = Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\branding_bar\")\n  var surveyFormHorizontal = Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\survey_form_horizontal\")\n  var legal = Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\components\\\\legal\")\n  var appJS = Platform.Function.ContentBlockByName(\"Content Builder\\\\sfmc_vuejs_progressive_survey\\\\frontend\\\\app_js\")\n\n</script>\n\n%%=Concat('<sc','rip','t>')=%%\n\n  Vue.use(VueToast, {\n  position: 'top-right',\n  duration: 6000,\n  dismissable: true\n  });\n\n  Vue.use(VueFormulate)\n  Vue.use(VTooltip)\n\n  const applicationConfiguration = <ctrl:var name=applicationConfiguration />\n  const surveyConfigurationJSON = <ctrl:var name=surveyConfiguration />\n  const surveyConfiguration = surveyConfigurationJSON.survey;\n\n  const survey = \"<ctrl:var name=survey />\"\n\n\n  <ctrl:var name=brandingBar />\n  <ctrl:var name=unauthorizedUser />\n  <ctrl:var name=surveyFormHorizontal />\n  <ctrl:var name=legal />\n  <ctrl:var name=appJS />\n\n  %%=Concat('</sc','rip','t>')=%%",
         "id": 111561,
         "customerKey": "23b5b8da-1615-4f34-a372-c024dc4a1f48"
       },
@@ -228,7 +190,7 @@
           "parentId": 105865,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
         },
-        "content": "/*\nWhat is this component?\n*/\nVue.component('branding-bar', {\nprops: {\nbranding: Object,\napplicationConfiguration: Object\n},\nmounted() {\n\n},\ndata() {\nreturn {\ndarkModeToggle: false\n}\n},\nwatch: {\n\n},\nmethods: {\n\n},\ntemplate: `\n<div>\n  <!-- <v-card elevation=\"0\"> -->\n    <v-app-bar elevation=\"0\" :color=\"branding.colors.paper\" height=\"100\">\n      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->\n\n      <v-toolbar-title>\n        <v-img height=\"100%\" width=\"auto\" :src=\"branding.logo\"></v-img>\n      </v-toolbar-title>\n\n      <v-spacer></v-spacer>\n    </v-app-bar>\n  <!-- </v-card> -->\n</div>\n`\n})",
+        "content": "/*\nBranding bar component\n*/\nVue.component('branding-bar', {\n  props: {\n    branding: Object,\n    applicationConfiguration: Object\n  },\ntemplate: `\n<div>\n    <v-app-bar elevation=\"3\" :color=\"branding.colors.paper\" height=\"100\">\n      <v-toolbar-title>\n        <a :href=\"applicationConfiguration.branding.websiteURL\" target=\"_blank\" >\n          <img :height=\"applicationConfiguration.branding.logoScale\" :alt=\"applicationConfiguration.branding.brandName\" :src=\"branding.logo\" />\n        </a>\n      </v-toolbar-title>\n      <v-spacer></v-spacer>\n    </v-app-bar>\n</div>\n`\n})",
         "id": 111562,
         "customerKey": "64b5689f-48ab-4272-a8bf-ed9262d9a126"
       },
@@ -245,7 +207,7 @@
           "parentId": 105865,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
         },
-        "content": "/*\nWhat is this component?\n*/\nVue.component('legal', {\nprops: {\nlegal: Object,\nbranding: Object\n},\nmounted() {\n\n},\ndata() {\nreturn {\n\n}\n},\nwatch: {\n\n},\nmethods: {\n\n},\ntemplate: `\n<v-row\n  class=\"mt-5\"\n>\n  <v-col cols=\"10\" class=\"flex text-center mx-auto\">\n    <v-divider class=\"my-4\"></v-divider>\n    <v-row justify=\"center\">\n      <v-col \n      cols=\"2\">\n        <img width=\"30%\" src=\"https://image.s11.sfmc-content.com/lib/fe37157175640475741d74/m/1/3d479be2-2545-4452-a537-c7b8b791d527.png\" />\n      </v-col>\n      <v-col cols=\"5\" class=\"text-caption\">\n        Kitchen planning and installation services are provided by Traemand and its partner network of independent, licensed, and insured contractors. Traemand and IKEA US RETAIL LLC are part of the Ingka Group.\n      </v-col>\n    </v-row>\n    <v-row\n    align=\"center\"\n    justify=\"space-around\"\n  >\n  <v-col\n    cols=\"12\"\n    md=\"4\"\n    class=\"text-caption\"\n  >\n    <v-btn \n    small\n    text\n    href=\"mailto:CustomerServiceTeam@Traemand.com\"\n    >\n      Contact Us\n    </v-btn>\n    <v-btn\n      small\n      text\n      href=\"https://traemand.com/privacy-policy/\"\n    >\n      Privacy Policy\n    </v-btn>\n    <v-btn\n      small\n      text\n      href=\"\"\n    >\n      Preference Center\n  </v-btn>   \n  </v-col>\n  </v-row>\n\n  </v-col>\n</v-row>\n`\n})",
+        "content": "/*\n  Component for legal/footer content\n*/\nVue.component('legal', {\nprops: {\nlegal: Object,\nbranding: Object\n},\ntemplate: `\n<v-row class=\"mt-5 mx-auto\">\n  <v-col cols=\"9\" class=\"text-center mx-auto\">\n    <v-divider class=\"my-4\"></v-divider>\n    <v-row>\n      <v-col cols=\"12\" class=\"text-caption mx-auto\">\n        This survey was developed to be packaged and deployed to SFMC using the BLDR CLI.\n      </v-col>\n    </v-row>\n    <v-row >\n      <v-col cols=\"12\" class=\"text-caption mx-auto\">\n        <v-btn\n          elevation=\"2\"\n          plain\n        >View CloudPage Survey Code</v-btn>\n      </v-col>\n    </v-row>\n  </v-col>\n</v-row>\n`\n})",
         "id": 111563,
         "customerKey": "b2c58f86-cd77-43a7-ae36-48182a0f912d"
       },
@@ -262,26 +224,9 @@
           "parentId": 105865,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
         },
-        "content": "/*\nWhat is this component?\n*/\nVue.component('unauthorized-user', {\nprops: {\n  unauthorized: Object,\n  branding: Object\n},\nmounted() {\n\n},\ndata() {\nreturn {\n\n}\n},\nwatch: {\n\n},\nmethods: {\n\n},\ntemplate: `\n<v-col cols=\"10\" class=\"flex text-center mx-auto\">\n  <v-row justify=\"space-around\">\n    <v-icon :color=\"branding.colors.accent\" size=\"200\" aria-label=\"My Account\" role=\"img\" aria-hidden=\"false\">\n      {{unauthorized.icon}}\n    </v-icon>\n  </v-row>\n  <v-row justify=\"space-around\">\n    <v-col cols=\"8\" class=\"text-h6 text-md-h5\">\n      <span v-html=\"unauthorized.copy\"></span>\n    </v-col>\n  </v-row>\n\n</v-col>\n`\n})",
+        "content": "/*\n  View that an unauthorized user would receive if using the subscriber validation component.\n*/\nVue.component('unauthorized-user', {\nprops: {\n  unauthorized: Object,\n  branding: Object\n},\ntemplate: `\n<v-col cols=\"10\" class=\"flex text-center mx-auto\">\n  <v-row justify=\"space-around\">\n    <v-icon :color=\"branding.colors.accent\" size=\"200\" aria-label=\"My Account\" role=\"img\" aria-hidden=\"false\">\n      {{unauthorized.icon}}\n    </v-icon>\n  </v-row>\n  <v-row justify=\"space-around\">\n    <v-col cols=\"8\" class=\"text-h6 text-md-h5\">\n      <span v-html=\"unauthorized.copy\"></span>\n    </v-col>\n  </v-row>\n\n</v-col>\n`\n})",
         "id": 111564,
         "customerKey": "d9677e0a-5c25-4352-8d24-71baf46d6ced"
-      },
-      {
-        "bldrId": "6a5de310-2a6e-4e56-85ae-422b26d32e43",
-        "name": "submit_button_animation",
-        "assetType": {
-          "id": 220,
-          "name": "codesnippetblock"
-        },
-        "category": {
-          "id": 105867,
-          "name": "styles",
-          "parentId": 105865,
-          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles"
-        },
-        "content": "<style>\n  .custom-loader {\n    animation: loader 1s infinite;\n    display: flex;\n  }\n  @-moz-keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @-webkit-keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @-o-keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n  @keyframes loader {\n    from {\n      transform: rotate(0);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n</style>",
-        "id": 111565,
-        "customerKey": "4a3c6eb5-1c88-4e9f-8b0a-3cce7f79ac87"
       },
       {
         "bldrId": "33752466-6fce-486f-bbfb-afc264f9b2bf",
@@ -374,23 +319,6 @@
         }
       },
       {
-        "bldrId": "589b8c6c-63dd-40fd-a7ad-c2d5dfef5db6",
-        "name": "survey_form",
-        "assetType": {
-          "id": 220,
-          "name": "codesnippetblock"
-        },
-        "category": {
-          "id": 105866,
-          "name": "components",
-          "parentId": 105865,
-          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
-        },
-        "content": "/*\nWhat is this component?\n*/\nVue.component('survey-form', {\n  props: {\n    branding: Object,\n    surveyConfiguration: Object,\n    formSubmitting: Boolean\n  },\n  beforeMount() {\n    this.setupFormValidation();\n  },\n  data() {\n    return {\n      validation: {},\n      formValidation: {},\n      formInputs: {},\n      currentStep: 1,\n      forceRender: true,\n      survey: [\n        {\n          label: \"Confirm Address\",\n          subtitle: \"Please confirm that we have the correct address.\",\n          copy: \"<h3 class='text-center mt-5'>We're excited to work with you! </h3> <br><br> Please take a moment to complete a few questions to confirm you're ready for your upcoming installation service.\",\n          form: [\n            {\n              \"type\": \"text\",\n              \"label\": \"Address\",\n              \"name\": \"address1\",\n              \"disabled\": \"true\",\n              \"validation\": \"^required:trim\",\n              \"validation-messages\": {\n                \"required\": \"Address is required.\"\n              }\n            },\n            {\n              \"type\": \"text\",\n              \"label\": \"ZIP Code\",\n              \"name\": \"zipCode\",\n              \"pattern\": \"[0-9]*\",\n              \"disabled\": \"true\",\n              \"validation\": \"required:trim|matches:/^[0-9]{5}(?:-[0-9]{4})?$/\",\n              \"validation-messages\": {\n                \"matches\": \"Improper ZipCode.\",\n                \"required\": \"ZipCode is Required.\",\n              }\n            }\n          ]\n        },\n        {\n          label: \"Confirm Phone Number\",\n          subtitle: \"Please confirm that we have the correct Phone Number.\",\n          copy: \"Confirm Primary Phone Number\",\n          form: [\n            {\n              \"type\": \"text\",\n              \"label\": \"Phone Number\",\n              \"name\": \"phone\",\n              \"inputmode\": \"numeric\",\n              \"disabled\": \"true\",\n              \"pattern\": \"[0-9]*\",\n              \"validation\": \"matches:/^[0-9-]+$/\",\n              \"validation-messages\": {\n                \"matches\": \"Phone number should only include numbers and dashes.\"\n              }\n            },\n            {\n              \"type\": \"text\",\n              \"label\": \"Mobile Number\",\n              \"name\": \"mobile\",\n              \"inputmode\": \"numeric\",\n              \"disabled\": \"true\",\n              \"pattern\": \"[0-9]*\",\n              \"validation\": \"matches:/^[0-9-]+$/\",\n              \"validation-messages\": {\n                \"matches\": \"Phone number should only include numbers and dashes.\"\n              }\n            }\n          ]\n        }]\n    }\n  },\n  methods: {\n    submitSurveyForm(event) {\n      let emit = this.formInputs\n      console.log(event)\n      this.$emit('submit-preference-form', emit)\n    },\n    enableFormFields() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.forEach(input => {\n        const inputName = input.name;\n        document.getElementsByName(inputName)[0].disabled = false\n      })\n\n    },\n    nextSection() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.forEach(input => {\n        const inputName = input.name;\n        document.getElementsByName(inputName)[0].disabled = 'disabled'\n      })\n\n      this.currentStep = this.currentStep + 1\n    },\n    setupFormValidation() {\n      let validationObj = {};\n      this.survey.forEach((section, index) => {\n       validationObj[section.label] = [];\n      })\n\n      console.log(validationObj)\n      this.validation = validationObj;\n    },\n    handleValidate(event){\n    \n      if(event.hasErrors){\n        this.formValidation.hasErrors = true;\n      } else {\n        this.formValidation.hasErrors = false;\n      }\n\n     console.log(event)\n    }\n  },\n  watch: {\n  },\n  computed: {\n  },\n  template: `\n<section>\n  <v-row class=\"justify-center\">\n    <v-col cols=\"12\" md=\"6\">\n      <v-stepper class=\"mx-auto\" v-model=\"currentStep\" vertical>\n        <span v-for=\"(s, index) in survey\" :key=\"index + 1\">\n          <v-stepper-step :complete=\"currentStep > index + 1\" :step=\"index + 1\">\n            {{s.label}}\n            <small>{{s.subtitle}}</small>\n          </v-stepper-step>\n\n          <v-stepper-content class=\"flex justify-space-around\" :step=\"index + 1\">\n            <v-card color=\"grey lighten-4\" class=\"mb-12 pa-5\" min-height=\"250\">\n              <v-row class=\"justify-end\">\n                <v-icon \n                  large\n                  @click=\"enableFormFields\"\n                >\n                  mdi-pencil\n                </v-icon>\n              </v-row>\n              <v-row class=\"justify-center\">\n                <v-col cols=\"12\" md=\"8\" class=\"\">\n                  <span v-html=\"s.copy\"></span> \n                  <formulate-form v-if=\"forceRender\" @validation=\"handleValidate\" class=\"my-5\" :values=\"formInputs\"\n                    v-model=\"formInputs\" :schema=\"s.form\" />\n                </v-col>\n              </v-row>\n\n            </v-card>\n            <v-btn v-if=\"currentStep !== survey.length\" color=\"primary\" @click=\"nextSection\">\n              Continue\n            </v-btn>\n            <v-btn v-if=\"currentStep !== 1\" color=\"primary\" @click=\"currentStep = currentStep - 1\">\n              Back\n            </v-btn>\n            <v-btn v-if=\"currentStep === survey.length\" color=\"primary\" @click=\"submitSurveyForm\">\n              Submit\n            </v-btn>\n            <v-btn @click=\"formInputs = {}\" text>\n              Cancel\n            </v-btn>\n          </v-stepper-content>\n        </span>\n    </v-col>\n  </v-row>\n</section>\n`\n})",
-        "id": 111643,
-        "customerKey": "cc657fd8-faba-41e4-bf9c-6cec98ac2958"
-      },
-      {
         "bldrId": "8f35e912-42fb-42c5-9937-8b9dcedd5938",
         "name": "survey_form_horizontal",
         "assetType": {
@@ -403,196 +331,144 @@
           "parentId": 105865,
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
         },
-        "content": "/*\nWhat is this component?\n*/\nVue.component('survey-form-horizontal', {\n  props: {\n    branding: Object,\n    survey: Array,\n    surveyid: String,\n    formSubmitting: Boolean\n  },\n  beforeMount() {\n  },\n  data() {\n    return {\n      valid: false,\n      validation: {},\n      formValidation: {},\n      formInputs: {},\n      currentStep: 1,\n      forceRender: true,\n      subscriber: {\n        subscriberKey: subscriberKey,\n        subscriberId: subscriberId,\n        emailAddress: emailAddress\n      }\n    }\n  },\n  methods: {\n    validate() {\n      const refs = this.$refs\n      const refKeys = Object.keys(refs)\n      const sectionOutput = []\n      refKeys.forEach((key) => {\n        const refArray = refs[key]\n        const hasErrors = refArray.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false\n        console.log(hasErrors)\n        sectionOutput.push(hasErrors)\n      })\n      return sectionOutput\n    },\n    validateSection(sectionIndex) {\n      const refs = this.$refs\n      const refKeys = Object.keys(refs)\n      const section = refs[refKeys[sectionIndex]]\n      const hasErrors = section && section.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false\n      return hasErrors\n     \n    },\n    submitSurveyForm(event) {\n      let emit = this.formInputs\n      const validate = this.validate();\n      const hasErrors = validate.some((section) => section !== false)\n\n      if(!hasErrors){\n        emit.surveyId = this.surveyid\n        emit.subscriberKey = this.subscriber.subscriberKey;\n        emit.subscriberId = this.subscriber.subscriberId;\n        emit.emailAddress = this.subscriber.emailAddress;\n\n        // console.log(emit)\n        this.$emit('submit-preference-form', emit)\n      } else {\n        Vue.$toast.error(`Please fill in all required fields`)\n      }\n    },\n    enableFormFields() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.forEach(input => {\n        const inputName = input.name;\n        if(Object.prototype.hasOwnProperty.call(input, 'disabled')){\n          input.disabled = false;\n        }\n      })\n\n    },\n    nextSection() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n      console.log(section)\n      const hasErrors = this.validateSection(section)\n\n      if(!hasErrors){\n        formSection.forEach(input => {\n          const inputName = input.name;\n          if(Object.prototype.hasOwnProperty.call(input, 'disabled')){\n            input.disabled = true;\n          }\n        })\n\n        this.currentStep = this.currentStep + 1\n      } else {\n        Vue.$toast.error(`Please fill in all Required fields`)\n      }\n    },\n    setupFormValidation() {\n      let validationObj = {};\n      this.survey.forEach((section, index) => {\n        validationObj[section.label] = [];\n      })\n\n      console.log(validationObj)\n      this.validation = validationObj;\n    },\n    handleValidate(event) {\n      if (event.hasErrors) {\n        this.formValidation.hasErrors = true;\n      } else {\n        this.formValidation.hasErrors = false;\n      }\n\n      console.log(event)\n    },\n    insertAfter(newNode, referenceNode) {\n      referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);\n    }\n  },\n  watch: {\n  },\n  computed: {\n    hasRules(){\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      return currentFormSection.form.some(section => Object.prototype.hasOwnProperty.call(section, 'rules'))\n    },\n    hasDisabled(){\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      return currentFormSection.form.some(section => Object.prototype.hasOwnProperty.call(section, 'disabled'))\n    },\n    labels() {\n      return this.survey.map((s) => s.label)\n    },\n    references() {\n      return this.survey.map((s) => s.ref)\n    },\n    conditionals() {\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      if (\n        Object.prototype.hasOwnProperty.call(currentFormSection, 'conditionals')\n      ) {\n        const form = currentFormSection.form;\n        const conditional = currentFormSection.conditionals;\n        let conditionalOut = ''\n\n        for (const f in form) {\n          const input = form[f]\n          const inputName = input.name;\n          let inputType = input.type\n\n          if (inputType === 'text') {\n            inputType = 'input'\n          }\n          const conditionalObject = conditional.find((cond) => cond.name === inputName)\n          if (conditionalObject) {\n            const conditionalValues = conditionalObject.value;\n            const formInputValue = this.formInputs[conditionalObject.name]\n\n            if (conditionalValues[formInputValue]) {\n              // conditionalOut = `<p v-show=\"formInputs['${conditionalObject.name}'] === '${co}'\">${conditionalValues[co]}</p>`\n              conditionalOut = `<span>\n              <span class=\"mdi mdi-alert-circle\" style=\"color: blue;\"></span>\n                ${conditionalValues[formInputValue]}\n              </span>`\n              document.getElementById(`conditional_${this.currentStep}`).innerHTML = conditionalOut\n            } else {\n              document.getElementById(`conditional_${this.currentStep}`).innerHTML = `<span></span>`\n            }\n          }\n\n        }\n\n        return null \n      }\n      return null\n    }\n  },\n  template: `\n<section>\n  <v-row class=\"mx-auto\">\n    <v-col class=\"mx-auto\" cols=\"12\" md=\"9\">\n      <v-stepper flat light v-model=\"currentStep\">\n        <v-stepper-header>\n          <span v-for=\"(label, index) in labels\" :key=\"index + 1\">\n          <v-stepper-step\n            color=\"#2e3543\"\n            :complete=\"currentStep > index + 1\"\n            :step=\"index + 1\"\n          >\n            {{label}}\n          </v-stepper-step>\n          <v-divider></v-divider>\n        </span>\n    \n        </v-stepper-header>\n        <span v-for=\"(s, index) in survey\" :key=\"index + 1\">\n          <v-stepper-content class=\"flex justify-space-around\" :step=\"index + 1\">\n            <v-card flat color=\"\" class=\"mb-12 pa-5\" min-height=\"250\">\n              <v-row  class=\"justify-end\">\n                <v-icon\n                  v-if=\"hasDisabled\" \n                  large\n                  @click=\"enableFormFields\"\n                >\n                  mdi-pencil\n                </v-icon>\n              </v-row>\n              <v-row class=\"justify-center\">\n                <v-col cols=\"12\" md=\"10\" class=\"\">\n                  <!-- Section Copy-->\n                  <span v-html=\"s.copy\"></span> \n                  <v-divider class=\"my-3\"></v-divider>\n                    <span v-for=\"(f, index) in s.form\" :key=\"index\">\n                      <v-form :ref=\"'form_' + s.ref\">\n              \n                      <!-- handle text inputs -->\n                      <v-col\n                        v-if=\"f.type === 'text'\"\n                        cols=\"12\"\n                        md=\"8\"\n                      >\n                        <v-text-field\n                          :label=\"f.label\"\n                          v-model=\"formInputs[f.name]\"\n                          :id=\"f.name\"\n                          :disabled=\"f.disabled\"\n                          :required=\"f.required\"\n                          :rules=\"Object.values(f.rules)\"\n                          update:error=\"true\"\n                          outlined\n                        ></v-text-field>\n                      </v-col>\n                      <!-- handle checkbox inputs -->\n                      <v-col  \n                        v-if=\"f.type ==='checkbox'\"\n                        cols=\"12\"\n                        md=\"10\"\n                      >\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <span v-if=\"f.rules\">\n                          <v-checkbox v-for=\"(o, index) in f.options\" :rules=\"Object.values(f.rules)\" :key=\"o.label\" v-model=\"formInputs[o.value]\">\n                            <template v-slot:label>\n                              <div>\n                                <span v-html=\"o.label\"></span>\n                              </div>\n                            </template>\n                          </v-checkbox>\n                        </span>\n                        <span v-else>\n                          <v-checkbox v-for=\"(o, index) in f.options\" :key=\"o.label\" v-model=\"formInputs[o.value]\">\n                            <template v-slot:label>\n                              <div>\n                                <span v-html=\"o.label\"></span>\n                              </div>\n                            </template>\n                          </v-checkbox>\n                        </span>\n\n                      </v-col>\n                      <!-- handle radio inputs -->\n                      <v-col  \n                        v-if=\"f.type ==='radio'\"\n                        cols=\"12\"\n                        md=\"10\"\n                      >\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-radio-group\n                          v-model=\"formInputs[f.name]\"\n                          :rules=\"Object.values(f.rules)\"\n                          row\n                        >\n                        <span v-for=\"r in f.options\" :key=\"r.label\">\n                          <v-radio\n                            :value=\"r.value\"\n                          >\n                          <template v-slot:label>\n                            <div>\n                              {{r.label}}\n                                  <v-icon\n                                  v-if=\"r.tooltip\"\n                                  small\n                                  slot=\"activator\" \n                                  v-tooltip.bottom-start=\"r.tooltip\"\n                                  >\n                                    mdi-information\n                                  </v-icon>\n                                \n                            </div>\n                          </template>\n                        </v-radio>\n                      </span>\n                        </v-radio-group>\n                      </v-col>\n                      <!-- handle select option inputs -->\n                      <v-col\n                        v-if=\"f.type === 'select'\"\n                        class=\"d-flex\"\n                        cols=\"12\"\n                        md=\"8\"\n                      >\n                      \n                        <v-col\n                          cols=\"12\"\n                        >\n                           <v-select\n                          :items=\"f.options\"\n                          :label=\"f.label\"\n                          v-model=\"formInputs[f.name]\"\n                          :rules=\"Object.values(f.rules)\"\n                          rounded\n                          required\n                          outlined\n                        ></v-select>\n                        </v-col>\n                      </v-col>\n                    </v-form>\n                    <v-row>\n                      <v-col\n                      cols=\"12\"\n                      >\n                        <span v-if=\"formInputs[f.name] === 'My full product order will not be delivered until after my install start date'\">\n                          <span class=\"mdi mdi-alert-circle\" style=\"color: blue;\"></span>\n                          Installations that required additional service visits may be subject to go-back fees.\n                        </span>\n\n                        <span v-if=\"formInputs[f.name] === 'Other'\">\n                          <span class=\"mdi mdi-alert-circle\" style=\"color: blue;\"></span>\n                            A representative from IKEA will be in touch for more information.\n                        </span>\n\n                      </v-col>\n                    </v-row>\n                    </span> \n                </v-col>\n              </v-row>\n\n            </v-card>\n            <v-btn v-if=\"currentStep !== 1\" dark color=\"#0058a3\" @click=\"currentStep = currentStep - 1\">\n              Back\n            </v-btn>\n            <v-btn v-if=\"currentStep !== survey.length\" dark color=\"#0058a3\" @click=\"nextSection()\">\n              Next\n            </v-btn>\n            <v-btn v-if=\"currentStep === survey.length\" dark color=\"#0058a3\" @click=\"submitSurveyForm\">\n              Submit\n            </v-btn>\n            <v-btn @click=\"formInputs = {}\" text>\n              Cancel\n            </v-btn>\n          </v-stepper-content>\n        </span>\n      </v-stepper>\n    </v-col>\n  </v-row>\n</section>\n`\n})",
+        "content": "/*\n  Main Survey Form Elements\n  All form information is provided by the nested survey_configuration files\n*/\nVue.component('survey-form-horizontal', {\n  props: {\n    survey: Array,\n    surveyid: String,\n    formSubmitting: Boolean,\n    debug: Boolean\n  },\n  data() {\n    return {\n      checkboxTest: [],\n      formInputs: {},\n      currentStep: 1\n    }\n  },\n  mounted() {\n    this.survey.forEach((surveyItem) => {\n      const form = surveyItem.form;\n      form.forEach((formItem) => {\n        const type = formItem.type;\n        const itemName = formItem.name;\n\n        if(type === 'checkbox' && !this.formInputs[itemName]){\n          this.formInputs[itemName] = [];\n        }\n      })\n    })\n  },\n  methods: {\n    validate() {\n      const refs = this.$refs\n      const refKeys = Object.keys(refs)\n      const sectionOutput = []\n\n      refKeys.forEach((key) => {\n        const refArray = refs[key]\n        const hasErrors = refArray.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false\n        sectionOutput.push(hasErrors)\n\n        this.debug && console.log({key, hasErrors})\n      })\n      return sectionOutput\n    },\n    validateSection(sectionIndex) {\n      const refs = this.$refs\n      const refKeys = Object.keys(refs)\n      const section = refs[refKeys[sectionIndex]]\n      const hasErrors = section && section.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false\n\n      this.debug && console.log({section, hasErrors})\n      return hasErrors\n    },\n    submitSurveyForm(event) {\n      let emit = this.formInputs\n      const validate = this.validate();\n      const hasErrors = validate.some((section) => section !== false)\n\n      if (!hasErrors) {\n        // console.log(emit)\n        this.$emit('submit-preference-form', emit)\n        Vue.$toast.success(`Thank you for your submission!`)\n\n      } else {\n        Vue.$toast.error(`Please fill in all required fields`)\n      }\n\n      this.debug && console.log({hasErrors, validate})\n    },\n    enableFormFields() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.forEach(input => {\n        const inputName = input.name;\n        if (Object.prototype.hasOwnProperty.call(input, 'disabled')) {\n          input.disabled = false;\n        }\n      })\n\n    },\n    nextSection() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n      console.log(section)\n      const hasErrors = this.validateSection(section)\n\n      if (!hasErrors) {\n        formSection.forEach(input => {\n          const inputName = input.name;\n          if (Object.prototype.hasOwnProperty.call(input, 'disabled')) {\n            input.disabled = true;\n          }\n        })\n        let emit = this.formInputs\n        this.$emit('submit-preference-form', emit)\n        this.currentStep = this.currentStep + 1\n      } else {\n        Vue.$toast.error(`Please fill in all Required fields`)\n      }\n    },\n  },\n  computed: {\n    hasRules() {\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      return currentFormSection.form.some(section => Object.prototype.hasOwnProperty.call(section, 'rules'))\n    },\n    hasDisabled() {\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      return currentFormSection.form.some(section => Object.prototype.hasOwnProperty.call(section, 'disabled'))\n    },\n    labels() {\n      return this.survey.map((s) => s.label)\n    },\n    references() {\n      return this.survey.map((s) => s.ref)\n    }\n  },\n  template: `\n<section>\n  <v-row class=\"mx-auto\">\n    <v-col class=\"mx-auto\" cols=\"12\" md=\"9\">\n      <v-stepper light v-model=\"currentStep\" class=\"p-4\">\n        <v-stepper-header>\n          <span v-for=\"(label, index) in labels\" :key=\"index + 1\">\n            <v-stepper-step color=\"#2e3543\" :complete=\"currentStep > index + 1\" :step=\"index + 1\">\n              {{label}}\n            </v-stepper-step>\n            <v-divider></v-divider>\n          </span>\n        </v-stepper-header>\n        <span v-for=\"(s, index) in survey\" :key=\"index + 1\">\n          <v-stepper-content class=\"flex justify-space-around pa-5\" :step=\"index + 1\">\n            <v-card flat color=\"\" class=\"mb-12 pa-5\" min-height=\"250\">\n              <v-row class=\"justify-end\">\n                <v-icon v-if=\"hasDisabled\" large @click=\"enableFormFields\">\n                  mdi-pencil\n                </v-icon>\n              </v-row>\n              <v-row class=\"justify-center\">\n                <v-col cols=\"12\" md=\"10\" class=\"\">\n                  <!-- Section Copy-->\n                  <span v-html=\"s.copy\"></span>\n                  <v-divider class=\"my-3\"></v-divider>\n                  <span v-for=\"(f, index) in s.form\" :key=\"index\">\n                    <v-form :ref=\"'form_' + s.ref\">\n                      <!-- handle text inputs -->\n                      <v-col v-if=\"f.type === 'textarea'\" cols=\"12\" md=\"8\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-textarea v-model=\"formInputs[f.name]\" :id=\"f.name\" outlined></v-textarea>\n                      </v-col>\n                      <!-- handle text inputs -->\n                      <v-col v-if=\"f.type === 'text'\" cols=\"12\" md=\"8\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-text-field v-model=\"formInputs[f.name]\" :id=\"f.name\" :disabled=\"f.disabled\"\n                          :rules=\"f.rules && Object.values(f.rules)\" update:error=\"true\" outlined>\n                        </v-text-field>\n                      </v-col>\n                      <!-- handle checkbox inputs -->\n                      <v-col v-if=\"f.type ==='checkbox'\" cols=\"12\" md=\"10\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-checkbox v-for=\"(o, index) in f.options\" :rules=\"f.rules && Object.values(f.rules)\"\n                            :key=\"o.label\" v-model=\"formInputs[f.name]\" :value=\"o.label\">\n                          <template v-slot:label>\n                            <div>\n                              <span v-html=\"o.label\"></span>\n                            </div>\n                          </template>\n                        </v-checkbox>\n                      </v-col>\n                      <!-- handle radio inputs -->\n                      <v-col v-if=\"f.type ==='radio'\" cols=\"12\" md=\"10\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-radio-group v-model=\"formInputs[f.name]\" :rules=\"f.rules && Object.values(f.rules)\" row>\n                          <span v-for=\"r in f.options\" :key=\"r.label\">\n                            <v-radio :value=\"r.value\">\n                              <template v-slot:label>\n                                <div>\n                                  {{r.label}}\n                                  <v-icon v-if=\"r.tooltip\" small slot=\"activator\" v-tooltip.bottom-start=\"r.tooltip\">\n                                    mdi-information\n                                  </v-icon>\n                                </div>\n                              </template>\n                            </v-radio>\n                          </span>\n                        </v-radio-group>\n                      </v-col>\n                      <!-- handle select option inputs -->\n                      <v-col v-if=\"f.type === 'select'\" class=\"\" cols=\"12\" md=\"8\">\n                        <v-row>\n                          <v-col cols=\"12\">\n                            <span v-if=\"f.label\">{{f.label}}</span>\n                            <v-select :items=\"f.options\" v-model=\"formInputs[f.name]\"\n                              :rules=\"f.rules && Object.values(f.rules)\" :multiple=\"f.multiple\" outlined></v-select>\n                          </v-col>\n                        </v-row>\n                      </v-col>\n                    </v-form>\n                  </span>\n                </v-col>\n              </v-row>\n            </v-card>\n            <v-btn v-if=\"currentStep !== 1\" dark color=\"#0058a3\" @click=\"currentStep = currentStep - 1\">\n              Back\n            </v-btn>\n            <v-btn v-if=\"currentStep !== survey.length\" dark color=\"#0058a3\" @click=\"nextSection()\">\n              Next\n            </v-btn>\n            <v-btn v-if=\"currentStep === survey.length\" dark color=\"#0058a3\" @click=\"submitSurveyForm\">\n              Submit\n            </v-btn>\n          </v-stepper-content>\n        </span>\n      </v-stepper>\n    </v-col>\n  </v-row>\n</section>\n`\n})",
         "id": 123133,
         "customerKey": "8ef51fdc-5171-48b2-99b4-903f97dc5e91"
       },
       {
-        "bldrId": "72f0a273-467b-427e-b032-978d81809fcf",
-        "name": "vue_formulate_styles",
+        "bldrId": "4c0b2134-0e02-4a8d-8bf8-d52f2cf58050",
+        "name": "survey_configuration",
         "assetType": {
           "id": 220,
           "name": "codesnippetblock"
         },
         "category": {
-          "id": 105867,
-          "name": "styles",
-          "parentId": 105865,
-          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/styles"
+          "id": 120494,
+          "name": "DF22",
+          "parentId": 105864,
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/DF22"
         },
-        "content": "<style>\n:root {\n  --primary: rgb(68, 50, 168);\n  --ltGrey: #C0C0C0;\n  --mdGrey: #2e3543;\n  --error: red;\n}\n\n.tooltip {\n  display: block !important;\n  font-family:\"Roboto, san-serif\";\n  max-width:15rem;\n  z-index: 10000;\n}\n\n.tooltip .tooltip-inner {\n  background: var(--mdGrey);\n  color: white;\n  font-family: Roboto, sans-serif;\n  border-radius: 3px;\n  padding: 6px 5px 6px;\n}\n\n.tooltip .tooltip-arrow {\n  width: 0;\n  height: 0;\n  border-style: solid;\n  position: absolute;\n  margin: 2px;\n  border-color: var(--mdGrey);\n  z-index: 1;\n}\n\n.tooltip[x-placement^=\"top\"] {\n  margin-bottom: 2px;\n}\n\n.tooltip[x-placement^=\"top\"] .tooltip-arrow {\n  border-width: 5px 5px 0 5px;\n  border-left-color: transparent !important;\n  border-right-color: transparent !important;\n  border-bottom-color: transparent !important;\n  bottom: -5px;\n  left: calc(50% - 5px);\n  margin-top: 0;\n  margin-bottom: 0;\n}\n\n.tooltip[x-placement^=\"bottom\"] {\n  margin-top: 2px;\n}\n\n.tooltip[x-placement^=\"bottom\"] .tooltip-arrow {\n  border-width: 0 5px 5px 5px;\n  border-left-color: transparent !important;\n  border-right-color: transparent !important;\n  border-top-color: transparent !important;\n  top: -5px;\n  left: calc(50% - 5px);\n  margin-top: 0;\n  margin-bottom: 0;\n}\n\n.tooltip[x-placement^=\"right\"] {\n  margin-left: 5px;\n}\n\n.tooltip[x-placement^=\"right\"] .tooltip-arrow {\n  border-width: 5px 5px 5px 0;\n  border-left-color: transparent !important;\n  border-top-color: transparent !important;\n  border-bottom-color: transparent !important;\n  left: -5px;\n  top: calc(50% - 5px);\n  margin-left: 0;\n  margin-right: 0;\n}\n\n.tooltip[x-placement^=\"left\"] {\n  margin-right: 5px;\n}\n\n.tooltip[x-placement^=\"left\"] .tooltip-arrow {\n  border-width: 5px 0 5px 5px;\n  border-top-color: transparent !important;\n  border-right-color: transparent !important;\n  border-bottom-color: transparent !important;\n  right: -5px;\n  top: calc(50% - 5px);\n  margin-left: 0;\n  margin-right: 0;\n}\n\n.tooltip.popover .popover-inner {\n  background: var(--mdGrey);\n  color: var(--mdGrey);\n  padding: 24px;\n  border-radius: 5px;\n  box-shadow: 0 5px 30px rgba(rgb(131, 131, 131), .1);\n}\n\n.tooltip.popover .popover-arrow {\n  border-color: var(--mdGrey);\n}\n\n.tooltip[aria-hidden='true'] {\n  visibility: hidden;\n  opacity: 0;\n  transition: opacity .15s, visibility .15s;\n}\n\n.tooltip[aria-hidden='false'] {\n  visibility: visible;\n  opacity: 1;\n  transition: opacity .15s;\n}\n\n.v-icon {\n  font-size: 25px!important;\n}\n</style>",
-        "id": 123283,
-        "customerKey": "9b484440-15c9-4aa9-bae6-aef47300c131"
+        "content": "{\n  \"dataExtensionKey\": \"{{surveyDataExtensionKey}}\",\n  \"survey\": [\n    {\n      \"ref\": \"contact_info\",\n      \"label\": \"Contact Info\",\n      \"subtitle\": \"\",\n      \"copy\": \"Please provide your email address. <br><br> Your email address will be used to limit to one response and will allow you to leave the form and finish later. <br><br> In addition, in the event we have follow up questions regarding your submission, we may wish to contact you. <br /> We will not contact you unless you confirm with the checkbox below.\",\n      \"form\": [\n        {\n          \"type\": \"text\",\n          \"label\": \"EmailAddress*\",\n          \"name\": \"email_address\",\n          \"rules\": {\n            \"required\": (value) => !!value || \"Required\"\n          }\n        },\n        {\n          \"type\": \"radio\",\n          \"label\": \"Can we contact you if we have follow up questions?\",\n          \"name\": \"opt_in\",\n          \"options\": [\n            {\n              \"value\": \"yes\",\n              \"label\": \"Yes\"\n            },\n            {\n              \"value\": \"no\",\n              \"label\": \"No\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"ref\": \"about\",\n      \"label\": \"About You\",\n      \"subtitle\": \"\",\n      \"copy\": \"Tell us a bit about yourself\",\n      \"form\": [\n        {\n          \"type\": \"radio\",\n          \"label\": \"Have you tried BLDR\",\n          \"name\": \"downloaded_bldr\",\n          \"rules\": {\n            \"required\": (value) => !!value || \"Required\"\n          },\n          \"options\": [\n            {\n              \"value\": \"yes\",\n              \"label\": \"Yes\"\n            },\n            {\n              \"value\": \"no\",\n              \"label\": \"No\"\n            }\n          ]\n        },\n        {\n          \"type\": \"select\",\n          \"name\": \"sfmc_role\",\n          \"label\": \"Describe your role within SFMC\",\n          \"options\": [\n            {\n              \"value\": \"app_solutions\",\n              \"text\": \"App/Solutions Developer\"\n            },\n            {\n              \"value\": \"email_dev\",\n              \"text\": \"Email Developer\"\n            },\n            {\n              \"value\": \"marketer\",\n              \"text\": \"General Marketer\"\n            },\n            {\n              \"value\": \"project_manager\",\n              \"text\": \"Project Manager\"\n            },\n            {\n              \"value\": \"admin\",\n              \"text\": \"Admin\"\n            }\n          ]\n        },\n        {\n          \"type\": \"select\",\n          \"name\": \"job_type\",\n          \"label\": \"What of company do you work at\",\n          \"options\": [\n            {\n              \"value\": \"brand_side\",\n              \"text\": \"Brand/Single Organization\"\n            },\n            {\n              \"value\": \"agency\",\n              \"text\": \"Agency/Multiple Organizations\"\n            },\n            {\n              \"value\": \"freelancer\",\n              \"text\": \"Freelancer\"\n            }\n          ]\n        },\n        {\n          \"type\": \"select\",\n          \"name\": \"technical_skill\",\n          \"label\": \"How technical are you\",\n          \"options\": [\n            {\n              \"value\": \"very\",\n              \"text\": \"Very\"\n            },\n            {\n              \"value\": \"somewhat\",\n              \"text\": \"Somewhat\"\n            },\n            {\n              \"value\": \"learning\",\n              \"text\": \"Just Learning\"\n            },\n            {\n              \"value\": \"none\",\n              \"text\": \"Not Technical\"\n            }\n          ]\n        },\n        {\n          \"type\": \"textarea\",\n          \"name\": \"packages_develop\",\n          \"label\": \"What types of packages would you want to contribute to the SFMC open-source community?\"\n        },\n        {\n          \"type\": \"textarea\",\n          \"name\": \"packages_deploy\",\n          \"label\": \"What types of packages would you want to leverage from the SFMC open-source community?\"\n        }\n      ]\n    },\n    {\n      \"ref\": \"wish_list\",\n      \"label\": \"Wish List\",\n      \"subtitle\": \"\",\n      \"copy\": \"What's missing from SFMC... What tools and features would you love to see implemented in BLDR or in general?\",\n      \"form\": [\n        {\n          \"type\": \"textarea\",\n          \"name\": \"wish_list_bldr\",\n          \"label\": \"What's missing in BLDR? What types of features are must haves for you or your team to use BLDR?\"\n        },\n        {\n          \"type\": \"textarea\",\n          \"name\": \"wish_list_sfmc\",\n          \"label\": \"What's missing from SFMC? What types of tools would you love to see developed for SFMC?\"\n        },\n        {\n          \"type\": \"select\",\n          \"label\": \"What type of content would you like to see around BLDR?\",\n          \"name\": \"bldr_future_content\",\n          \"multiple\": true,\n          \"options\": [\n            {\n              \"value\": \"blog_articles\",\n              \"text\": \"Blog Articles\"\n            },\n            {\n              \"value\": \"workflow\",\n              \"text\": \"Example Workflows\"\n            },\n            {\n              \"value\": \"case_studies\",\n              \"text\": \"Case Studies\"\n            },\n            {\n              \"value\": \"cli_dev_docs\",\n              \"text\": \"Developer Documentation (CLI/SDK)\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+        "id": 146824,
+        "customerKey": "153dc8ec-7fd9-41d7-b93f-881fe9b58ce4"
       }
     ]
   },
   "dataExtension": {
-    "assets": [
-      {
-        "bldrId": "9e72ce74-b931-4b87-8236-21c832116e84",
-        "name": "Ikea Installation Checklist",
-        "customerKey": "76B6B47A-BBA7-475C-B975-A7CF5EFD141C",
-        "description": "Ikea Installation Checklist",
-        "fields": [
-          {
-            "partnerKey": "",
-            "name": "Pets_and_children_off_site__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 12,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Address",
-            "defaultValue": "",
-            "maxLength": 255,
-            "isRequired": true,
-            "ordinal": 1,
-            "isPrimaryKey": false,
-            "fieldType": "Text"
-          },
-          {
-            "partnerKey": "",
-            "name": "Final_plan_provided__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 14,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Workspace_provided__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 11,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Inventory_to_be_completed__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 7,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Appliances_on_site_or_specs_provided__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 9,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "COI__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 5,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Type_of_Floor__c",
-            "defaultValue": "",
-            "maxLength": 255,
-            "isRequired": true,
-            "ordinal": 3,
-            "isPrimaryKey": false,
-            "fieldType": "Text"
-          },
-          {
-            "partnerKey": "",
-            "name": "Customer_on_site__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 6,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Delivery__c",
-            "defaultValue": "",
-            "maxLength": 255,
-            "isRequired": true,
-            "ordinal": 4,
-            "isPrimaryKey": false,
-            "fieldType": "Text"
-          },
-          {
-            "partnerKey": "",
-            "name": "GC_completed__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 10,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Parking_available1__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 8,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "Go_back_acknowledged__c",
-            "defaultValue": "",
-            "isRequired": false,
-            "ordinal": 13,
-            "isPrimaryKey": false,
-            "fieldType": "Boolean"
-          },
-          {
-            "partnerKey": "",
-            "name": "PhoneNumber",
-            "defaultValue": "",
-            "maxLength": 255,
-            "isRequired": true,
-            "ordinal": 2,
-            "isPrimaryKey": false,
-            "fieldType": "Text"
-          },
-          {
-            "partnerKey": "",
-            "name": "SubscriberKey",
-            "defaultValue": "",
-            "maxLength": 255,
-            "isRequired": true,
-            "ordinal": 0,
-            "isPrimaryKey": true,
-            "fieldType": "Text"
-          }
-        ],
-        "category": {
-          "categoryId": 118111,
-          "folderPath": "Data Extensions/Ikea Installation Checklist"
-        }
-      }
-    ],
     "folders": [
       {
         "id": 35031,
-        "name": "Data Extensions",
+        "name": "Data Extension",
         "parentId": 0,
-        "folderPath": "Data Extensions"
+        "folderPath": "Data Extension"
       },
       {
-        "id": 118111,
-        "name": "Ikea Installation Checklist",
+        "id": 120974,
+        "name": "Dreamforce Survey Results",
         "parentId": 35031,
-        "folderPath": "Data Extensions/Ikea Installation Checklist"
+        "folderPath": "Data Extensions/Dreamforce Survey Results"
+      }
+    ],
+    "assets": [
+      {
+        "name": "Dreamforce_Survey_2022_BLDR",
+        "customerKey": "{{surveyDataExtensionKey}}",
+        "description": "Collection Data Extension for Dreamforce Survey",
+        "fields": [
+          {
+            "Name": "email_address",
+            "DefaultValue": "",
+            "IsRequired": true,
+            "IsPrimaryKey": true,
+            "FieldType": "EmailAddress"
+          },
+          {
+            "Name": "opt_in",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Boolean"
+          },
+          {
+            "Name": "downloaded_bldr",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Boolean"
+          },
+          {
+            "Name": "sfmc_role",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "job_type",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "technical_skill",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "about",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "packages_develop",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "packages_deploy",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "wish_list_bldr",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "wish_list_sfmc",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "bldr_future_content",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          }
+        ],
+        "category": {
+          "id": 120974,
+          "folderPath": "Data Extensions/Dreamforce Survey Results"
+        },
+        "dataRetentionPeriodLength": 1,
+        "dataRetentionPeriod": "Years",
+        "rowBasedRetention": false,
+        "categoryId": 120974,
+        "bldrId": "0063d830-4794-4421-abb4-acedec9ed211"
       }
     ]
   }

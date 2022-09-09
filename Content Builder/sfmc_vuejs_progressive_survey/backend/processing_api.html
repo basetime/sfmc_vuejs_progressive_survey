@@ -1,5 +1,5 @@
 <script runat="server">
-  Platform.Load("core", "1.1.1");
+  Platform.Load("core", "1.1");
   Platform.Response.SetResponseHeader("Access-Control-Allow-Origin", "*");
   Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');
   Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');
@@ -21,13 +21,17 @@
   surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\)\ /g, '')
 
   var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
-  var surveyConfigurationJSON = Platform.Function.ParseJSON(surveyConfiguration)
-  var surveyDataExtension = "{{surveyDataExtensionKey}}";
+  var dataExtensionKeyRegex = /(?<=dataExtensionKey\":\s\")([a-zA-Z0-9-_ ]+)/
+  var dataExtensionKeyMatch = surveyConfiguration.match(dataExtensionKeyRegex)
+  
+  var dataExtensionKey;
+  if(dataExtensionKeyMatch.length > 0){
+    dataExtensionKey = dataExtensionKeyMatch[0]
+  }
 
   var applicationConfigurationPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\app_configuration'
   var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
   var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
-  var map = applicationConfigurationJSON.map;
 
   Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\lib\\ssjs\\wsProxy")
   Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\lib\\ssjs\\utils")
@@ -49,7 +53,7 @@
       var payload = [];
 
         payload.push({
-          CustomerKey: surveyDataExtension,
+          CustomerKey: dataExtensionKey,
           Properties: updateData
         })
 
@@ -66,7 +70,7 @@
       }
 
       var updatePreferences = fns.wsProxy.update(reqConfig);
-      res = updatePreferences;
+      res = updatePreferences
       break;
 
 

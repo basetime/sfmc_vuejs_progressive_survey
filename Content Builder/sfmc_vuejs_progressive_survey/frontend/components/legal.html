@@ -1,34 +1,26 @@
 /*
-What is this component?
+  Component for legal/footer content
 */
 Vue.component('legal', {
 props: {
 legal: Object,
 branding: Object
 },
-mounted() {
-
-},
-data() {
-return {
-
-}
-},
-watch: {
-
-},
-methods: {
-
-},
 template: `
-<v-row
-  class="mt-5"
->
-  <v-col cols="10" class="flex text-center mx-auto">
+<v-row class="mt-5 mx-auto">
+  <v-col cols="9" class="text-center mx-auto">
     <v-divider class="my-4"></v-divider>
-    <v-row justify="center">
-      <v-col cols="5" class="text-caption">
-        Kitchen planning and installation services are provided by Traemand and its partner network of independent, licensed, and insured contractors. Traemand and IKEA US RETAIL LLC are part of the Ingka Group.
+    <v-row>
+      <v-col cols="12" class="text-caption mx-auto">
+        This survey was developed to be packaged and deployed to SFMC using the BLDR CLI.
+      </v-col>
+    </v-row>
+    <v-row >
+      <v-col cols="12" class="text-caption mx-auto">
+        <v-btn
+          elevation="2"
+          plain
+        >View CloudPage Survey Code</v-btn>
       </v-col>
     </v-row>
   </v-col>

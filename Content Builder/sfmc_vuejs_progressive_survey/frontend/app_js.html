@@ -5,16 +5,10 @@ new Vue({
     return {
       authorized: true,
       debug: true,
-      channels: [],
       applicationConfiguration,
       surveyConfiguration,
       formSubmitting: false,
-      survey,
-      subscriber: {
-        subscriberKey: subscriberKey,
-        emailAddress: emailAddress,
-        subscriberId: subscriberId
-      }
+      survey
     }
   },
   mounted() {
@@ -28,7 +22,7 @@ new Vue({
       try {
         const postData = [];
         const event = $event;
-        console.log($event)
+        console.log('Event', $event)
         for(const e in event){
           postData.push({
             Name: e,
@@ -36,15 +30,12 @@ new Vue({
           })
         }
 
+        console.log(postData)
         const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {
           postData
         })
 
         console.log(submitRequest)
-        if(submitRequest.data.Status === 'OK'){
-          Vue.$toast.success(`Thank you for updating your preferences!`)
-          this.getExistingPreferences();
-        }
 
       } catch (err) {
         console.log(err)

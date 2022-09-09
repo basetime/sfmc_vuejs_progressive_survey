@@ -1,0 +1,100 @@
+{
+  "name": "Dreamforce_Survey_2022_BLDR",
+  "customerKey": "c891f5da-ce27-40aa-9e2f-225da55305e0",
+  "description": "Collection Data Extension for Dreamforce Survey",
+  "fields": [
+    {
+      "Name": "email_address",
+      "DefaultValue": "",
+      "IsRequired": true,
+      "IsPrimaryKey": true,
+      "FieldType": "EmailAddress"
+    },
+    {
+      "Name": "opt_in",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Boolean"
+    },
+    {
+      "Name": "downloaded_bldr",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Boolean"
+    },
+    {
+      "Name": "sfmc_role",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "job_type",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "technical_skill",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "about",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "packages_develop",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "packages_deploy",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "wish_list_bldr",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "wish_list_sfmc",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    },
+    {
+      "Name": "bldr_future_content",
+      "DefaultValue": "",
+      "IsRequired": false,
+      "IsPrimaryKey": false,
+      "FieldType": "Text"
+    }
+  ],
+  "category": {
+    "id": 120974,
+    "folderPath": "Data Extensions/Dreamforce Survey Results"
+  },
+  "dataRetentionPeriodLength": 1,
+  "dataRetentionPeriod": "Years",
+  "rowBasedRetention": false,
+  "categoryId": 120974,
+  "bldrId": "0063d830-4794-4421-abb4-acedec9ed211"
+}

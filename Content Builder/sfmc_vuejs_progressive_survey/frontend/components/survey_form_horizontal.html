@@ -4,7 +4,6 @@
 */
 Vue.component('survey-form-horizontal', {
   props: {
-    branding: Object,
     survey: Array,
     surveyid: String,
     formSubmitting: Boolean,
@@ -12,15 +11,23 @@ Vue.component('survey-form-horizontal', {
   },
   data() {
     return {
+      checkboxTest: [],
       formInputs: {},
-      currentStep: 1,
-      forceRender: true,
-      subscriber: {
-        subscriberKey: subscriberKey,
-        subscriberId: subscriberId,
-        emailAddress: emailAddress
-      }
+      currentStep: 1
     }
+  },
+  mounted() {
+    this.survey.forEach((surveyItem) => {
+      const form = surveyItem.form;
+      form.forEach((formItem) => {
+        const type = formItem.type;
+        const itemName = formItem.name;
+
+        if(type === 'checkbox' && !this.formInputs[itemName]){
+          this.formInputs[itemName] = [];
+        }
+      })
+    })
   },
   methods: {
     validate() {
@@ -52,13 +59,10 @@ Vue.component('survey-form-horizontal', {
       const hasErrors = validate.some((section) => section !== false)
 
       if (!hasErrors) {
-        emit.surveyId = this.surveyid
-        emit.subscriberKey = this.subscriber.subscriberKey;
-        emit.subscriberId = this.subscriber.subscriberId;
-        emit.emailAddress = this.subscriber.emailAddress;
-
         // console.log(emit)
         this.$emit('submit-preference-form', emit)
+        Vue.$toast.success(`Thank you for your submission!`)
+
       } else {
         Vue.$toast.error(`Please fill in all required fields`)
       }
@@ -90,7 +94,8 @@ Vue.component('survey-form-horizontal', {
             input.disabled = true;
           }
         })
-
+        let emit = this.formInputs
+        this.$emit('submit-preference-form', emit)
         this.currentStep = this.currentStep + 1
       } else {
         Vue.$toast.error(`Please fill in all Required fields`)
@@ -113,47 +118,6 @@ Vue.component('survey-form-horizontal', {
     },
     references() {
       return this.survey.map((s) => s.ref)
-    },
-    conditionals() {
-      const currentFormSectionIndex = this.currentStep - 1;
-      const currentFormSection = this.survey[currentFormSectionIndex]
-      if (
-        Object.prototype.hasOwnProperty.call(currentFormSection, 'conditionals')
-      ) {
-        const form = currentFormSection.form;
-        const conditional = currentFormSection.conditionals;
-        let conditionalOut = ''
-
-        for (const f in form) {
-          const input = form[f]
-          const inputName = input.name;
-          let inputType = input.type
-
-          if (inputType === 'text') {
-            inputType = 'input'
-          }
-          const conditionalObject = conditional.find((cond) => cond.name === inputName)
-          if (conditionalObject) {
-            const conditionalValues = conditionalObject.value;
-            const formInputValue = this.formInputs[conditionalObject.name]
-
-            if (conditionalValues[formInputValue]) {
-              // conditionalOut = `<p v-show="formInputs['${conditionalObject.name}'] === '${co}'">${conditionalValues[co]}</p>`
-              conditionalOut = `<span>
-              <span class="mdi mdi-alert-circle" style="color: blue;"></span>
-                ${conditionalValues[formInputValue]}
-              </span>`
-              document.getElementById(`conditional_${this.currentStep}`).innerHTML = conditionalOut
-            } else {
-              document.getElementById(`conditional_${this.currentStep}`).innerHTML = `<span></span>`
-            }
-          }
-
-        }
-
-        return null
-      }
-      return null
     }
   },
   template: `
@@ -193,36 +157,25 @@ Vue.component('survey-form-horizontal', {
                       <v-col v-if="f.type === 'text'" cols="12" md="8">
                         <span v-if="f.label">{{f.label}}</span>
                         <v-text-field v-model="formInputs[f.name]" :id="f.name" :disabled="f.disabled"
-                          :required="f.required" :rules="Object.values(f.rules)" update:error="true" outlined>
+                          :rules="f.rules && Object.values(f.rules)" update:error="true" outlined>
                         </v-text-field>
                       </v-col>
                       <!-- handle checkbox inputs -->
                       <v-col v-if="f.type ==='checkbox'" cols="12" md="10">
                         <span v-if="f.label">{{f.label}}</span>
-                        <span v-if="f.rules">
-                          <v-checkbox v-for="(o, index) in f.options" :rules="Object.values(f.rules)" :key="o.label"
-                            v-model="formInputs[o.value]">
-                            <template v-slot:label>
-                              <div>
-                                <span v-html="o.label"></span>
-                              </div>
-                            </template>
-                          </v-checkbox>
-                        </span>
-                        <span v-else>
-                          <v-checkbox v-for="(o, index) in f.options" :key="o.label" v-model="formInputs[o.value]">
-                            <template v-slot:label>
-                              <div>
-                                <span v-html="o.label"></span>
-                              </div>
-                            </template>
-                          </v-checkbox>
-                        </span>
+                        <v-checkbox v-for="(o, index) in f.options" :rules="f.rules && Object.values(f.rules)"
+                            :key="o.label" v-model="formInputs[f.name]" :value="o.label">
+                          <template v-slot:label>
+                            <div>
+                              <span v-html="o.label"></span>
+                            </div>
+                          </template>
+                        </v-checkbox>
                       </v-col>
                       <!-- handle radio inputs -->
                       <v-col v-if="f.type ==='radio'" cols="12" md="10">
                         <span v-if="f.label">{{f.label}}</span>
-                        <v-radio-group v-model="formInputs[f.name]" :rules="Object.values(f.rules)" row>
+                        <v-radio-group v-model="formInputs[f.name]" :rules="f.rules && Object.values(f.rules)" row>
                           <span v-for="r in f.options" :key="r.label">
                             <v-radio :value="r.value">
                               <template v-slot:label>
@@ -242,12 +195,8 @@ Vue.component('survey-form-horizontal', {
                         <v-row>
                           <v-col cols="12">
                             <span v-if="f.label">{{f.label}}</span>
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col cols="12">
-                            <v-select :items="f.options" v-model="formInputs[f.name]" :rules="Object.values(f.rules)"
-                              outlined></v-select>
+                            <v-select :items="f.options" v-model="formInputs[f.name]"
+                              :rules="f.rules && Object.values(f.rules)" :multiple="f.multiple" outlined></v-select>
                           </v-col>
                         </v-row>
                       </v-col>
@@ -264,9 +213,6 @@ Vue.component('survey-form-horizontal', {
             </v-btn>
             <v-btn v-if="currentStep === survey.length" dark color="#0058a3" @click="submitSurveyForm">
               Submit
-            </v-btn>
-            <v-btn @click="formInputs = {}" text>
-              Reset Form
             </v-btn>
           </v-stepper-content>
         </span>

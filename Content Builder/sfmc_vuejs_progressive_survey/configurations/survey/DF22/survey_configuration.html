@@ -5,25 +5,28 @@
       "ref": "contact_info",
       "label": "Contact Info",
       "subtitle": "",
-      "copy": "Please provide your email address in the event we have follow up questions or would like to contact you.",
+      "copy": "Please provide your email address. <br><br> Your email address will be used to limit to one response and will allow you to leave the form and finish later. <br><br> In addition, in the event we have follow up questions regarding your submission, we may wish to contact you. <br /> We will not contact you unless you confirm with the checkbox below.",
       "form": [
         {
           "type": "text",
-          "label": "EmailAddress*",
-          "name": "EmailAddress",
-          "required": true,
+          "label": "Email Address*",
+          "name": "email_address",
           "rules": {
-            "required": (value) => !!value || 'Required'
+            "required": (value) => !!value || "Required"
           }
         },
         {
-          "type": "checkbox",
-          "label": "",
-          "name": "Opt In",
+          "type": "radio",
+          "label": "Can we contact you if we have follow up questions?",
+          "name": "opt_in",
           "options": [
             {
-              "value": "optInToContact",
-              "label": "Yes, you can contact me for follow ups."
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
             }
           ]
         }
@@ -40,16 +43,16 @@
           "label": "Have you tried BLDR",
           "name": "downloaded_bldr",
           "rules": {
-            "required": (value) => !!value || 'Required',
+            "required": (value) => !!value || "Required"
           },
           "options": [
             {
-              "value": 'yes',
-              "label": 'Yes I have'
+              "value": "yes",
+              "label": "Yes"
             },
             {
-              "value": 'no',
-              "label": 'No I have not'
+              "value": "no",
+              "label": "No"
             }
           ]
         },
@@ -57,29 +60,26 @@
           "type": "select",
           "name": "sfmc_role",
           "label": "Describe your role within SFMC",
-          "rules": {
-            "required": (value) => !!value || 'Required',
-          },
           "options": [
             {
-              "value": 'app_solutions',
-              "text": 'App/Solutions Developer'
+              "value": "app_solutions",
+              "text": "App/Solutions Developer"
             },
             {
-              "value": 'email_dev',
-              "text": 'Email Developer'
+              "value": "email_dev",
+              "text": "Email Developer"
             },
             {
-              "value": 'marketer',
-              "text": 'General Marketer'
+              "value": "marketer",
+              "text": "General Marketer"
             },
             {
-              "value": 'project_manager',
-              "text": 'Project Manager'
+              "value": "project_manager",
+              "text": "Project Manager"
             },
             {
-              "value": 'admin',
-              "text": 'Admin'
+              "value": "admin",
+              "text": "Admin"
             }
           ]
         },
@@ -87,21 +87,18 @@
           "type": "select",
           "name": "job_type",
           "label": "What of company do you work at",
-          "rules": {
-            "required": (value) => !!value || 'Required',
-          },
           "options": [
             {
-              "value": 'brand_side',
-              "text": 'Brand/Single Organization'
+              "value": "brand_side",
+              "text": "Brand/Single Organization"
             },
             {
-              "value": 'agency',
-              "text": 'Agency/Multiple Organizations'
+              "value": "agency",
+              "text": "Agency/Multiple Organizations"
             },
             {
-              "value": 'freelancer',
-              "text": 'Freelancer'
+              "value": "freelancer",
+              "text": "Freelancer"
             }
           ]
         },
@@ -109,32 +106,24 @@
           "type": "select",
           "name": "technical_skill",
           "label": "How technical are you",
-          "rules": {
-            "required": (value) => !!value || 'Required',
-          },
           "options": [
             {
-              "value": 'very',
-              "text": 'Very'
+              "value": "very",
+              "text": "Very"
             },
             {
-              "value": 'somewhat',
-              "text": 'Somewhat'
+              "value": "somewhat",
+              "text": "Somewhat"
             },
             {
-              "value": 'learning',
-              "text": 'Just Learning'
+              "value": "learning",
+              "text": "Just Learning"
             },
             {
-              "value": 'none',
-              "text": 'Not Technical'
+              "value": "none",
+              "text": "Not Technical"
             }
           ]
-        },
-        {
-          "type": "textarea",
-          "name": "about",
-          "label": "Anything else you want to include? Types of projects you work on, communities you're involved in, etc."
         },
         {
           "type": "textarea",
@@ -165,25 +154,26 @@
           "label": "What's missing from SFMC? What types of tools would you love to see developed for SFMC?"
         },
         {
-          "type": "checkbox",
+          "type": "select",
           "label": "What type of content would you like to see around BLDR?",
           "name": "bldr_future_content",
+          "multiple": true,
           "options": [
             {
-              "value": 'blog_articles',
-              "label": 'Blog Articles'
+              "value": "blog_articles",
+              "text": "Blog Articles"
             },
             {
-              "value": 'workflow',
-              "label": 'Example Workflows'
+              "value": "workflow",
+              "text": "Example Workflows"
             },
             {
-              "value": 'case_studies',
-              "label": 'Case Studies'
+              "value": "case_studies",
+              "text": "Case Studies"
             },
             {
-              "value": 'cli_dev_docs',
-              "label": 'Developer Documentation (CLI/SDK)'
+              "value": "cli_dev_docs",
+              "text": "Developer Documentation (CLI/SDK)"
             }
           ]
         }

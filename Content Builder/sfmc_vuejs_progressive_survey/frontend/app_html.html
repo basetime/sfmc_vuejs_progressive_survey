@@ -5,7 +5,7 @@
         <branding-bar :application-configuration="applicationConfiguration" :branding="branding"></branding-bar>
       </v-col>
     </v-row>
-    <v-row class="" v-show="authorized">
+    <v-row v-show="authorized">
       <v-col class="mx-auto" cols="12">
        <survey-form-horizontal :debug="debug" @submit-preference-form="onSubmitPreferenceForm" :surveyid="survey" :survey="surveyConfiguration"></survey-form-horizontal>
       </v-col>

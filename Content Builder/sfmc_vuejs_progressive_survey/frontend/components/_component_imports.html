@@ -13,7 +13,6 @@
   var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
   var map = applicationConfigurationJSON.map;
 
-
   var unauthorizedUser = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\unauthorized_user")
   var brandingBar = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\branding_bar")
   var surveyFormHorizontal = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\survey_form_horizontal")
@@ -37,10 +36,6 @@
   const surveyConfigurationJSON = <ctrl:var name=surveyConfiguration />
   const surveyConfiguration = surveyConfigurationJSON.survey;
 
-  const isAuthorized = <ctrl:var name=authorized />
-  const subscriberId = <ctrl:var name=subscriberId />
-  const emailAddress = <ctrl:var name=emailAddress />
-  const subscriberKey = <ctrl:var name=subscriberKey />
   const survey = "<ctrl:var name=survey />"
 
 
