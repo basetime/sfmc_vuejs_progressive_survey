@@ -1,0 +1,348 @@
+{
+  "name": "VueJS CloudPage Survey",
+  "version": "1.0.0",
+  "repository": "",
+  "description": "A CloudPage survey form, that is easy to configure and extend.",
+  "tags": [
+    "Cloud Page",
+    "Survey",
+    "VueJS",
+    "SSJS"
+  ],
+  "sfmcEnv": {
+    "codeResourceURL": "https://mc1qn0yvnrq-lmv34mcgry2c8s60.pub.sfmc-content.com/kiho1ru5xff",
+    "surveyDataExtensionKey": "c891f5da-ce27-40aa-9e2f-225da55305e0"
+  },
+  "contentBuilder": {
+    "assets": [
+      {
+        "bldrId": "b21f212f-5efb-4b26-8102-8c05034ca32e",
+        "name": "processing_api",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/backend"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1\");\n  Platform.Response.SetResponseHeader(\"Access-Control-Allow-Origin\", \"*\");\n  Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');\n  Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');\n  Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');\n  Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');\n  Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');\n  Platform.Response.SetResponseHeader('Content-Security-Policy', \"default-src 'self'\");\n\n  var postData = Platform.Request.GetPostData();\n  var postJSON = Platform.Function.ParseJSON(postData);\n\n  var action = Platform.Request.GetQueryStringParameter('action');\n  var payload = Platform.Request.GetQueryStringParameter('payload');\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations' + '\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n  var dataExtensionKeyRegex = /(?<=dataExtensionKey\\\":\\s\\\")([a-zA-Z0-9-_ ]+)/\n  var dataExtensionKeyMatch = surveyConfiguration.match(dataExtensionKeyRegex)\n  \n  var dataExtensionKey;\n  if(dataExtensionKeyMatch.length > 0){\n    dataExtensionKey = dataExtensionKeyMatch[0]\n  }\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n\n  Platform.Function.ContentBlockByName(\"7c7d9fd8-72d5-43a0-b846-6a0a7e0ed1c9\")\n  Platform.Function.ContentBlockByName(\"33752466-6fce-486f-bbfb-afc264f9b2bf\")\n\n  var fns = {\n    utils: util(),\n    wsProxy: wsProxy()\n  }\n\n  var res = '';\n  var reqConfig = {};\n\n  //Begin API Control Block\n  //Run specific set of code/functions based on the 'action' parameter\n  //After code is finished, the 'response' function returns the output and 'break' stops the processing\n  switch (action) {\n    case 'submitPreferenceForm': \n      var updateData = postJSON.postData;\n      var payload = [];\n\n        payload.push({\n          CustomerKey: dataExtensionKey,\n          Properties: updateData\n        })\n\n      //update item\n      reqConfig = {\n        soapObjName: \"DataExtensionObject\",\n        options: {\n          SaveOptions: [{\n            PropertyName: \"*\",\n            SaveAction: \"UpdateAdd\"\n          }]\n        },\n        payload: payload\n      }\n\n      var updatePreferences = fns.wsProxy.update(reqConfig);\n      res = updatePreferences\n      break;\n\n\n    case 'getCurrentPreferences':\n      var preferences;\n\n      reqConfig = {\n        dataExtensionKey: preferenceCenterDataExtensionExternalKey,\n        cols: [],\n        filter: {\n          Property: \"subscriberId\",\n          SimpleOperator: \"equals\",\n          Value: postJSON.subscriberId\n        }\n      };\n\n      var preferenceRequest = fns.utils.getDERecords(reqConfig, fns);\n\n      if (preferenceRequest.Status === 'OK') {\n        preferences = fns.utils.formatResult(preferenceRequest.Results, 'Properties')\n        res = {\n          Status: 'OK',\n          Results: preferences\n        }\n      } else {\n        res = preferenceRequest;\n      }\n\n      break;\n  };\n\n  fns.utils.response(res)\n\n\n</script>",
+        "dependencies": [
+          {
+            "bldrId": "7c7d9fd8-72d5-43a0-b846-6a0a7e0ed1c9",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          },
+          {
+            "bldrId": "33752466-6fce-486f-bbfb-afc264f9b2bf",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          }
+        ]
+      },
+      {
+        "bldrId": "9ef082fb-d500-49ec-a1af-703ab0ce6922",
+        "name": "app_configuration",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations"
+        },
+        "content": "{\n  \"branding\": {\n    \"brandName\": \"bldr.io\",\n    \"websiteURL\": \"https://www.bldr.io\",\n    \"logoScale\": \"50\",\n    \"default\": {\n      \"logo\": \"https://bldr.basetime.io/bldr-logo.png\",\n      \"colors\": {\n        \"primary\": \"#aadeeb\",\n        \"secondary\": \"#0098bc\",\n        \"accent\": \"#fc6833\",\n        \"paper\": \"#0f1d20\"\n      }\n    }\n  },\n  \"unauthorized\": {\n    \"icon\": \"mdi-account-question\",\n    \"copy\": \"Looks like we can't find you in your system. <br> Please ensure you've reached this page from an Ikea email. <br><br> Visit <a href='https://www.ikea.com'>IKEA.com</a> to sign up for emails.\"\n  },\n  \"apiBaseURL\": \"{{codeResourceURL}}\"\n}",
+        "dependencies": []
+      },
+      {
+        "bldrId": "06118b51-d664-4f01-9816-b8c03989f433",
+        "name": "app_html",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
+        },
+        "content": "<v-app>\n  <v-main>\n    <v-row overflow=\"hidden\">\n      <v-col cols=\"12\">\n        <branding-bar :application-configuration=\"applicationConfiguration\" :branding=\"branding\"></branding-bar>\n      </v-col>\n    </v-row>\n    <v-row class=\"\" v-show=\"authorized\">\n      <v-col class=\"mx-auto\" cols=\"12\">\n       <survey-form-horizontal :debug=\"debug\" @submit-preference-form=\"onSubmitPreferenceForm\" :surveyid=\"survey\" :survey=\"surveyConfiguration\"></survey-form-horizontal>\n      </v-col>\n    </v-row>\n    <v-row v-show=\"!authorized\">\n      <unauthorized-user :branding=\"branding\" :unauthorized=\"applicationConfiguration.unauthorized\">\n      </unauthorized-user>\n    </v-row>\n    <v-row>\n      <legal :branding=\"branding\"></legal>\n    </v-row>\n  </v-main>\n</v-app>",
+        "dependencies": []
+      },
+      {
+        "bldrId": "004a424d-089f-4ad6-8a4f-cfac5313a5bd",
+        "name": "app_js",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
+        },
+        "content": "new Vue({\n  el: '#app',\n  vuetify: new Vuetify(),\n  data() {\n    return {\n      authorized: true,\n      debug: true,\n      applicationConfiguration,\n      surveyConfiguration,\n      formSubmitting: false,\n      survey\n    }\n  },\n  mounted() {\n    this.debug && this.debugData();\n  },\n  methods: {\n    debugData() {\n      this.debug && console.log(this.$data)\n    },\n    async onSubmitPreferenceForm($event) {\n      try {\n        const postData = [];\n        const event = $event;\n        console.log('Event', $event)\n        for(const e in event){\n          postData.push({\n            Name: e,\n            Value: event[e]\n          })\n        }\n\n        console.log(postData)\n        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {\n          postData\n        })\n\n        console.log(submitRequest)\n\n      } catch (err) {\n        console.log(err)\n        Vue.$toast.success(`There was an error: [${err.message}]`)\n      }\n    }\n  },\n  computed: {\n    apiBaseURL() {\n      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`\n    },\n    branding() {\n      return this.applicationConfiguration.branding.default\n    }\n  }\n})",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "1eaf98fa-8be4-4c3c-a1d9-c446db013bfe",
+        "name": "_component_imports",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  var survey = Platform.Request.GetQueryStringParameter('survey');\n\n  var surveyPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\survey' + '\\\\ ' + survey;\n  var surveyConfigurationPath = surveyPath + '\\\\survey_configuration'\n  surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\\\)\\ /g, '')\n  var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)\n\n  var applicationConfigurationPath = 'Content Builder\\\\sfmc_vuejs_progressive_survey\\\\configurations\\\\app_configuration'\n  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)\n  var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)\n  var map = applicationConfigurationJSON.map;\n\n  var unauthorizedUser = Platform.Function.ContentBlockByName(\"48707af3-3f00-4196-8c22-b0983b815d9d\")\n  var brandingBar = Platform.Function.ContentBlockByName(\"fe8cce89-f73a-44e7-98e5-f83b72392132\")\n  var surveyFormHorizontal = Platform.Function.ContentBlockByName(\"8f35e912-42fb-42c5-9937-8b9dcedd5938\")\n  var legal = Platform.Function.ContentBlockByName(\"9f9eeb38-1bd5-4a97-adbe-8d4c1a8e037e\")\n  var appJS = Platform.Function.ContentBlockByName(\"004a424d-089f-4ad6-8a4f-cfac5313a5bd\")\n\n</script>\n\n%%=Concat('<sc','rip','t>')=%%\n\n  Vue.use(VueToast, {\n  position: 'top-right',\n  duration: 6000,\n  dismissable: true\n  });\n\n  Vue.use(VueFormulate)\n  Vue.use(VTooltip)\n\n  const applicationConfiguration = <ctrl:var name=applicationConfiguration />\n  const surveyConfigurationJSON = <ctrl:var name=surveyConfiguration />\n  const surveyConfiguration = surveyConfigurationJSON.survey;\n\n  const survey = \"<ctrl:var name=survey />\"\n\n\n  <ctrl:var name=brandingBar />\n  <ctrl:var name=unauthorizedUser />\n  <ctrl:var name=surveyFormHorizontal />\n  <ctrl:var name=legal />\n  <ctrl:var name=appJS />\n\n  %%=Concat('</sc','rip','t>')=%%",
+        "dependencies": [
+          {
+            "bldrId": "48707af3-3f00-4196-8c22-b0983b815d9d",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          },
+          {
+            "bldrId": "fe8cce89-f73a-44e7-98e5-f83b72392132",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          },
+          {
+            "bldrId": "8f35e912-42fb-42c5-9937-8b9dcedd5938",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          },
+          {
+            "bldrId": "9f9eeb38-1bd5-4a97-adbe-8d4c1a8e037e",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          },
+          {
+            "bldrId": "004a424d-089f-4ad6-8a4f-cfac5313a5bd",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByName"
+          }
+        ]
+      },
+      {
+        "bldrId": "fe8cce89-f73a-44e7-98e5-f83b72392132",
+        "name": "branding_bar",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\nBranding bar component\n*/\nVue.component('branding-bar', {\n  props: {\n    branding: Object,\n    applicationConfiguration: Object\n  },\ntemplate: `\n<div>\n    <v-app-bar elevation=\"3\" :color=\"branding.colors.paper\" height=\"100\">\n      <v-toolbar-title>\n        <a :href=\"applicationConfiguration.branding.websiteURL\" target=\"_blank\" >\n          <img :height=\"applicationConfiguration.branding.logoScale\" :alt=\"applicationConfiguration.branding.brandName\" :src=\"branding.logo\" />\n        </a>\n      </v-toolbar-title>\n      <v-spacer></v-spacer>\n    </v-app-bar>\n</div>\n`\n})",
+        "context": "contentBuilder",
+        "dependencies": []
+      },
+      {
+        "bldrId": "9f9eeb38-1bd5-4a97-adbe-8d4c1a8e037e",
+        "name": "legal",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\n  Component for legal/footer content\n*/\nVue.component('legal', {\nprops: {\nlegal: Object,\nbranding: Object\n},\ntemplate: `\n<v-row class=\"mt-5 mx-auto\">\n  <v-col cols=\"9\" class=\"text-center mx-auto\">\n    <v-divider class=\"my-4\"></v-divider>\n    <v-row>\n      <v-col cols=\"12\" class=\"text-caption mx-auto\">\n        This survey was developed to be packaged and deployed to SFMC using the BLDR CLI.\n      </v-col>\n    </v-row>\n    <v-row >\n      <v-col cols=\"12\" class=\"text-caption mx-auto\">\n        <v-btn\n          elevation=\"2\"\n          plain\n        >View CloudPage Survey Code</v-btn>\n      </v-col>\n    </v-row>\n  </v-col>\n</v-row>\n`\n})",
+        "context": "contentBuilder",
+        "dependencies": []
+      },
+      {
+        "bldrId": "48707af3-3f00-4196-8c22-b0983b815d9d",
+        "name": "unauthorized_user",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\n  View that an unauthorized user would receive if using the subscriber validation component.\n*/\nVue.component('unauthorized-user', {\nprops: {\n  unauthorized: Object,\n  branding: Object\n},\ntemplate: `\n<v-col cols=\"10\" class=\"flex text-center mx-auto\">\n  <v-row justify=\"space-around\">\n    <v-icon :color=\"branding.colors.accent\" size=\"200\" aria-label=\"My Account\" role=\"img\" aria-hidden=\"false\">\n      {{unauthorized.icon}}\n    </v-icon>\n  </v-row>\n  <v-row justify=\"space-around\">\n    <v-col cols=\"8\" class=\"text-h6 text-md-h5\">\n      <span v-html=\"unauthorized.copy\"></span>\n    </v-col>\n  </v-row>\n\n</v-col>\n`\n})",
+        "context": "contentBuilder",
+        "dependencies": []
+      },
+      {
+        "bldrId": "33752466-6fce-486f-bbfb-afc264f9b2bf",
+        "name": "utils",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  function util() {\n    var fn = {}\n\n    fn.isArray = function (arg) {\n      return Object.prototype.toString.call(arg) === '[object Array]';\n    }\n\n\n    fn.response = function (arg) {\n      Write(Stringify(arg))\n    }\n\n\n    fn.proxyContext = function (prox, mid) {\n      if (mid) {\n        //reset previous settings\n        prox.resetClientIds();\n        // Set ClientID \n        prox.setClientId({\n          \"ID\": mid\n        });\n      }\n      return prox\n    }\n\n\n    fn.deBug = function (action, response, logExtKey, debug) {\n      if (response) {\n        debug ? Write(\"<br><b>\" + action + \":</b><br> \" + Stringify(response) + \"<br><br>\") : null;\n      } else {\n        debug ? Write(\"<br><b>\" + action + \"</b><br> \") : null;\n      }\n\n      if (logExtKey) {\n        var log = {\n          action: action ? action : null,\n          log: response ? response : null\n        }\n\n        addLog(log, logExtKey);\n      }\n    }\n\n\n    /***********************************************\n     *\n     *   function addLog()\n     *   Pushes logging object to array to be written to a Data Extension\n     *   \n     *    @param obj {Object} logging object that matches the data extension\n     *    @param logExtKey {String} External Key to log records to\n     *    \n     ***********************************************/\n    fn.addLog = function (obj, logExtKey) {\n      var logDE = DataExtension.Init(logExtKey);\n      var logAction = logDE.Rows.Add(obj);\n    };\n\n\n\n    /*\n      getDERecords Function\n       Retrieves rows from a Data Extension\n       \n        Dependencies:\n           - DEData Function\n        @config {object} object with payload for wsProxy call\n       \n       //Sample Usage\n       \n       var config = {\n         deName: \"Data Extension Name\",\n         col: [],\n         filter: {\n           Property: \"EmailAddress\",\n           SimpleOperator: \"isNotNull\",\n           Value: \"\"\n         },\n         opts: {\n           BatchSize: 10\n         }\n       };\n           \n       var data = getDERecords(config);\n       \n       //optional//\n       If only specific fields are needed, add a cols array of those fields.\n       When no cols key is included, function will get all fields.\n       \n       var config = {\n         deName: \"Data Extension Name\",\n         cols: [\"EmailAddress\", \"SubscriberKey\"]\n         filter: {\n           Property: \"EmailAddress\",\n           SimpleOperator: \"isNotNull\",\n           Value: \"\"\n         },\n         opts: {\n           BatchSize: 10\n         }\n       };\n       \n    */\n    fn.getDERecords = function (config, fns) {\n\n      var deConfig = {\n        soapObjName: \"DataExtensionObject[\" + config.dataExtensionKey + \"]\"\n      };\n\n      deConfig.cols = config.cols.length > 0 ? config.cols : fns.utils.getFieldNames(config.dataExtensionKey);\n      if (config.filter) { deConfig.filter = config.filter; };\n      if (config.opts) { deConfig.opts = config.opts; };\n\n      var deRecords = fns.wsProxy.retrieve(deConfig);\n      return deRecords;\n    };\n\n\n\n\n    /***********************************************\n    *\n    *   function getFieldNames()\n    *   Gets all columns from a SOAP Object\n    *\n    *    @peram {deName} Name of DataExtension to get columns\n    *\n    *    @output {array} array of fields\n    *\n    ***********************************************/\n\n    fn.getFieldNames = function (dataExtensionKey) {\n      var de = DataExtension.Init(dataExtensionKey);\n      var fields = de.Fields.Retrieve();\n\n      fields.sort(function (a, b) { return (a.Ordinal > b.Ordinal) ? 1 : -1 });\n\n      var out = [];\n\n      for (k in fields) {\n        out = out.concat(fields[k].Name);\n      }\n\n      return out;\n\n    } //End retrieveFieldNames\n\n\n    /***********************************************\n    *\n    *   function formatResult()\n    *   Takes Objects that are Name/Value pairs {Name: \"Key\", Value: \"Value\"} and\n    *   normalizes them to a standard JSON object {key: \"value\"}\n    *\n    *    @peram {arr} array to normalize\n    *    @peram {prop} property key of Array\n    *\n    *    @output Array of normalized JSON object\n    *\n    ***********************************************/\n    fn.formatResult = function (arr, prop) {\n      var results = [];\n      for (var i = 0; i < arr.length; i++) {\n        var result_list = arr[i][prop];\n        var obj = {};\n        for (k in result_list) {\n          var key = result_list[k].Name;\n          var val = result_list[k].Value\n          if (key.indexOf(\"_\") != 0) obj[key] = val;\n        }\n        results.push(obj);\n      }\n      return results;\n    };\n\n\n    return fn\n  }\n\n</script>",
+        "context": "contentBuilder",
+        "dependencies": []
+      },
+      {
+        "bldrId": "7c7d9fd8-72d5-43a0-b846-6a0a7e0ed1c9",
+        "name": "wsProxy",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/ssjs"
+        },
+        "content": "<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1\");\n\n  function wsProxy() {\n    var prox = new Script.Util.WSProxy();\n    var fn = {};\n\n    /*******************************\n     * @config {<Object>}\n     * @continueRequest {Boolean}\n     * @return {Array}\n     ******************************/\n    fn.retrieve = function (config, continueRequest) {\n\n      var reqID;\n      var moreData = true;\n      var continueRequest = continueRequest ? continueRequest : false;\n      var obj = config.soapObjName ? config.soapObjName : null;\n      var opts = config.opts ? config.opts : {};\n      var props = config.props ? config.props : {};\n      var filter = config.filter ? config.filter : {};\n      var cols = config.cols ? config.cols : null;\n      var mid = config.mid ? config.mid : null;\n      // prox = mid ? util.proxyContext(prox, mid) : prox;\n\n      if (!config) { return 'configuration required'; }\n      if (!obj) { return 'SOAP object is required'; }\n\n      var resultsOut = [];\n\n      var data = prox.retrieve(obj, cols, filter, opts, props)\n\n      return data\n\n    } // end retrieve\n\n    /*******************************\n     * @config {Object}\n     * @return {Object}\n     ******************************/\n    fn.update = function (config) {\n      var obj = config.soapObjName ? config.soapObjName : null;\n      var payload = config.payload ? config.payload : null;\n      var options = config.options ? config.options : null;\n      var mid = config.mid ? config.mid : null;\n      // prox = mid ? utils.proxyContext(prox, mid) : prox;\n\n      if (!config) { return 'configuration required'; }\n      if (!obj) { return 'SOAP object is required'; }\n      if (!payload) { return 'payload is required'; }\n\n      var batch = fns.utils.isArray(payload)\n\n      if (batch) {\n        var res = prox.updateBatch(obj, payload, options);\n      } else {\n        var res = prox.updateItem(obj, payload, options);\n      }\n\n      return res;\n    } // end update\n\n\n    return fn\n  }\n\n</script>",
+        "context": "contentBuilder",
+        "dependencies": []
+      },
+      {
+        "bldrId": "205a1e64-cc5f-475d-949e-6881a62dcb6c",
+        "name": "subscriber_validation",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/lib/validation"
+        },
+        "content": "%%[\n  set @subscriberkey = AttributeValue(\"_subscriberkey\")\n  set @subscriberid = AttributeValue(\"subscriberid\")\n  set @emailAddress = AttributeValue(\"emailaddr\")\n]%%\n\n<script runat=\"server\">\n  Platform.Load(\"core\", \"1.1.1\");\n\n  var subscriberKey = Stringify(Variable.GetValue(\"@subscriberkey\"));\n  var emailAddress = Stringify(Variable.GetValue(\"@emailAddress\"));\n  var subscriberId = Variable.GetValue(\"@subscriberid\");\n\n  Write('ssjs')\n  Write(subscriberKey)\n  Write(emailAddress)\n  Write(subscriberId)\n  \n  var authorized = 0;\n  if(subscriberId !== 0) {\n    authorized = 1;\n  }\n\n  authorized = 1\n\n</script>",
+        "dependencies": []
+      },
+      {
+        "bldrId": "118da206-1fc9-4529-bbc9-03dae9f70795",
+        "name": "survey_index",
+        "assetType": {
+          "id": 205,
+          "name": "webpage",
+          "displayName": "Web Page"
+        },
+        "category": {
+          "folderPath": "Content Builder"
+        },
+        "content": "<!DOCTYPE html>\n<html>\n\n<head>\n\n  <script src=\"https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js\"></script>\n\n  <!-- Axios API - https://www.npmjs.com/package/axios -->\n  <script src=\"https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js\"></script>\n\n  <!-- Toast Notifications - https://www.npmjs.com/package/vue-toast-notification -->\n  <script src=\"https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6\"></script>\n  <link href=\"https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6/dist/theme-sugar.css\" rel=\"stylesheet\">\n\n  \n  <script src=\"https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.5.3/dist/formulate.min.js\"></script>\n  <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.5.3/dist/snow.css\">\n\n  <link href=\"https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900\" rel=\"stylesheet\">\n  <link href=\"https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css\" rel=\"stylesheet\">\n  <link href=\"https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css\" rel=\"stylesheet\">\n  \n  <script src=\"https://unpkg.com/v-tooltip@^2.0.0\"></script>\n\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui\">\n</head>\n\n  %%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\styles\\vue_formulate_styles'))=%%\n\n<body>\n  <div v-cloak id=\"app\">\n    %%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\app_html'))=%%\n  </div>\n\n\n  %%=TreatAsContent(ContentBlockByName('Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\_component_imports'))=%%\n\n</body>\n\n</html>",
+        "dependencies": []
+      },
+      {
+        "bldrId": "8f35e912-42fb-42c5-9937-8b9dcedd5938",
+        "name": "survey_form_horizontal",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend/components"
+        },
+        "content": "/*\n  Main Survey Form Elements\n  All form information is provided by the nested survey_configuration files\n*/\nVue.component('survey-form-horizontal', {\n  props: {\n    survey: Array,\n    surveyid: String,\n    formSubmitting: Boolean,\n    debug: Boolean\n  },\n  data() {\n    return {\n      checkboxTest: [],\n      formInputs: {},\n      currentStep: 1\n    }\n  },\n  mounted() {\n    this.survey.forEach((surveyItem) => {\n      const form = surveyItem.form;\n      form.forEach((formItem) => {\n        const type = formItem.type;\n        const itemName = formItem.name;\n\n        if(type === 'checkbox' && !this.formInputs[itemName]){\n          this.formInputs[itemName] = [];\n        }\n      })\n    })\n  },\n  methods: {\n    validate() {\n      const refs = this.$refs\n      const refKeys = Object.keys(refs)\n      const sectionOutput = []\n\n      refKeys.forEach((key) => {\n        const refArray = refs[key]\n        const hasErrors = refArray.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false\n        sectionOutput.push(hasErrors)\n\n        this.debug && console.log({key, hasErrors})\n      })\n      return sectionOutput\n    },\n    validateSection(sectionIndex) {\n      const refs = this.$refs\n      const refKeys = Object.keys(refs)\n      const section = refs[refKeys[sectionIndex]]\n      const hasErrors = section && section.find((ref) => Object.values(ref.errorBag).includes(true)) && true || false\n\n      this.debug && console.log({section, hasErrors})\n      return hasErrors\n    },\n    submitSurveyForm(event) {\n      let emit = this.formInputs\n      const validate = this.validate();\n      const hasErrors = validate.some((section) => section !== false)\n\n      if (!hasErrors) {\n        // console.log(emit)\n        this.$emit('submit-preference-form', emit)\n        Vue.$toast.success(`Thank you for your submission!`)\n\n      } else {\n        Vue.$toast.error(`Please fill in all required fields`)\n      }\n\n      this.debug && console.log({hasErrors, validate})\n    },\n    enableFormFields() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n\n      formSection.forEach(input => {\n        const inputName = input.name;\n        if (Object.prototype.hasOwnProperty.call(input, 'disabled')) {\n          input.disabled = false;\n        }\n      })\n\n    },\n    nextSection() {\n      const section = this.currentStep - 1;\n      const formSection = this.survey[section].form;\n      console.log(section)\n      const hasErrors = this.validateSection(section)\n\n      if (!hasErrors) {\n        formSection.forEach(input => {\n          const inputName = input.name;\n          if (Object.prototype.hasOwnProperty.call(input, 'disabled')) {\n            input.disabled = true;\n          }\n        })\n        let emit = this.formInputs\n        this.$emit('submit-preference-form', emit)\n        this.currentStep = this.currentStep + 1\n      } else {\n        Vue.$toast.error(`Please fill in all Required fields`)\n      }\n    },\n  },\n  computed: {\n    hasRules() {\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      return currentFormSection.form.some(section => Object.prototype.hasOwnProperty.call(section, 'rules'))\n    },\n    hasDisabled() {\n      const currentFormSectionIndex = this.currentStep - 1;\n      const currentFormSection = this.survey[currentFormSectionIndex]\n      return currentFormSection.form.some(section => Object.prototype.hasOwnProperty.call(section, 'disabled'))\n    },\n    labels() {\n      return this.survey.map((s) => s.label)\n    },\n    references() {\n      return this.survey.map((s) => s.ref)\n    }\n  },\n  template: `\n<section>\n  <v-row class=\"mx-auto\">\n    <v-col class=\"mx-auto\" cols=\"12\" md=\"9\">\n      <v-stepper light v-model=\"currentStep\" class=\"p-4\">\n        <v-stepper-header>\n          <span v-for=\"(label, index) in labels\" :key=\"index + 1\">\n            <v-stepper-step color=\"#2e3543\" :complete=\"currentStep > index + 1\" :step=\"index + 1\">\n              {{label}}\n            </v-stepper-step>\n            <v-divider></v-divider>\n          </span>\n        </v-stepper-header>\n        <span v-for=\"(s, index) in survey\" :key=\"index + 1\">\n          <v-stepper-content class=\"flex justify-space-around pa-5\" :step=\"index + 1\">\n            <v-card flat color=\"\" class=\"mb-12 pa-5\" min-height=\"250\">\n              <v-row class=\"justify-end\">\n                <v-icon v-if=\"hasDisabled\" large @click=\"enableFormFields\">\n                  mdi-pencil\n                </v-icon>\n              </v-row>\n              <v-row class=\"justify-center\">\n                <v-col cols=\"12\" md=\"10\" class=\"\">\n                  <!-- Section Copy-->\n                  <span v-html=\"s.copy\"></span>\n                  <v-divider class=\"my-3\"></v-divider>\n                  <span v-for=\"(f, index) in s.form\" :key=\"index\">\n                    <v-form :ref=\"'form_' + s.ref\">\n                      <!-- handle text inputs -->\n                      <v-col v-if=\"f.type === 'textarea'\" cols=\"12\" md=\"8\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-textarea v-model=\"formInputs[f.name]\" :id=\"f.name\" outlined></v-textarea>\n                      </v-col>\n                      <!-- handle text inputs -->\n                      <v-col v-if=\"f.type === 'text'\" cols=\"12\" md=\"8\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-text-field v-model=\"formInputs[f.name]\" :id=\"f.name\" :disabled=\"f.disabled\"\n                          :rules=\"f.rules && Object.values(f.rules)\" update:error=\"true\" outlined>\n                        </v-text-field>\n                      </v-col>\n                      <!-- handle checkbox inputs -->\n                      <v-col v-if=\"f.type ==='checkbox'\" cols=\"12\" md=\"10\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-checkbox v-for=\"(o, index) in f.options\" :rules=\"f.rules && Object.values(f.rules)\"\n                            :key=\"o.label\" v-model=\"formInputs[f.name]\" :value=\"o.label\">\n                          <template v-slot:label>\n                            <div>\n                              <span v-html=\"o.label\"></span>\n                            </div>\n                          </template>\n                        </v-checkbox>\n                      </v-col>\n                      <!-- handle radio inputs -->\n                      <v-col v-if=\"f.type ==='radio'\" cols=\"12\" md=\"10\">\n                        <span v-if=\"f.label\">{{f.label}}</span>\n                        <v-radio-group v-model=\"formInputs[f.name]\" :rules=\"f.rules && Object.values(f.rules)\" row>\n                          <span v-for=\"r in f.options\" :key=\"r.label\">\n                            <v-radio :value=\"r.value\">\n                              <template v-slot:label>\n                                <div>\n                                  {{r.label}}\n                                  <v-icon v-if=\"r.tooltip\" small slot=\"activator\" v-tooltip.bottom-start=\"r.tooltip\">\n                                    mdi-information\n                                  </v-icon>\n                                </div>\n                              </template>\n                            </v-radio>\n                          </span>\n                        </v-radio-group>\n                      </v-col>\n                      <!-- handle select option inputs -->\n                      <v-col v-if=\"f.type === 'select'\" class=\"\" cols=\"12\" md=\"8\">\n                        <v-row>\n                          <v-col cols=\"12\">\n                            <span v-if=\"f.label\">{{f.label}}</span>\n                            <v-select :items=\"f.options\" v-model=\"formInputs[f.name]\"\n                              :rules=\"f.rules && Object.values(f.rules)\" :multiple=\"f.multiple\" outlined></v-select>\n                          </v-col>\n                        </v-row>\n                      </v-col>\n                    </v-form>\n                  </span>\n                </v-col>\n              </v-row>\n            </v-card>\n            <v-btn v-if=\"currentStep !== 1\" dark color=\"#0058a3\" @click=\"currentStep = currentStep - 1\">\n              Back\n            </v-btn>\n            <v-btn v-if=\"currentStep !== survey.length\" dark color=\"#0058a3\" @click=\"nextSection()\">\n              Next\n            </v-btn>\n            <v-btn v-if=\"currentStep === survey.length\" dark color=\"#0058a3\" @click=\"submitSurveyForm\">\n              Submit\n            </v-btn>\n          </v-stepper-content>\n        </span>\n      </v-stepper>\n    </v-col>\n  </v-row>\n</section>\n`\n})",
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "4c0b2134-0e02-4a8d-8bf8-d52f2cf58050",
+        "name": "survey_configuration",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/configurations/survey/DF22"
+        },
+        "content": "{\n  \"dataExtensionKey\": \"{{surveyDataExtensionKey}}\",\n  \"survey\": [\n    {\n      \"ref\": \"contact_info\",\n      \"label\": \"Contact Info\",\n      \"subtitle\": \"\",\n      \"copy\": \"Please provide your email address. <br><br> Your email address will be used to limit to one response and will allow you to leave the form and finish later. <br><br> In addition, in the event we have follow up questions regarding your submission, we may wish to contact you. <br /> We will not contact you unless you confirm with the checkbox below.\",\n      \"form\": [\n        {\n          \"type\": \"text\",\n          \"label\": \"EmailAddress*\",\n          \"name\": \"email_address\",\n          \"rules\": {\n            \"required\": (value) => !!value || \"Required\"\n          }\n        },\n        {\n          \"type\": \"radio\",\n          \"label\": \"Can we contact you if we have follow up questions?\",\n          \"name\": \"opt_in\",\n          \"options\": [\n            {\n              \"value\": \"yes\",\n              \"label\": \"Yes\"\n            },\n            {\n              \"value\": \"no\",\n              \"label\": \"No\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"ref\": \"about\",\n      \"label\": \"About You\",\n      \"subtitle\": \"\",\n      \"copy\": \"Tell us a bit about yourself\",\n      \"form\": [\n        {\n          \"type\": \"radio\",\n          \"label\": \"Have you tried BLDR\",\n          \"name\": \"downloaded_bldr\",\n          \"rules\": {\n            \"required\": (value) => !!value || \"Required\"\n          },\n          \"options\": [\n            {\n              \"value\": \"yes\",\n              \"label\": \"Yes\"\n            },\n            {\n              \"value\": \"no\",\n              \"label\": \"No\"\n            }\n          ]\n        },\n        {\n          \"type\": \"select\",\n          \"name\": \"sfmc_role\",\n          \"label\": \"Describe your role within SFMC\",\n          \"options\": [\n            {\n              \"value\": \"app_solutions\",\n              \"text\": \"App/Solutions Developer\"\n            },\n            {\n              \"value\": \"email_dev\",\n              \"text\": \"Email Developer\"\n            },\n            {\n              \"value\": \"marketer\",\n              \"text\": \"General Marketer\"\n            },\n            {\n              \"value\": \"project_manager\",\n              \"text\": \"Project Manager\"\n            },\n            {\n              \"value\": \"admin\",\n              \"text\": \"Admin\"\n            }\n          ]\n        },\n        {\n          \"type\": \"select\",\n          \"name\": \"job_type\",\n          \"label\": \"What of company do you work at\",\n          \"options\": [\n            {\n              \"value\": \"brand_side\",\n              \"text\": \"Brand/Single Organization\"\n            },\n            {\n              \"value\": \"agency\",\n              \"text\": \"Agency/Multiple Organizations\"\n            },\n            {\n              \"value\": \"freelancer\",\n              \"text\": \"Freelancer\"\n            }\n          ]\n        },\n        {\n          \"type\": \"select\",\n          \"name\": \"technical_skill\",\n          \"label\": \"How technical are you\",\n          \"options\": [\n            {\n              \"value\": \"very\",\n              \"text\": \"Very\"\n            },\n            {\n              \"value\": \"somewhat\",\n              \"text\": \"Somewhat\"\n            },\n            {\n              \"value\": \"learning\",\n              \"text\": \"Just Learning\"\n            },\n            {\n              \"value\": \"none\",\n              \"text\": \"Not Technical\"\n            }\n          ]\n        },\n        {\n          \"type\": \"textarea\",\n          \"name\": \"packages_develop\",\n          \"label\": \"What types of packages would you want to contribute to the SFMC open-source community?\"\n        },\n        {\n          \"type\": \"textarea\",\n          \"name\": \"packages_deploy\",\n          \"label\": \"What types of packages would you want to leverage from the SFMC open-source community?\"\n        }\n      ]\n    },\n    {\n      \"ref\": \"wish_list\",\n      \"label\": \"Wish List\",\n      \"subtitle\": \"\",\n      \"copy\": \"What's missing from SFMC... What tools and features would you love to see implemented in BLDR or in general?\",\n      \"form\": [\n        {\n          \"type\": \"textarea\",\n          \"name\": \"wish_list_bldr\",\n          \"label\": \"What's missing in BLDR? What types of features are must haves for you or your team to use BLDR?\"\n        },\n        {\n          \"type\": \"textarea\",\n          \"name\": \"wish_list_sfmc\",\n          \"label\": \"What's missing from SFMC? What types of tools would you love to see developed for SFMC?\"\n        },\n        {\n          \"type\": \"select\",\n          \"label\": \"What type of content would you like to see around BLDR?\",\n          \"name\": \"bldr_future_content\",\n          \"multiple\": true,\n          \"options\": [\n            {\n              \"value\": \"blog_articles\",\n              \"text\": \"Blog Articles\"\n            },\n            {\n              \"value\": \"workflow\",\n              \"text\": \"Example Workflows\"\n            },\n            {\n              \"value\": \"case_studies\",\n              \"text\": \"Case Studies\"\n            },\n            {\n              \"value\": \"cli_dev_docs\",\n              \"text\": \"Developer Documentation (CLI/SDK)\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}"
+      }
+    ]
+  },
+  "dataExtension": {
+    "assets": [
+      {
+        "name": "Dreamforce_Survey_2022_BLDR",
+        "description": "Collection Data Extension for Dreamforce Survey",
+        "fields": [
+          {
+            "Name": "email_address",
+            "DefaultValue": "",
+            "IsRequired": true,
+            "IsPrimaryKey": true,
+            "FieldType": "EmailAddress"
+          },
+          {
+            "Name": "opt_in",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Boolean"
+          },
+          {
+            "Name": "downloaded_bldr",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Boolean"
+          },
+          {
+            "Name": "sfmc_role",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "job_type",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "technical_skill",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "about",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "packages_develop",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "packages_deploy",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "wish_list_bldr",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "wish_list_sfmc",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          },
+          {
+            "Name": "bldr_future_content",
+            "DefaultValue": "",
+            "IsRequired": false,
+            "IsPrimaryKey": false,
+            "FieldType": "Text"
+          }
+        ],
+        "category": {
+          "id": 120974,
+          "folderPath": "Data Extensions/Dreamforce Survey Results"
+        },
+        "dataRetentionPeriodLength": 1,
+        "dataRetentionPeriod": "Years",
+        "rowBasedRetention": false,
+        "categoryId": 120974,
+        "bldrId": "0063d830-4794-4421-abb4-acedec9ed211"
+      }
+    ]
+  }
+}
