@@ -8,16 +8,14 @@
   surveyConfigurationPath = surveyConfigurationPath.replace(/(?<=\\)\ /g, '')
   var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
 
-  var applicationConfigurationPath = 'Content Builder\\sfmc_vuejs_progressive_survey\\configurations\\app_configuration'
-  var applicationConfiguration = Platform.Function.ContentBlockByName(applicationConfigurationPath)
+  var applicationConfiguration = Platform.Function.ContentBlockByID('111557')
   var applicationConfigurationJSON = Platform.Function.ParseJSON(applicationConfiguration)
-  var map = applicationConfigurationJSON.map;
 
-  var unauthorizedUser = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\unauthorized_user")
-  var brandingBar = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\branding_bar")
-  var surveyFormHorizontal = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\survey_form_horizontal")
-  var legal = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\components\\legal")
-  var appJS = Platform.Function.ContentBlockByName("Content Builder\\sfmc_vuejs_progressive_survey\\frontend\\app_js")
+  var unauthorizedUser = Platform.Function.ContentBlockByID('111564')
+  var brandingBar = Platform.Function.ContentBlockByID('111562')
+  var surveyFormHorizontal = Platform.Function.ContentBlockByID('123133')
+  var legal = Platform.Function.ContentBlockByID('111563')
+  var appJS = Platform.Function.ContentBlockByID('111560')
 
 </script>
 
@@ -37,7 +35,6 @@
   const surveyConfiguration = surveyConfigurationJSON.survey;
 
   const survey = "<ctrl:var name=survey />"
-
 
   <ctrl:var name=brandingBar />
   <ctrl:var name=unauthorizedUser />
