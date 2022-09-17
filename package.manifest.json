@@ -1,7 +1,7 @@
 {
   "name": "sfmc_vuejs_cloudpage_survey",
-  "version": "1.0.0",
-  "repository": "",
+  "version": "1.0.1",
+  "repository": "https://github.com/basetime/sfmc_vuejs_progressive_survey",
   "description": "A CloudPage survey form that can be configured for multiple surveys based on folders/content blocks.",
   "tags": [
     "Cloud Page",
@@ -77,7 +77,7 @@
         "category": {
           "folderPath": "Content Builder/sfmc_vuejs_progressive_survey/frontend"
         },
-        "content": "new Vue({\n  el: '#app',\n  vuetify: new Vuetify(),\n  data() {\n    return {\n      authorized: true,\n      debug: true,\n      applicationConfiguration,\n      surveyConfiguration,\n      formSubmitting: false,\n      survey\n    }\n  },\n  mounted() {\n    this.debug && this.debugData();\n  },\n  methods: {\n    debugData() {\n      this.debug && console.log(this.$data)\n    },\n    async onSubmitPreferenceForm($event) {\n      try {\n        const postData = [];\n        const event = $event;\n        console.log('Event', $event)\n        for(const e in event){\n          postData.push({\n            Name: e,\n            Value: event[e]\n          })\n        }\n\n        console.log(postData)\n        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {\n          postData\n        })\n\n        console.log(submitRequest)\n\n      } catch (err) {\n        console.log(err)\n        Vue.$toast.success(`There was an error: [${err.message}]`)\n      }\n    }\n  },\n  computed: {\n    apiBaseURL() {\n      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`\n    },\n    branding() {\n      return this.applicationConfiguration.branding.default\n    }\n  }\n})",
+        "content": "new Vue({\n  el: '#app',\n  vuetify: new Vuetify(),\n  data() {\n    return {\n      authorized: true,\n      debug: true,\n      applicationConfiguration,\n      surveyConfiguration,\n      formSubmitting: false,\n      survey\n    }\n  },\n  mounted() {\n    this.debug && this.debugData();\n  },\n  methods: {\n    debugData() {\n      this.debug && console.log(this.$data)\n    },\n    async onSubmitPreferenceForm($event) {\n      try {\n        const postData = [];\n        const event = $event;\n        console.log('Event', $event)\n        for(const e in event){\n\n          const value = Array.isArray(event[e]) ? event[e].join(', ') : event[e];\n          postData.push({\n            Name: e,\n            Value: value\n          })\n        }\n\n        console.log(postData)\n        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {\n          postData\n        })\n\n        console.log(submitRequest)\n\n      } catch (err) {\n        console.log(err)\n        Vue.$toast.success(`There was an error: [${err.message}]`)\n      }\n    }\n  },\n  computed: {\n    apiBaseURL() {\n      return `${this.applicationConfiguration.apiBaseURL}?survey=${this.survey}&action=`\n    },\n    branding() {\n      return this.applicationConfiguration.branding.default\n    }\n  }\n})",
         "dependencies": [],
         "context": "contentBuilder"
       },
