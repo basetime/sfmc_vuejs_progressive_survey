@@ -24,9 +24,11 @@ new Vue({
         const event = $event;
         console.log('Event', $event)
         for(const e in event){
+
+          const value = Array.isArray(event[e]) ? event[e].join(', ') : event[e];
           postData.push({
             Name: e,
-            Value: event[e]
+            Value: value
           })
         }
 
