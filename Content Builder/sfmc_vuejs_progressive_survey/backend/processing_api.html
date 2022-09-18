@@ -23,9 +23,9 @@
   var surveyConfiguration = Platform.Function.ContentBlockByName(surveyConfigurationPath)
   var dataExtensionKeyRegex = /(?<=dataExtensionKey\":\s\")([a-zA-Z0-9-_ ]+)/
   var dataExtensionKeyMatch = surveyConfiguration.match(dataExtensionKeyRegex)
-  
+
   var dataExtensionKey;
-  if(dataExtensionKeyMatch.length > 0){
+  if (dataExtensionKeyMatch.length > 0) {
     dataExtensionKey = dataExtensionKeyMatch[0]
   }
 
@@ -48,14 +48,14 @@
   //Run specific set of code/functions based on the 'action' parameter
   //After code is finished, the 'response' function returns the output and 'break' stops the processing
   switch (action) {
-    case 'submitPreferenceForm': 
+    case 'submitSurveyForm':
       var updateData = postJSON.postData;
       var payload = [];
 
-        payload.push({
-          CustomerKey: dataExtensionKey,
-          Properties: updateData
-        })
+      payload.push({
+        CustomerKey: dataExtensionKey,
+        Properties: updateData
+      })
 
       //update item
       reqConfig = {
@@ -69,8 +69,34 @@
         payload: payload
       }
 
-      var updatePreferences = fns.wsProxy.update(reqConfig);
-      res = updatePreferences
+      var updateSurvey = fns.wsProxy.update(reqConfig);
+
+      res = {
+        updateSurvey: updateSurvey
+      }
+
+
+      if (updateData.length === 1 && updateData[0].Name === 'email_address') {
+        var emailAddress = updateData[0].Value;
+
+        reqConfig = {
+          dataExtensionKey: dataExtensionKey,
+          cols: [],
+          filter: {
+            Property: "email_address",
+            SimpleOperator: "equals",
+            Value: emailAddress
+          }
+        };
+
+        var surveyRecordRequest = fns.utils.getDERecords(reqConfig, fns);
+
+        if (surveyRecordRequest.Status === 'OK') {
+          survey = fns.utils.formatResult(surveyRecordRequest.Results, 'Properties')
+          res.survey = survey
+        } 
+      }
+
       break;
 
 

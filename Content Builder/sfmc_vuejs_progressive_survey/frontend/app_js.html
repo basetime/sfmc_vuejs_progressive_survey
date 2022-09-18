@@ -8,7 +8,8 @@ new Vue({
       applicationConfiguration,
       surveyConfiguration,
       formSubmitting: false,
-      survey
+      survey,
+      existingSurvey: {}
     }
   },
   mounted() {
@@ -18,13 +19,12 @@ new Vue({
     debugData() {
       this.debug && console.log(this.$data)
     },
-    async onSubmitPreferenceForm($event) {
+    async onSubmitSurveyForm($event) {
       try {
         const postData = [];
         const event = $event;
         console.log('Event', $event)
         for(const e in event){
-
           const value = Array.isArray(event[e]) ? event[e].join(', ') : event[e];
           postData.push({
             Name: e,
@@ -33,11 +33,35 @@ new Vue({
         }
 
         console.log(postData)
-        const submitRequest = await axios.post(`${this.apiBaseURL}submitPreferenceForm`, {
+        const submitRequest = await axios.post(`${this.apiBaseURL}submitSurveyForm`, {
           postData
         })
 
         console.log(submitRequest)
+
+        if(Object.prototype.hasOwnProperty.call(submitRequest.data, 'survey')){
+          console.log(submitRequest.data.survey[0])
+          const existingSurveyInputs = submitRequest.data.survey[0];
+          const surveyFormArrays = surveyConfiguration.map((section) => section.form)
+
+          const surveyMultiSelectFields = []
+          const surveyMultiSelects = surveyFormArrays.forEach((form) => {
+            const hasMultiSelect = form.map((input) => input.type === 'select' && input.multiple && input.multiple === true && input.name)
+            const isolatedMultiselects = hasMultiSelect.filter(Boolean)
+            surveyMultiSelectFields.push(...isolatedMultiselects)
+          })
+
+          console.log('surveyMultiSelectFields', surveyMultiSelectFields)
+
+          for(const m in surveyMultiSelectFields){
+            const multiSelectField = surveyMultiSelectFields[m];
+            const multiSelectValue = existingSurveyInputs[multiSelectField]
+            existingSurveyInputs[multiSelectField] = multiSelectValue.split(',')
+            existingSurveyInputs[multiSelectField] = existingSurveyInputs[multiSelectField].map((value) => value.trim())
+          }
+
+          this.existingSurvey = existingSurveyInputs;
+        }
 
       } catch (err) {
         console.log(err)

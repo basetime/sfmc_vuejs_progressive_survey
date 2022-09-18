@@ -105,3 +105,4 @@ dist
 
 #sfmc env 
 .sfmc.env.json
+.local.manifest.json

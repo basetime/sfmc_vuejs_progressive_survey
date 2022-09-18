@@ -7,13 +7,19 @@ Vue.component('survey-form-horizontal', {
     survey: Array,
     surveyid: String,
     formSubmitting: Boolean,
-    debug: Boolean
+    debug: Boolean,
+    existingSurvey: Object
   },
   data() {
     return {
       checkboxTest: [],
       formInputs: {},
       currentStep: 1
+    }
+  },
+  watch: {
+    existingSurvey: function(newVal, oldVal) { 
+      this.formInputs = newVal
     }
   },
   mounted() {
@@ -60,7 +66,7 @@ Vue.component('survey-form-horizontal', {
 
       if (!hasErrors) {
         // console.log(emit)
-        this.$emit('submit-preference-form', emit)
+        this.$emit('submit-survey-form', emit)
         Vue.$toast.success(`Thank you for your submission!`)
 
       } else {
@@ -95,7 +101,7 @@ Vue.component('survey-form-horizontal', {
           }
         })
         let emit = this.formInputs
-        this.$emit('submit-preference-form', emit)
+        this.$emit('submit-survey-form', emit)
         this.currentStep = this.currentStep + 1
       } else {
         Vue.$toast.error(`Please fill in all Required fields`)

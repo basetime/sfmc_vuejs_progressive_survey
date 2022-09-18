@@ -5,7 +5,7 @@
       "ref": "contact_info",
       "label": "Contact Info",
       "subtitle": "",
-      "copy": "Please provide your email address. <br><br> Your email address will be used to limit to one response and will allow you to leave the form and finish later. <br><br> In addition, in the event we have follow up questions regarding your submission, we may wish to contact you. <br /> We will not contact you unless you confirm with the checkbox below.",
+      "copy": "Please provide your email address. <br> Your email address will be used to limit to one response and will allow you to leave the form and finish later. <br><br> In addition, in the event we have follow up questions regarding your submission, we may wish to contact you. <br /> <b>You will be provided the opportunity to opt-in/out to being contacted on the next page.</b>",
       "form": [
         {
           "type": "text",
@@ -14,21 +14,6 @@
           "rules": {
             "required": (value) => !!value || "Required"
           }
-        },
-        {
-          "type": "radio",
-          "label": "Can we contact you if we have follow up questions?",
-          "name": "opt_in",
-          "options": [
-            {
-              "value": "yes",
-              "label": "Yes"
-            },
-            {
-              "value": "no",
-              "label": "No"
-            }
-          ]
         }
       ]
     },
@@ -40,6 +25,21 @@
       "form": [
         {
           "type": "radio",
+          "label": "Can we contact you if we have follow up questions?",
+          "name": "opt_in",
+          "options": [
+            {
+              "value": "True",
+              "label": "Yes"
+            },
+            {
+              "value": "False",
+              "label": "No"
+            }
+          ]
+        },
+        {
+          "type": "radio",
           "label": "Have you tried BLDR",
           "name": "downloaded_bldr",
           "rules": {
@@ -47,11 +47,11 @@
           },
           "options": [
             {
-              "value": "yes",
+              "value": "True",
               "label": "Yes"
             },
             {
-              "value": "no",
+              "value": "False",
               "label": "No"
             }
           ]
